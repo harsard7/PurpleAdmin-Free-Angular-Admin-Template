@@ -4,7 +4,7 @@
       <a href="javascript:;" class="nav-link">
         <div class="nav-profile-image">
           <img src="assets/images/faces/face1.jpg" alt="profile">
-          <span class="login-status online"></span> <!--change to offline or busy as needed-->              
+          <span class="login-status online"></span> <!--change to offline or busy as needed-->
         </div>
         <div class="nav-profile-text">
           <span class="font-weight-bold mb-2">David Grey. H</span>
@@ -79,6 +79,19 @@
           <li class="nav-item"> <a class="nav-link" routerLink="user-pages/register" routerLinkActive="active" #register="routerLinkActive"> Register </a></li>
           <li class="nav-item"> <a class="nav-link" routerLink="error-pages/404" routerLinkActive="active" #error404="routerLinkActive"> 404 </a></li>
           <li class="nav-item"> <a class="nav-link" routerLink="error-pages/500" routerLinkActive="active" #error500="routerLinkActive"> 500 </a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item" [ngClass]="{ 'active' : createstu.isActive }">
+      <a class="nav-link" (click)="studentCollapse = !studentCollapse"  [attr.aria-expanded]="studentCollapse" aria-controls="student">
+        <span class="menu-title">Student</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="student" [ngbCollapse]="!studentCollapse">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" routerLink="student/create-student" routerLinkActive="active" #createstu="routerLinkActive">Create Student</a></li>
+<!--          <li class="nav-item"> <a class="nav-link" routerLink="student/createstu" routerLinkActive="active" #updatestu="routerLinkActive"> Update Student </a></li>         -->
         </ul>
       </div>
     </li>

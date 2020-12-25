@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import {AuthService} from "../../service/auth.service";
+import {Router} from "@angular/router";
+import {UserService} from "../../service/user.service";
+import {consoleTestResultHandler} from "tslint/lib/test";
+import { CookieService } from 'ngx-cookie-service';
+import {CurrentUser} from "../../model/CurrentUser";
 
 @Component({
   selector: 'app-navbar',
@@ -10,13 +16,17 @@ import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 export class NavbarComponent implements OnInit {
   public iconOnlyToggled = false;
   public sidebarToggled = false;
-  
-  constructor(config: NgbDropdownConfig) {
+  currentUser:CurrentUser;
+
+  constructor(config: NgbDropdownConfig,private authService: AuthService, private router: Router,private userService: UserService,private cookieService: CookieService) {
     config.placement = 'bottom-right';
+
   }
 
   ngOnInit() {
+
   }
+
 
   // toggle sidebar in small devices
   toggleOffcanvas() {
@@ -47,5 +57,11 @@ export class NavbarComponent implements OnInit {
   // toggleRightSidebar() {
   //   document.querySelector('#right-sidebar').classList.toggle('open');
   // }
+
+  logout(){
+    this.authService.logout();
+    this.cookieService.deleteAll('/', 'http://localhost:4200');
+    this.router.navigate(['/user-pages/login']);
+  }
 
 }

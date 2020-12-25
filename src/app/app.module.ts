@@ -16,6 +16,26 @@ import { TodoComponent } from './apps/todo-list/todo/todo.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { ContentAnimateDirective } from './shared/directives/content-animate.directive';
 import { TodoListComponent } from './apps/todo-list/todo-list.component';
+import { LoginComponent } from './components/login/login.component';
+import { AdminComponent } from './components/admin/admin.component';
+import {HttpClientModule} from "@angular/common/http";
+import {CookieService} from "ngx-cookie-service";
+import {AuthService} from "./service/auth.service";
+import { AttendancesModule } from './attendances/attendances.module';
+import { ClassrommsModule } from './classromms/classromms.module';
+import { ClassroomsModule } from './classrooms/classrooms.module';
+import { CoursesModule } from './courses/courses.module';
+import { ExamsModule } from './exams/exams.module';
+import { MessagesModule } from './messages/messages.module';
+import { PanelsModule } from './panels/panels.module';
+import { RemarkModule } from './remark/remark.module';
+import { ReportModule } from './report/report.module';
+import { RoomsModule } from './rooms/rooms.module';
+import { StudentModule } from './student/student.module';
+import { TeachersModule } from './teachers/teachers.module';
+import { TimetableModule } from './timetable/timetable.module';
+import { UsersModule } from './users/users.module';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +47,9 @@ import { TodoListComponent } from './apps/todo-list/todo-list.component';
     TodoListComponent,
     TodoComponent,
     SpinnerComponent,
-    ContentAnimateDirective
+    ContentAnimateDirective,
+    LoginComponent
+
   ],
   imports: [
     BrowserModule,
@@ -36,9 +58,24 @@ import { TodoListComponent } from './apps/todo-list/todo-list.component';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    ChartsModule
+    ChartsModule,
+    HttpClientModule,
+    AttendancesModule,
+    ClassrommsModule,
+    ClassroomsModule,
+    CoursesModule,
+    ExamsModule,
+    MessagesModule,
+    PanelsModule,
+    RemarkModule,
+    ReportModule,
+    RoomsModule,
+    StudentModule,
+    TeachersModule,
+    TimetableModule,
+    UsersModule
   ],
-  providers: [ThemeService],
+  providers: [ThemeService,CookieService,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -35,6 +35,7 @@ import { StudentModule } from './student/student.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { TimetableModule } from './timetable/timetable.module';
 import { UsersModule } from './users/users.module';
+import {ToastrModule} from "ngx-toastr";
 
 
 @NgModule({
@@ -73,7 +74,9 @@ import { UsersModule } from './users/users.module';
     StudentModule,
     TeachersModule,
     TimetableModule,
-    UsersModule
+    UsersModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot() // ToastrModule added
   ],
   providers: [ThemeService,CookieService,AuthService],
   bootstrap: [AppComponent]

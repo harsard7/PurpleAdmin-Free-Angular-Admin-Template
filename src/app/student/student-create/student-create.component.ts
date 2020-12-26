@@ -10,6 +10,8 @@ import {Router} from "@angular/router";
 import {ClassroomService} from "../../service/classroom.service";
 import {isAdmin} from "../../shared/roles";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ToastrService} from "ngx-toastr";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-student-create',
@@ -27,9 +29,9 @@ export class StudentCreateComponent implements OnInit {
   selectedOption: any = {};
   selectedOptionGender: any = {};
   genders: string[] = ['Male', 'Female', 'Other'];
+  title = 'angulartoastr';
 
-  constructor(private userService: UserService, private router: Router, private _snackBar: MatSnackBar,
-              private studentService: StudentService, private classroomService: ClassroomService) { }
+  constructor(private userService: UserService, private router: Router,  private studentService: StudentService, private classroomService: ClassroomService,private notifyService : NotificationService) { }
 
   ngOnInit() {
     this.userService.getMyInfo().toPromise().then(data =>  {
@@ -41,19 +43,40 @@ export class StudentCreateComponent implements OnInit {
     });
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
-    });
+  showToasterSuccess()
+  {
+    this.notifyService.showSuccess("Data shown successfully !!", "ItSolutionStuff.com")
   }
+
+  showToasterError()
+  {
+    this.notifyService.showError("Something is wrong", "ItSolutionStuff.com")
+  }
+
+  showToasterInfo()
+  {
+    this.notifyService.showInfo("This is info", "ItSolutionStuff.com")
+  }
+
+  showToasterWarning(){
+    this.notifyService.showWarning("This is warning", "ItSolutionStuff.com")
+  }
+open(){
+  this.showToasterSuccess();
+}
+
+
+
 
   onUserSubmit() {
     this.user.role = 'ROLE_STUDENT';
     this.student.username = this.user.username;
     this.userService.create(this.user).subscribe(() => {
-      this.openSnackBar('Student created.', 'Ok');
-    }, error => {this.openSnackBar('Failed.', 'Ok');});
-    this.userSubmitted = true;
+      this.notifyService.showSuccess("Student Created !!", "Student")
+      this.userSubmitted = true;
+      console.log(" error in username submit ");
+    }, error => {  this.notifyService.showError("Failed !!", "Student");});
+    this.userSubmitted = false;
   }
 
   onStudentSubmit() {
@@ -61,7 +84,7 @@ export class StudentCreateComponent implements OnInit {
     this.student.gender = this.selectedOptionGender;
     this.studentService.create(this.student).subscribe(() => {
 
-    }, error => {this.openSnackBar('Failed.', 'Ok');});
+    }, error => {this.notifyService.showError("Failed !!", "Student");});
     this.refresh();
   }
 

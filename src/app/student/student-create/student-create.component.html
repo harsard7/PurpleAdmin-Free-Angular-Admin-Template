@@ -10,9 +10,10 @@
   </nav>
 </div>
 <!--<div class="row" *ngIf="userRole()">-->
-<div class="row" >
+<button type="button" class="btn btn-gradient-primary mr-2" (click)="open()">test</button>
+<div class="row">
   <form class="form-sample" (ngSubmit)="onUserSubmit()" #form="ngForm">
-  <div class="col-md-6 grid-margin stretch-card">
+  <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Input size</h4>
@@ -36,12 +37,13 @@
     </div>
   </div>
   </form>
-
+</div>
+<div class="row" *ngIf="userSubmitted">
 <div class="col-12 grid-margin">
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">Student Full Details</h4>
-      <form *ngIf="userSubmitted" (ngSubmit)="onStudentSubmit()" #form="ngForm" class="form">
+      <form  (ngSubmit)="onStudentSubmit()" #form="ngForm" class="form">
       <p class="card-description">
           Personal info
         </p>

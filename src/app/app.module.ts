@@ -12,17 +12,16 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TodoComponent } from './apps/todo-list/todo/todo.component';
+import { TodoComponent } from './apps/todo/todo.component';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { ContentAnimateDirective } from './shared/directives/content-animate.directive';
 import { TodoListComponent } from './apps/todo-list/todo-list.component';
 import { LoginComponent } from './components/login/login.component';
 import { AdminComponent } from './components/admin/admin.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import {AuthService} from "./service/auth.service";
 import { AttendancesModule } from './attendances/attendances.module';
-import { ClassrommsModule } from './classromms/classromms.module';
 import { ClassroomsModule } from './classrooms/classrooms.module';
 import { CoursesModule } from './courses/courses.module';
 import { ExamsModule } from './exams/exams.module';
@@ -36,8 +35,9 @@ import { TeachersModule } from './teachers/teachers.module';
 import { TimetableModule } from './timetable/timetable.module';
 import { UsersModule } from './users/users.module';
 import {ToastrModule} from "ngx-toastr";
-
-
+import {AuthInterceptor} from "./guard/auth-interceptor";
+import {AdminModule} from "./admin/admin.module";
+import {Ng2SearchPipeModule} from "ng2-search-filter";
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,8 +49,7 @@ import {ToastrModule} from "ngx-toastr";
     TodoComponent,
     SpinnerComponent,
     ContentAnimateDirective,
-    LoginComponent
-
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +61,6 @@ import {ToastrModule} from "ngx-toastr";
     ChartsModule,
     HttpClientModule,
     AttendancesModule,
-    ClassrommsModule,
     ClassroomsModule,
     CoursesModule,
     ExamsModule,
@@ -75,10 +73,14 @@ import {ToastrModule} from "ngx-toastr";
     TeachersModule,
     TimetableModule,
     UsersModule,
+    AdminModule,
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot() // ToastrModule added
+    ToastrModule.forRoot(), // ToastrModule added
+    Ng2SearchPipeModule
   ],
-  providers: [ThemeService,CookieService,AuthService],
+  providers: [ThemeService,CookieService,AuthService,{
+    provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

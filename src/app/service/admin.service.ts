@@ -20,6 +20,7 @@ export class AdminService {
   }
 
   getArchive() {
+    console.log('yuyuy '+this.configService.getGetArchiveUrl);
     return this.apiService.get(this.configService.getGetArchiveUrl);
   }
 
@@ -28,6 +29,8 @@ export class AdminService {
   }
 
   getArchiveById(id: number) {
+    console.log("getArchiveById");
+    console.log("getArchiveById  "+id);
     return this.apiService.get(this.configService.getGetArchiveByIdUrl + '/' + id);
   }
 

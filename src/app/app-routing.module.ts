@@ -14,8 +14,25 @@ const routes: Routes = [
   { path: 'general-pages', loadChildren: () => import('./general-pages/general-pages.module').then(m => m.GeneralPagesModule) },
   { path: 'apps', loadChildren: () => import('./apps/apps.module').then(m => m.AppsModule) },
   { path: 'user-pages', loadChildren: () => import('./user-pages/user-pages.module').then(m => m.UserPagesModule) },
+  { path: 'todo', loadChildren: () => import('./apps/apps.module.js').then(m => m.AppsModule) },
+
   { path: 'student', loadChildren: () => import('./student/student.module').then(m => m.StudentModule) },
   { path: 'error-pages', loadChildren: () => import('./error-pages/error-pages.module').then(m => m.ErrorPagesModule) },
+  { path: 'user', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+  { path: 'course', loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule) },
+  { path: 'exam', loadChildren: () => import('./exams/exams.module').then(m => m.ExamsModule) },
+  { path: 'headteacher', loadChildren: () => import('./head-teachers/head-teachers.module').then(m => m.HeadTeachersModule) },
+  { path: 'remark', loadChildren: () => import('./remark/remark.module').then(m => m.RemarkModule) },
+  { path: 'report', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
+  { path: 'rooms', loadChildren: () => import('./rooms/rooms.module').then(m => m.RoomsModule) },
+  { path: 'teacher', loadChildren: () => import('./teachers/teachers.module').then(m => m.TeachersModule) },
+  { path: 'timetable', loadChildren: () => import('./timetable/timetable.module').then(m => m.TimetableModule) },
+  { path: 'classroom', loadChildren: () => import('./classrooms/classrooms.module').then(m => m.ClassroomsModule) },
+  { path: 'attendance', loadChildren: () => import('./attendances/attendances.module').then(m => m.AttendancesModule) },
+  { path: 'message', loadChildren: () => import('./messages/messages.module').then(m => m.MessagesModule) },
+  { path: 'remark', loadChildren: () => import('./remark/remark.module').then(m => m.RemarkModule) },
+  { path: 'statistics', loadChildren: () => import('./head-teachers/head-teachers.module').then(m => m.HeadTeachersModule) },
 ];
 
 @NgModule({

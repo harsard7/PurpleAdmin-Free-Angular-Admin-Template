@@ -1,4 +1,4 @@
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
+<nav class="sidebar sidebar-offcanvas" id="sidebar" ngbDropdown  *ngIf="hasSignedIn()">
   <ul class="nav">
     <li class="nav-item nav-profile">
       <a href="javascript:;" class="nav-link">
@@ -66,6 +66,20 @@
         <i class="mdi mdi-contacts menu-icon"></i>
       </a>
     </li>
+    <li class="nav-item" [ngClass]="{ 'active' : create.isActive || all.isActive  }">
+      <a class="nav-link" (click)="todoCollapsed = !todoCollapsed"  [attr.aria-expanded]="todoCollapsed" aria-controls="todo">
+        <span class="menu-title">ToDo</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="todo" [ngbCollapse]="!todoCollapsed">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" routerLink="general-pages/blank-page" routerLinkActive="active" #create="routerLinkActive">Create </a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="user-pages/login" routerLinkActive="active" #all="routerLinkActive"> ALL Todo </a></li>
+
+        </ul>
+      </div>
+    </li>
     <li class="nav-item" [ngClass]="{ 'active' : blankPage.isActive || login.isActive || register.isActive || error404.isActive || error500.isActive }">
       <a class="nav-link" (click)="samplePagesCollapsed = !samplePagesCollapsed"  [attr.aria-expanded]="samplePagesCollapsed" aria-controls="auth">
         <span class="menu-title">Sample Pages</span>
@@ -82,7 +96,64 @@
         </ul>
       </div>
     </li>
-    <li class="nav-item" [ngClass]="{ 'active' : createstu.isActive }">
+<!--          ADMIN-->
+    <li class="nav-item" *ngIf="userRole() === 'ROLE_ADMIN' && isDataAvailable" [ngClass]="{ 'active' : createadm.isActive || admroom.isActive || admadm.isActive || admarc.isActive || admclass.isActive || admcouse.isActive || admupdate.isActive }">
+      <a class="nav-link" (click)="adminCollapse = !adminCollapse"  [attr.aria-expanded]="adminCollapse" aria-controls="admin">
+        <span class="menu-title">Admin</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="admin" [ngbCollapse]="!adminCollapse">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" (click)='getAllUser()' routerLinkActive="active" #createadm="routerLinkActive">User</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='getAllRooms()' routerLinkActive="active" #admroom="routerLinkActive"> Rooms</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='admin()' routerLinkActive="active" #admadm="routerLinkActive">Admin</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='archives()' routerLinkActive="active" #admarc="routerLinkActive"> Archives </a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='getAllClassroom()' routerLinkActive="active" #admclass="routerLinkActive"> Classrooms </a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='getAllCourse()' routerLinkActive="active" #admcouse="routerLinkActive"> Courses</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)="updateAdmin()" routerLinkActive="active" #admupdate="routerLinkActive"> Update</a></li>
+        </ul>
+      </div>
+    </li>
+
+    <!--  HEAD TEACHER -->
+    <li class="nav-item" *ngIf="userRole() === 'ROLE_HEADTEACHER' && isDataAvailable" [ngClass]="{ 'active' : htmyclass.isActive || htstat.isActive || htatt.isActive  }">
+      <a class="nav-link" (click)="headTeacherCollapse = !headTeacherCollapse"  [attr.aria-expanded]="headTeacherCollapse" aria-controls="headteacher">
+        <span class="menu-title">Head Teacher</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="headteacher" [ngbCollapse]="!headTeacherCollapse">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" (click)="getMyClassroom()"  routerLinkActive="active" #htmyclass="routerLinkActive">My Class</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)="getStatistics()" routerLinkActive="active" #htstat="routerLinkActive"> Statistics</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)="getAttendances()" routerLinkActive="active" #htatt="routerLinkActive">Attendances</a></li>
+
+        </ul>
+      </div>
+    </li>
+
+    <!--  TEACHER -->
+    <li class="nav-item" *ngIf="userRole() === 'ROLE_TEACHER' && isDataAvailable" [ngClass]="{ 'active' : timetbl.isActive || clas.isActive || course.isActive || pref.isActive || upd.isActive  }">
+      <a class="nav-link" (click)="teacherCollapse = !teacherCollapse"  [attr.aria-expanded]="teacherCollapse" aria-controls="teacher">
+        <span class="menu-title">Teacher</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="teacher" [ngbCollapse]="!teacherCollapse">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" (click)="timetable()" routerLinkActive="active" #timetbl="routerLinkActive">Timetable</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)="classrooms()" routerLinkActive="active" #clas="routerLinkActive"> Classes</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)="preferences()" routerLinkActive="active" #pref="routerLinkActive">Preferences</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)="courses()" routerLinkActive="active" #course="routerLinkActive">Courses</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)="updateTeacrPanel()" routerLinkActive="active" #upd="routerLinkActive">Update</a></li>
+
+        </ul>
+      </div>
+    </li>
+
+    <!--  STUDENT -->
+    <li class="nav-item" *ngIf="userRole() === 'ROLE_STUDENT' && isDataAvailable" [ngClass]="{ 'active' : stsumm.isActive || stutimtbl.isActive || sturpt.isActive || strmk.isActive || stcour.isActive || stuupdat.isActive ||stuattnd.isActive || studetails.isActive  }">
       <a class="nav-link" (click)="studentCollapse = !studentCollapse"  [attr.aria-expanded]="studentCollapse" aria-controls="student">
         <span class="menu-title">Student</span>
         <i class="menu-arrow"></i>
@@ -90,10 +161,17 @@
       </a>
       <div class="collapse" id="student" [ngbCollapse]="!studentCollapse">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" routerLink="student/create-student" routerLinkActive="active" #createstu="routerLinkActive">Create Student</a></li>
-<!--          <li class="nav-item"> <a class="nav-link" routerLink="student/createstu" routerLinkActive="active" #updatestu="routerLinkActive"> Update Student </a></li>         -->
+          <li class="nav-item"> <a class="nav-link" (click)='summary()' routerLinkActive="active" #stsumm="routerLinkActive">Summary</a></li>
+          <li class="nav-item"> <a class="nav-link"(click)='studenttimetable()' routerLinkActive="active" #stutimtbl="routerLinkActive"> Timetable</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='reports()' routerLinkActive="active" #sturpt="routerLinkActive"> Reports</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='remarks()' routerLinkActive="active" #strmk="routerLinkActive"> Remarks</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='studentcourse()' routerLinkActive="active" #stcour="routerLinkActive"> Courses</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='updateStudent()' routerLinkActive="active" #stuupdat="routerLinkActive"> Update</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='attendances()' routerLinkActive="active" #stuattnd="routerLinkActive"> Attendances</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='details()' routerLinkActive="active" #studetails="routerLinkActive"> Details</a></li>
         </ul>
       </div>
     </li>
+
   </ul>
 </nav>

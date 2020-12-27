@@ -33,7 +33,7 @@ export class UserService {
 
   getMyInfo() {
     return this.apiService.get(this.configService.getWhoami)
-      .pipe(map(user => {this.currentUser = user;console.log("user "+JSON.stringify(this.currentUser));} ));
+      .pipe(map(user =>this.currentUser = user));
 
   }
 

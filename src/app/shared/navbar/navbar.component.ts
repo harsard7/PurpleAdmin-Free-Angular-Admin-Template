@@ -16,15 +16,18 @@ import {CurrentUser} from "../../model/CurrentUser";
 export class NavbarComponent implements OnInit {
   public iconOnlyToggled = false;
   public sidebarToggled = false;
-  currentUser:CurrentUser;
+  public isDataAvailable = false;
+  user: any;
 
   constructor(config: NgbDropdownConfig,private authService: AuthService, private router: Router,private userService: UserService,private cookieService: CookieService) {
     config.placement = 'bottom-right';
-
+    this.userService.getMyInfo().toPromise().then(data =>  {
+      this.user = data;
+      this.isDataAvailable = true;
+    });
   }
 
   ngOnInit() {
-
   }
 
 
@@ -61,7 +64,20 @@ export class NavbarComponent implements OnInit {
   logout(){
     this.authService.logout();
     this.cookieService.deleteAll('/', 'http://localhost:4200');
-    this.router.navigate(['/user-pages/login']);
+    this.router.navigate(['user-pages/login']);
+  }
+  login() {
+    this.router.navigate(['user-pages/login']);
   }
 
+  hasSignedIn() {
+    return !!this.userService.currentUser;
+  }
+
+  userName(): string {
+    if(this.user){
+      return this.user.username;
+    }
+    return '';
+  }
 }

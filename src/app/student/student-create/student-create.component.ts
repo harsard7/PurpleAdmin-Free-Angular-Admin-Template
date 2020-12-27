@@ -28,10 +28,11 @@ export class StudentCreateComponent implements OnInit {
   classrooms: Observable<Classroom[]>;
   selectedOption: any = {};
   selectedOptionGender: any = {};
-  genders: string[] = ['Male', 'Female', 'Other'];
+  genders: string[] = ['MALE', 'FEMALE'];
   title = 'angulartoastr';
 
-  constructor(private userService: UserService, private router: Router,  private studentService: StudentService, private classroomService: ClassroomService,private notifyService : NotificationService) { }
+  constructor(private userService: UserService, private router: Router,  private studentService: StudentService,
+              private classroomService: ClassroomService,private notifyService : NotificationService) { }
 
   ngOnInit() {
     this.userService.getMyInfo().toPromise().then(data =>  {
@@ -61,31 +62,42 @@ export class StudentCreateComponent implements OnInit {
   showToasterWarning(){
     this.notifyService.showWarning("This is warning", "ItSolutionStuff.com")
   }
-open(){
-  this.showToasterSuccess();
-}
-
-
-
 
   onUserSubmit() {
     this.user.role = 'ROLE_STUDENT';
     this.student.username = this.user.username;
     this.userService.create(this.user).subscribe(() => {
-      this.notifyService.showSuccess("Student Created !!", "Student")
+      this.notifyService.showSuccess("Student Created !!", "Success");
       this.userSubmitted = true;
-      console.log(" error in username submit ");
-    }, error => {  this.notifyService.showError("Failed !!", "Student");});
-    this.userSubmitted = false;
+    }, error => {
+      this.userSubmitted = false;
+      if (error.error instanceof ErrorEvent) {
+        // client-side error
+        var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+        this.notifyService.showError(err, "Client Side Error");
+        console.log("Error 1:-> "+JSON.stringify(error));
+      } else {
+        // server-side error
+       // var err = `Error Code 2: ${error.status}\nMessage: ${error.message}`;
+       var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+        // this.errorMessage = `Connection Failed :\n Contact Admin`;
+        // console.log("Error:-> "+JSON.stringify(error.error));
+        this.notifyService.showError(err, "Server side Error");
+      }
+      });
+
   }
 
   onStudentSubmit() {
     this.student.classroom_id = Number(this.selectedOption.id);
     this.student.gender = this.selectedOptionGender;
     this.studentService.create(this.student).subscribe(() => {
-
-    }, error => {this.notifyService.showError("Failed !!", "Student");});
-    this.refresh();
+      this.notifyService.showSuccess("Student Details Created !!", "Success");
+      this.refresh();
+    }, error => {
+      this.errorHandle(error);
+      this.refresh();
+    });
   }
 
   refresh() {
@@ -96,7 +108,7 @@ open(){
   }
 
   goBack() {
-    this.router.navigate(['/user/all']);
+    this.router.navigate(['user/all']);
   }
 
   userRole() {
@@ -106,4 +118,21 @@ open(){
       this.router.navigate(['403']);
     }
   }
+
+  errorHandle(error){
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+      this.notifyService.showError(err, "Client Side Error");
+      console.log("Error 1:-> "+JSON.stringify(error));
+    } else {
+      // server-side error
+      // var err = `Error Code 2: ${error.status}\nMessage: ${error.message}`;
+      var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+      // this.errorMessage = `Connection Failed :\n Contact Admin`;
+      console.log("Error:-> "+JSON.stringify(error.error));
+      this.notifyService.showError(err, "Server side Error");
+    }
+  }
+
 }

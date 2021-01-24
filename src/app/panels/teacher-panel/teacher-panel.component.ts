@@ -39,8 +39,8 @@ export class TeacherPanelComponent implements OnInit {
     this.teacherService.findByUserId(this.currentUser.id).subscribe(data => this.router.navigate(['teacher/update', data.id]));
   }
 
-  courses() {
-    this.router.navigate(['course/all']);
+  subjects() {
+    this.router.navigate(['subject/all']);
   }
 
   timetable() {

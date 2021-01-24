@@ -61,7 +61,7 @@ export class TimetableEntityUpdateComponent implements OnInit {
 
   onSubmit() {
     if(this.isDataChanged) {
-      this.response.course_id = this.timeTableEntity.course.id;
+      this.response.subject_id = this.timeTableEntity.subject.id;
       this.response.room_id = this.selectedOptionRoom.id;
       if(!this.response.room_id) this.response.room_id = this.timeTableEntity.room.id;
       if(!this.response.day) this.response.day = this.timeTableEntity.day;
@@ -81,8 +81,8 @@ export class TimetableEntityUpdateComponent implements OnInit {
     this.selectedOptionClassroom = {};
   }
 
-  goBack(course_id: number) {
-    this.router.navigate(['timetable/course', course_id]);
+  goBack(subject_id: number) {
+    this.router.navigate(['timetable/subject', subject_id]);
   }
 
   userRole() {

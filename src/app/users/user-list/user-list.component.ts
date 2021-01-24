@@ -18,6 +18,20 @@ export class UserListComponent implements OnInit {
   users: Observable<User[]>;
   isDataAvailable:boolean = false;
   currentUser: any = {};
+  // table
+  config: any;
+  collection = { count: 0, data: [] };
+  public maxSize: number = 7;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public responsive: boolean = true;
+  public labels: any = {
+    previousLabel: '<',
+    nextLabel: '>',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'page',
+    screenReaderCurrentLabel: `You're on page`
+  };
 
   constructor(private userService: UserService, private router: Router,
               private studentService: StudentService, private teacherService: TeacherService,private notifyService : NotificationService ) { }
@@ -25,12 +39,23 @@ export class UserListComponent implements OnInit {
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.userService.getAll().subscribe(data => {
-        this.users = data;
+        this.collection.data=this.users = data;
         this.isDataAvailable = true;
+        this.loadData();
       });
     });
   }
-
+  loadData() {
+    this.config = {
+      itemsPerPage: 10,
+      currentPage: 1,
+      totalItems: this.collection.count
+    };
+  }
+  onPageChange(event){
+    // console.log(event);
+    this.config.currentPage = event;
+  }
   userRole() {
     if(isAdmin(this.currentUser, this.router)) {
       return true;
@@ -69,8 +94,8 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['teacher/create']);
   }
 
-  setCourse(student_id: number) {
-    this.router.navigate(['course/setCourse', student_id]);
+  setSubject(student_id: number) {
+    this.router.navigate(['subject/setSubject', student_id]);
   }
 
   delete(user_id: number) {
@@ -92,7 +117,7 @@ export class UserListComponent implements OnInit {
               this.refresh();
               this.notifyService.showSuccess("Teacher deleted", "Success");
             });
-          },  error => {this.notifyService.showWarning("Failed, you must update ther courses, and classes", "Failed"); });
+          },  error => {this.notifyService.showWarning("Failed, you must update ther subjects, and classes", "Failed"); });
         });
       }
     });

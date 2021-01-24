@@ -39,7 +39,7 @@ export class ClassroomListComponent implements OnInit {
     if(isAdmin(this.currentUser, this.router) || isTeacher(this.currentUser, this.router)) {
       return true;
     } else {
-      this.router.navigate(['403']);
+      this.router.navigate(['error/pages/404']);
     };
   }
 
@@ -55,7 +55,7 @@ export class ClassroomListComponent implements OnInit {
     this.classroomService.delete(classroom_id).subscribe(() => {
       this.refresh();
       this.notifyService.showSuccess("Class deleted.", "Success");
-    }, error => { this.notifyService.showError("Failed ", "");});
+    }, error => { this.notifyService.showError(error)});
   }
 
   finished(classroom_id: number) {
@@ -74,8 +74,8 @@ export class ClassroomListComponent implements OnInit {
     this.router.navigate(['student/classroom', classroom_id]);
   }
 
-  setCourse(classroom_id: number) {
-    this.router.navigate(['classroom/setCourse', classroom_id]);
+  setSubject(classroom_id: number) {
+    this.router.navigate(['classroom/setSubject', classroom_id]);
   }
 
   createClassroom() {

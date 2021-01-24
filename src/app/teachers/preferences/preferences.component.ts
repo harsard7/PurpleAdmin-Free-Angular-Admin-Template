@@ -68,7 +68,7 @@ export class PreferencesComponent implements OnInit {
 
   userRole() {
     if(isAdmin(this.currentUser, this.router) || isTeacher(this.currentUser, this.router) ||
-    this.currentUser.id == this.teacher.teacher.id) {
+    this.currentUser.id == this.teacher.fkUser.id) {
       return true;
     } else {
       this.router.navigate(['403']);

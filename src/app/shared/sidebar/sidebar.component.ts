@@ -6,6 +6,7 @@ import {Teacher} from "../../model/teacher";
 import {TeacherService} from "../../service/teacher.service";
 import {Student} from "../../model/student";
 import {StudentService} from "../../service/student.service";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -28,9 +29,9 @@ export class SidebarComponent implements OnInit {
   isDataAvailable: boolean = false;
 
   user: any;
-  teacher = new Teacher();log
+  teacher = new Teacher();
   student = new Student();
-  constructor(private router: Router, private userService: UserService,private classroomService: ClassroomService,private teacherService: TeacherService,private studentService: StudentService) { }
+  constructor(private router: Router, private userService: UserService,private classroomService: ClassroomService,private teacherService: TeacherService,private studentService: StudentService,private notifyService : NotificationService) { }
 
   ngOnInit() {
     const body = document.querySelector('body');
@@ -52,6 +53,12 @@ export class SidebarComponent implements OnInit {
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.user = data;
       this.isDataAvailable = true;
+      var tcr=this.user.authorities[0].authority + '';
+      if(tcr === 'ROLE_HEADTEACHER' || tcr==='ROLE_TEACHER'){
+        this.teacherService.findByUserId(this.user.id).subscribe(data =>  {
+          this.teacher = data;
+        })
+      }
     });
   }
 
@@ -75,8 +82,8 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['classroom/all']);
   }
 
-  getAllCourse() {
-    this.router.navigate(['course/all']);
+  getAllSubject() {
+    this.router.navigate(['subject/all']);
   }
 
   getAllRooms() {
@@ -85,7 +92,8 @@ export class SidebarComponent implements OnInit {
 
   updateAdmin() {
     this.userService.getById(this.user.id).subscribe(data =>
-        this.router.navigate(['user/update', data.id]));
+        this.router.navigate(['user/update', data.id]),
+            error => this.notifyService.showError(error));
   }
 
   admin() {
@@ -100,19 +108,19 @@ export class SidebarComponent implements OnInit {
   getMyClassroom() {
     this.classroomService.findByHeadteacherId(this.teacher.id).subscribe(data => {
       this.router.navigate(['student/classroom', data.id]);
-    });
+    },error => this.notifyService.showError(error));
   }
 
   getAttendances() {
     this.classroomService.findByHeadteacherId(this.teacher.id).subscribe(data => {
       this.router.navigate(['attendance/classroom', data.id]);
-    });
+    },error => this.notifyService.showError(error));
   }
 
   getStatistics() {
     this.classroomService.findByHeadteacherId(this.teacher.id).subscribe(data => {
       this.router.navigate(['statistics', data.id]);
-    });
+    },error => this.notifyService.showError(error));
   }
 
   // TEACHER
@@ -128,12 +136,15 @@ export class SidebarComponent implements OnInit {
     this.teacherService.findByUserId(this.user.id).subscribe(data => this.router.navigate(['teacher/update', data.id]));
   }
 
-  courses() {
-    this.router.navigate(['course/all']);
+  subjects() {
+    this.router.navigate(['subject/all']);
   }
 
   timetable() {
     this.router.navigate(['timetable/view', this.teacher.id]);
+  }
+  school() {
+    this.router.navigate(['school/create']);
   }
 
   // STUDENT
@@ -152,8 +163,8 @@ export class SidebarComponent implements OnInit {
     this.studentService.findByUserId(this.user.id).subscribe(data =>    this.router.navigate(['attendance/student', data.id]));
   }
 
-  studentcourse() {
-    this.router.navigate(['course/all']);
+  studentsubject() {
+    this.router.navigate(['subject/all']);
   }
 
   updateStudent() {
@@ -168,4 +179,11 @@ export class SidebarComponent implements OnInit {
     this.studentService.findByUserId(this.user.id).subscribe(data =>  this.router.navigate(['remark', data.id]));
   }
 
+  getAllStudent() {
+    this.router.navigate(['student/all'])
+  }
+
+  getAllTeacher() {
+    this.router.navigate(['teacher/all'])
+  }
 }

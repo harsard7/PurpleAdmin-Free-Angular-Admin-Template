@@ -32,8 +32,8 @@ export class TeacherService {
     return this.apiService.put(this.configService.getUpdateTeacherUrl + '/' + id, teacher);
   }
 
-  setCourse(teacher_id: number) {
-    return this.apiService.put(this.configService.getSetCourseToTeacherUrl + '/' + teacher_id, teacher_id);
+  setSubject(teacher_id: number) {
+    return this.apiService.put(this.configService.getSetSubjectToTeacherUrl + '/' + teacher_id, teacher_id);
   }
 
   delete(id: number) {

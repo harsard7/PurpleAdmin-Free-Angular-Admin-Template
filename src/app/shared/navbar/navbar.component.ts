@@ -6,6 +6,8 @@ import {UserService} from "../../service/user.service";
 import {consoleTestResultHandler} from "tslint/lib/test";
 import { CookieService } from 'ngx-cookie-service';
 import {CurrentUser} from "../../model/CurrentUser";
+import {SchoolDTO} from "../../dto/schoolDTO";
+import {SchoolService} from "../../service/school.service";
 
 @Component({
   selector: 'app-navbar',
@@ -17,13 +19,17 @@ export class NavbarComponent implements OnInit {
   public iconOnlyToggled = false;
   public sidebarToggled = false;
   public isDataAvailable = false;
+  school = new SchoolDTO();
   user: any;
 
-  constructor(config: NgbDropdownConfig,private authService: AuthService, private router: Router,private userService: UserService,private cookieService: CookieService) {
+  constructor(private sessionservice:SchoolService, config: NgbDropdownConfig, private authService: AuthService, private router: Router, private userService: UserService, private cookieService: CookieService) {
     config.placement = 'bottom-right';
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.user = data;
       this.isDataAvailable = true;
+      this.sessionservice.findactive().subscribe(data=>{
+        this.school=data;
+      })
     });
   }
 

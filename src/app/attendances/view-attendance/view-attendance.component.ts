@@ -55,7 +55,7 @@ export class ViewAttendanceComponent implements OnInit {
     this.attendanceService.delete(attendace_id).subscribe(() => {
       this.notifyService.showSuccess("Attendance deleted !!", "");
     }, error => {
-      this.notifyService.showError("Failed", "");
+      this.notifyService.showError(error);
 
     });
   }

@@ -3,8 +3,8 @@
     <div class="container" *ngIf="userRole()">
         <div class="container">
             <div class="container">
-                <h3>TimeTable Entity for {{course.courseName}}</h3>
-                <button (click)="create(course.id)" class="btn btn-primary">New</button>
+                <h3>TimeTable Entity for {{subject.subjectName}}</h3>
+                <button (click)="create(subject.id)" class="btn btn-primary">New</button>
             </div>
             <div class="container">
                 <input class="form-control-searchbox" type="text" name="search" [(ngModel)]="searchText" autocomplete="on"
@@ -26,8 +26,8 @@
                             <td>{{entity.room.classroomNumber}}</td>
                             <td>{{entity.classroom.year}}/{{entity.classroom.letter}}</td>
                             <td>
-                                <button (click)="update(course.id)" class="btn btn-warning">Update</button>
-                                <button (click)="delete(course.id)" class="btn btn-danger">Delete</button>
+                                <button (click)="update(subject.id)" class="btn btn-warning">Update</button>
+                                <button (click)="delete(subject.id)" class="btn btn-danger">Delete</button>
                             </td>
                         </tr>
                     </tbody>

@@ -8,17 +8,22 @@ import {StudentDetailsComponent} from "./student-details/student-details.compone
 import {StudentClassroomListComponent} from "./student-classroom-list/student-classroom-list.component";
 import {StudentUpdateComponent} from "./student-update/student-update.component";
 import {Ng2SearchPipeModule} from "ng2-search-filter";
+import {SummaryStudentComponent} from "./summary-student/summary-student.component";
+import { StudentAllComponent } from './student-all/student-all.component';
+import {NgxPaginationModule} from "ngx-pagination";
 
 const routes: Routes = [
   { path: 'create', component: StudentCreateComponent },
   { path: 'details/:id', component: StudentDetailsComponent },
   { path: 'update/:id', component: StudentUpdateComponent },
   { path: 'classroom/:id', component: StudentClassroomListComponent },
+  { path: 'summary/:id', component: SummaryStudentComponent },
+  { path: 'all', component: StudentAllComponent },
 
 ]
 
 @NgModule({
-  declarations: [StudentCreateComponent,StudentDetailsComponent,StudentUpdateComponent,StudentClassroomListComponent],
+  declarations: [StudentCreateComponent,StudentDetailsComponent,StudentUpdateComponent,StudentClassroomListComponent,SummaryStudentComponent, StudentAllComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -26,6 +31,7 @@ const routes: Routes = [
     NgbModule,
     FormsModule,
     Ng2SearchPipeModule,
+    NgxPaginationModule,
   ],
 })
 export class StudentModule { }

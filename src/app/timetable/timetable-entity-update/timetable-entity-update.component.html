@@ -3,7 +3,7 @@
     <div class="container" *ngIf="userRole()">
         <div class="container">
             <h2>Update</h2>
-            <button (click)="goBack(timeTableEntity.course.id)" class="btn btn-dark">Back</button>
+            <button (click)="goBack(timeTableEntity.subject.id)" class="btn btn-dark">Back</button>
         </div>
         <div class="container">
             <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-timetable">

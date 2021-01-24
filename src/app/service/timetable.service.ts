@@ -35,7 +35,7 @@ export class TimetableService {
     return this.apiService.delete(this.configService.getDeleteTimeTableUrl + '/' + id, id);
   }
 
-  getTimeTableEntitiesByCourse(course_id: number) {
-    return this.apiService.get(this.configService.getGetTimeTableEntitiesByCourseUrl + '/' + course_id);
+  getTimeTableEntitiesBySubject(subject_id: number) {
+    return this.apiService.get(this.configService.getGetTimeTableEntitiesBySubjectUrl + '/' + subject_id);
   }
 }

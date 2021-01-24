@@ -35,7 +35,7 @@ export class RemarkCreateComponent implements OnInit {
     this.remarkService.create(this.remark).subscribe(() => {
       this.reset();
        this.notifyService.showSuccess('Remark created.', 'Ok');
-    }, error => { this.notifyService.showError("Failed ", "");});
+    }, error => { this.notifyService.showError(error)});
     this.refresh();
   }
 

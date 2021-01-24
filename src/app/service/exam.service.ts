@@ -12,8 +12,8 @@ export class ExamService {
 
   }
 
-  findAllByStudent(student_id: number, course_id: number) {
-    return this.apiService.post(this.configService.getExamfindAllByStudentUrl + '/' + student_id, course_id);
+  findAllByStudent(student_id: number, subject_id: number) {
+    return this.apiService.post(this.configService.getExamfindAllByStudentUrl + '/' + student_id, subject_id);
   }
 
   findById(id: number) {

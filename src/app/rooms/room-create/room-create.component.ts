@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { RoomService } from 'src/app/service/room.service';
 import { isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-room-create',
@@ -13,13 +14,18 @@ import {NotificationService} from "../../service/notification.service";
   styleUrls: ['./room-create.component.scss']
 })
 export class RoomCreateComponent implements OnInit {
-
+  form;
   currentUser: any = {};
   isDataAvailable: boolean  = false;
   room = new RoomResponseDTO();
 
   constructor(private userService: UserService, private router: Router, private notifyService : NotificationService,
-    private roomService: RoomService) { }
+    private roomService: RoomService,fb: FormBuilder) {
+    this.form = fb.group({
+      classno : ['', Validators.required]
+  }); }
+
+
 
   ngOnInit() {
     this.userService.getMyInfo().toPromise().then(data =>  {
@@ -32,10 +38,10 @@ export class RoomCreateComponent implements OnInit {
 
   onSubmit() {
     this.roomService.create(this.room).subscribe(() => {
+      this.notifyService.showSuccess('Room created.', 'Ok');
       this.reset();
-       this.notifyService.showSuccess('Room created.', 'Ok');
-    }, error => { this.notifyService.showError("Failed ", "");});
-    this.refresh();
+    }, error => { this.notifyService.showError(error,"Failed ");this.refresh()});
+       // this.refresh();
   }
 
   reset() {

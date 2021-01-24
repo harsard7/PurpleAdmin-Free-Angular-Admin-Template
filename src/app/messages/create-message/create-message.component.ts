@@ -33,7 +33,7 @@ export class CreateMessageComponent implements OnInit {
     this.messageService.create(this.message).subscribe(() => {
       this.reset();
        this.notifyService.showSuccess('Message created.', 'Ok');
-    }, error => { this.notifyService.showError("Failed ", "");});
+    }, error => { this.notifyService.showError(error)});
     this.refresh();
   }
 

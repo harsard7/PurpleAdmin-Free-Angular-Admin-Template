@@ -7,7 +7,7 @@
       <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-user">
         <div class="form-group">
           <label for="username">Username</label>
-          <input [disabled]="userSubmitted" type="text" class="form-control" id="username" required [(ngModel)]="response.username" name="username" placeholder="{{user.username}}" value="{{user.username}}">
+          <input [disabled]="true" type="text" class="form-control" id="username" required [(ngModel)]="response.username" name="username" placeholder="{{user.username}}" value="{{user.username}}">
         </div>
         <div class="form-group">
           <label for="new-password">New Password</label>
@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
           <label for="fullName">Fullname</label>
-          <input type="text" class="form-control" id="fullName" required [(ngModel)]="response.fullName" name="fullName" placeholder="Fullname">
+          <input disabled="true" type="text" class="form-control" id="fullName" required [(ngModel)]="response.fullName" name="fullName" placeholder="Fullname">
         </div>
         <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
         <button type="submit" class="btn btn-success">Submit</button>

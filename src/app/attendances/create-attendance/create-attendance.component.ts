@@ -42,7 +42,7 @@ export class CreateAttendanceComponent implements OnInit {
       this.notifyService.showSuccess("Attendance created.", "Success");
 
     }, error => {
-      this.notifyService.showError("Failed ", "");
+      this.notifyService.showError(error);
     });
   }
   setBasic() {

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ReportDTO } from 'src/app/dto/reportDTO';
-import { Course } from 'src/app/model/course';
+import { Subject } from 'src/app/model/subject';
 import { ReportResponseDTO } from 'src/app/dto/response/reportResponseDTO';
 import { UserService } from 'src/app/service/user.service';
-import { CourseService } from 'src/app/service/course.service';
+import { SubjectService } from 'src/app/service/subject.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ReportService } from 'src/app/service/report.service';
 import { ClassroomService } from 'src/app/service/classroom.service';
@@ -24,16 +24,16 @@ export class CreateReportClassroomComponent implements OnInit {
   currentUser: any = {};
   isDataAvailable: boolean = false;
   isBasicSet: boolean = false;
-  courses: Observable<Course[]>;
+  subjects: Observable<Subject[]>;
   reports: Observable<ReportDTO>;
   raw_reports: ReportDTO[];
   response: ReportResponseDTO[];
   marks: any = {};
   year: any = {};
   semester: any = {};
-  selectedCourse: any = {};
+  selectedSubject: any = {};
 
-  constructor(private userService: UserService, private courseService: CourseService, private router: Router, private notifyService : NotificationService,
+  constructor(private userService: UserService, private subjectService: SubjectService, private router: Router, private notifyService : NotificationService,
     private reportService: ReportService, private classroomService: ClassroomService, private teacherService: TeacherService,
     private route: ActivatedRoute) { }
 
@@ -42,8 +42,8 @@ export class CreateReportClassroomComponent implements OnInit {
       this.userService.getMyInfo().toPromise().then(data =>  {
         this.currentUser = data;
         this.teacherService.findByUserId(this.currentUser.id).subscribe(data => {
-          this.courseService.getCoursesByTeacherId(data.id).subscribe(data => {
-            this.courses = data;
+          this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
+            this.subjects = data;
             this.isDataAvailable = true;
           });
         });
@@ -60,7 +60,7 @@ export class CreateReportClassroomComponent implements OnInit {
     }
 
     onSubmit() {
-      this.reportService.createReportsToClassroom(this.collect(this.marks, this.raw_reports, this.selectedCourse.id, this.year, this.semester))
+      this.reportService.createReportsToClassroom(this.collect(this.marks, this.raw_reports, this.selectedSubject.id, this.year, this.semester))
       .subscribe(data =>  {
         this.refresh();
          this.notifyService.showSuccess('Reports created.', 'Ok');
@@ -72,10 +72,10 @@ export class CreateReportClassroomComponent implements OnInit {
      this.marks = {};
      this.year = {};
      this.semester = {};
-     this.selectedCourse = {};
+     this.selectedSubject = {};
     }
 
-    collect(marks: number[], entities: ReportDTO[], course_id: number,
+    collect(marks: number[], entities: ReportDTO[], subject_id: number,
       year: number, semester: number): ReportResponseDTO[] {
       var index = 0;
       var result: ReportResponseDTO[] = [];
@@ -85,7 +85,7 @@ export class CreateReportClassroomComponent implements OnInit {
 
         if(marks[index] != null) {
           result[index].mark = marks[index];
-          result[index].course_id = course_id;
+          result[index].subject_id = subject_id;
           result[index].semester = semester;
           result[index].year = year;
           result[index].student_id = entity.student.id;

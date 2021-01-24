@@ -34,5 +34,8 @@ export class StudentService {
   summary(id : number) {
     return this.apiService.get(this.configService.getSummaryStudentUrl + '/' + id);
   }
+  findAll(){
+    return this.apiService.get(this.configService.getStudentAllUrl);
+  }
 
 }

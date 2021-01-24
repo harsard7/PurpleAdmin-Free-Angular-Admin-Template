@@ -40,14 +40,14 @@ export class TeacherCreateComponent implements OnInit {
     this.teacher.username = this.user.username;
     this.userService.create(this.user).subscribe(() => {
        this.notifyService.showSuccess('Teacher Created.', 'Ok');
-    }, error => {  this.notifyService.showError("Failed ", "");});
+    }, error => {  this.notifyService.showError(error)});
     this.userSubmitted = true;
   }
 
   onTeacherSubmit() {
     this.teacherService.create(this.teacher).subscribe(() => {
 
-    } , error => {  this.notifyService.showError("Failed ", "");});
+    } , error => {  this.notifyService.showError(error)});
     this.refresh();
      this.notifyService.showSuccess('Teacher created', 'Ok')
   }
@@ -60,7 +60,7 @@ export class TeacherCreateComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['user/all']);
+    this.router.navigate(['teacher/all']);
   }
 
   userRole() {

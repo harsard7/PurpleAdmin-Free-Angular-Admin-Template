@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportResponseDTO } from 'src/app/dto/response/reportResponseDTO';
 import { Observable } from 'rxjs';
-import { Course } from 'src/app/model/course';
+import { Subject } from 'src/app/model/subject';
 import { UserService } from 'src/app/service/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TeacherService } from 'src/app/service/teacher.service';
 import { ReportService } from 'src/app/service/report.service';
-import { CourseService } from 'src/app/service/course.service';
+import { SubjectService } from 'src/app/service/subject.service';
 import { StudentService } from 'src/app/service/student.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isTeacher } from 'src/app/shared/roles';
@@ -23,21 +23,21 @@ export class CreateReportComponent implements OnInit {
   currentUser: any = {};
   isDataAvailable: boolean  = false;
   report = new ReportResponseDTO();
-  courses: Observable<Course[]>;
+  subjects: Observable<Subject[]>;
   selectedOption: any = {};
   semester: any = {};
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute,
     private teacherService: TeacherService, private reportService: ReportService,
-    private courseService: CourseService, private studentService: StudentService, private notifyService : NotificationService) { }
+    private subjectService: SubjectService, private studentService: StudentService, private notifyService : NotificationService) { }
 
   ngOnInit() {
     this.student_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.teacherService.findByUserId(this.currentUser.id).subscribe(data => {
-        this.courseService.getCoursesByTeacherId(data.id).subscribe(data => {
-          this.courses = data;
+        this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
+          this.subjects = data;
           this.isDataAvailable = true;
         });
       });
@@ -50,7 +50,7 @@ export class CreateReportComponent implements OnInit {
     this.report.student_id = this.student_id;
     if(this.selectedOption) {
       this.report.semester = this.semester;
-      this.report.course_id = this.selectedOption.id;
+      this.report.subject_id = this.selectedOption.id;
       this.reportService.create(this.report).subscribe(() => {
         this.refresh();
          this.notifyService.showSuccess('Report created.', 'Ok');

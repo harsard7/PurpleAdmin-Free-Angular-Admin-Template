@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'error-pages', loadChildren: () => import('./error-pages/error-pages.module').then(m => m.ErrorPagesModule) },
   { path: 'user', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
   { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
-  { path: 'course', loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule) },
+  { path: 'subject', loadChildren: () => import('./subject/subject.module').then(m=>m.SubjectsModule)},
   { path: 'exam', loadChildren: () => import('./exams/exams.module').then(m => m.ExamsModule) },
   { path: 'headteacher', loadChildren: () => import('./head-teachers/head-teachers.module').then(m => m.HeadTeachersModule) },
   { path: 'remark', loadChildren: () => import('./remark/remark.module').then(m => m.RemarkModule) },
@@ -33,6 +33,8 @@ const routes: Routes = [
   { path: 'message', loadChildren: () => import('./messages/messages.module').then(m => m.MessagesModule) },
   { path: 'remark', loadChildren: () => import('./remark/remark.module').then(m => m.RemarkModule) },
   { path: 'statistics', loadChildren: () => import('./head-teachers/head-teachers.module').then(m => m.HeadTeachersModule) },
+  { path: 'school', loadChildren: () => import('./school/school.module').then(m => m.SchoolModule) },
+  { path: 'employee', loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule) },
 ];
 
 @NgModule({

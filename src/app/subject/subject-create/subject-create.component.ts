@@ -1,0 +1,70 @@
+import { Component, OnInit } from '@angular/core';
+import { SubjectService } from 'src/app/service/subject.service';
+import { UserService } from 'src/app/service/user.service';
+import { Router } from '@angular/router';
+import { TeacherService } from 'src/app/service/teacher.service';
+import { Observable } from 'rxjs';
+import { Teacher } from 'src/app/model/teacher';
+import { SubjectResponseDTO } from 'src/app/dto/response/subjectResponseDTO';
+import { isAdmin } from 'src/app/shared/roles';
+import {NotificationService} from "../../service/notification.service";
+
+@Component({
+  selector: 'app-subject-create',
+  templateUrl: './subject-create.component.html',
+  styleUrls: ['./subject-create.component.scss']
+})
+export class SubjectCreateComponent implements OnInit {
+
+  subject = new SubjectResponseDTO();
+  currentUser: any = {};
+  isDataAvailable: boolean  = false;
+  teachers: Observable<Teacher[]>;
+  selectedOption: any = {};
+
+  constructor(private userService: UserService, private router: Router, private notifyService : NotificationService,
+    private teacherService: TeacherService, private subjectService: SubjectService) {
+
+  }
+
+  ngOnInit() {
+    this.userService.getMyInfo().toPromise().then(data =>  {
+      this.currentUser = data;
+      this.teacherService.findAll().subscribe(data => {
+        this.teachers = data;
+        this.isDataAvailable = true;
+      });
+    });
+  }
+
+  onSubmit() {
+    this.subject.teacher_id = Number(this.selectedOption.id);
+    this.subjectService.create(this.subject).subscribe(() => {
+      this.reset();
+      this.notifyService.showSuccess("Subject created.", "Success");
+    }, error => { this.notifyService.showError(error)});
+    this.refresh();
+  }
+
+  reset() {
+    this.subject = new SubjectResponseDTO();
+    this.selectedOption = {};
+  }
+
+  refresh(): void {
+    window.location.reload();
+  }
+
+  goBack() {
+    this.router.navigate(['subject/all']);
+  }
+
+  userRole() {
+    if(isAdmin(this.currentUser, this.router)) {
+      return true;
+    } else {
+      this.router.navigate(['403']);
+    }
+  }
+
+}

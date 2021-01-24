@@ -51,7 +51,7 @@ export class RoomViewComponent implements OnInit {
     this.roomService.delete(classroom_id).subscribe(() => {
       this.refresh();
        this.notifyService.showSuccess('Room deleted.', 'Ok');
-    }, error => { this.notifyService.showError("Failed ", "");});
+    }, error => { this.notifyService.showError(error)});
   }
 
   refresh(): void {

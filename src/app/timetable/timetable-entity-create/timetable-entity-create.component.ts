@@ -54,17 +54,17 @@ export class TimetableEntityCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    this.timeTableEntity.course_id = this.id;
+    this.timeTableEntity.subject_id = this.id;
     this.timeTableEntity.classroom_id = Number(this.selectedOptionClassroom.id);
     this.timeTableEntity.room_id = Number(this.selectedOptionRoom.id);
     this.timeTableService.create(this.id, this.timeTableEntity).subscribe(() => {
       this.reset();
        this.notifyService.showSuccess('Time table entity created.', 'Ok');
-    }, error => { this.notifyService.showError("Failed ", "");});
+    }, error => { this.notifyService.showError(error)});
   }
 
   goBack() {
-    this.router.navigate(['timetable/course', this.id]);
+    this.router.navigate(['timetable/subject', this.id]);
   }
 
   userRole() {

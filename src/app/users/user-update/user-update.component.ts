@@ -35,23 +35,34 @@ export class UserUpdateComponent implements OnInit {
         this.user = data;
         this.isDataAvailable = true;
       });
-
     });
   }
 
 
 
   onSubmit() {
-    if(this.isDataChanged && this.isUsernameUnique && this.isPasswordMatch) {
+    // if(this.isDataChanged && this.isUsernameUnique && this.isPasswordMatch) {
+
+    if(this.validate() &&  this.isPasswordMatch()) {
       if(!this.response.fullName) this.response.fullName = this.user.fullName;
       if(!this.response.username) this.response.username = this.user.username;
       if(!this.newPassword) this.response.password = this.newPassword;
       this.userService.update(this.id, this.response).subscribe(() => {
         this.userSubmitted=true;
+        this.notifyService.showSuccess("User updated", "Success");
         this.refresh();
-        this.notifyService.showSuccess("User updatedd", "Success");
-      });
+      },
+        error => {
+          this.notifyService.showError(error);
+        });
     }
+  }
+  validate(){
+      if(!this.newPassword || !this.reEnterPassword ){
+      this.notifyService.showWarning("Please enter the required Fields", "Warning");
+      return false;
+    }
+    return true;
   }
 
   refresh() {
@@ -71,12 +82,16 @@ export class UserUpdateComponent implements OnInit {
   }
 
   isPasswordMatch() {
-    return this.newPassword === this.reEnterPassword;
+    var tr=this.newPassword === this.reEnterPassword;
+    if(!tr){
+      this.notifyService.showWarning("Password Not match", "Warning");
+    }
+    return tr;
   }
 
   isUsernameUnique() {
     var unique = false;
-    this.userService.isUsernameUnique(this.response.username).subscribe(data => unique = data);
+    this.userService.isUsernameUnique(this.response.username).subscribe(data => {unique = data;});
     return unique;
   }
 

@@ -52,7 +52,7 @@ export class MessageListComponent implements OnInit {
     this.messageService.delete(id).subscribe(() => {
       this.refresh();
        this.notifyService.showSuccess('Message deleted.', 'Ok');
-    }, error => {  this.notifyService.showError("Failed ", "");});
+    }, error => {  this.notifyService.showError(error);});
   }
 
   refresh(): void {

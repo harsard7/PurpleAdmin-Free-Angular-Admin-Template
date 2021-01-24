@@ -2,7 +2,7 @@
 
     <div class="container" *ngIf="userRole()">
         <div class="container">
-            <h2>Create</h2>
+            <h2>Create-Teacher</h2>
         </div>
         <div class="container">
             <form (ngSubmit)="onUserSubmit()" #form="ngForm" class="form">
@@ -29,7 +29,7 @@
                     <label for="phone">Phone</label>
                     <input type="text" class="form-control" id="phone" required [(ngModel)]="teacher.phone" name="phone" placeholder="+36 10 999 9999">
                 </div>
-                <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
+                <button type="button" (click)="goBack()" class="btn btn-outline-warning">Back</button>
                 <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>

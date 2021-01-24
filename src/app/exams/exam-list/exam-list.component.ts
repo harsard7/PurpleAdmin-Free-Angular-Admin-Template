@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Exam } from 'src/app/model/exam';
-import { Course } from 'src/app/model/course';
+import { Subject } from 'src/app/model/subject';
 import { UserService } from 'src/app/service/user.service';
-import { CourseService } from 'src/app/service/course.service';
+import { SubjectService } from 'src/app/service/subject.service';
 import { ExamService } from 'src/app/service/exam.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TeacherService } from 'src/app/service/teacher.service';
@@ -21,21 +21,21 @@ export class ExamListComponent implements OnInit {
   student_id: number;
   currentUser: any = {};
   exams: Observable<Exam[]>;
-  courses: Observable<Course[]>;
+  subjects: Observable<Subject[]>;
   selected: boolean = false;
   isDataAvailable: boolean = false;
   selectedOption: any = {};
 
-  constructor(private userService: UserService, private courseService: CourseService, private teacherService: TeacherService,
+  constructor(private userService: UserService, private subjectService: SubjectService, private teacherService: TeacherService,
     private examService: ExamService, private router: Router, private route: ActivatedRoute, private notifyService : NotificationService) { }
 
   ngOnInit() {
     this.student_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      this.teacherService.findByUserId(this.currentUser.id).subscribe(data => {
-        this.courseService.getCoursesByTeacherId(data.id).subscribe(data => {
-          this.courses = data;
+      this.teacherService.findByUserId(2).subscribe(data => {
+        this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
+          this.subjects = data;
           this.isDataAvailable = true;
         });
       });
@@ -45,7 +45,7 @@ export class ExamListComponent implements OnInit {
 
 
   create() {
-    this.router.navigate(['exam/create', this.student_id]);
+    this.router.navigate(['exam/create', 2]);
   }
 
   onSubmit() {
@@ -63,7 +63,7 @@ export class ExamListComponent implements OnInit {
     this.examService.delete(exam_id).subscribe(() => {
       this.refresh();
        this.notifyService.showSuccess('Exam deleted.', 'Ok');
-    }, error => {  this.notifyService.showError("Failed ", "");});
+    }, error => {  this.notifyService.showError(error)});
   }
 
   userRole() {

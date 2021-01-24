@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Course } from 'src/app/model/course';
+import { Subject } from 'src/app/model/subject';
 import { ExamDTO } from 'src/app/dto/examDTO';
 import { ExamResponseDTO } from 'src/app/dto/response/examResponseDTO';
 import { UserService } from 'src/app/service/user.service';
-import { CourseService } from 'src/app/service/course.service';
+import { SubjectService } from 'src/app/service/subject.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ExamService } from 'src/app/service/exam.service';
 import { TeacherService } from 'src/app/service/teacher.service';
@@ -24,19 +24,19 @@ export class CreateExamClassroomComponent implements OnInit {
   etype: any = {};
   isDataAvailable: boolean = false;
   isBasicSet: boolean = false;
-  courses: Observable<Course[]>;
+  subjects: Observable<Subject[]>;
   exams: Observable<ExamDTO[]>;
   raw_exams: ExamDTO[];
   response: ExamResponseDTO[];
   marks: any = {};
   written_at: any = {};
-  selectedCourse: any = {};
+  selectedSubject: any = {};
   TEST: any;
   TOPIC_TEST: any;
   REPETITION: any;
   HOMEWORK: any;
 
-  constructor(private userService: UserService, private courseService: CourseService, private router: Router,
+  constructor(private userService: UserService, private subjectService: SubjectService, private router: Router,
     private examService: ExamService, private teacherService: TeacherService, private route: ActivatedRoute,private notifyService : NotificationService) { }
 
   ngOnInit() {
@@ -44,8 +44,8 @@ export class CreateExamClassroomComponent implements OnInit {
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.teacherService.findByUserId(this.currentUser.id).subscribe(data => {
-        this.courseService.getCoursesByTeacherId(data.id).subscribe(data => {
-          this.courses = data;
+        this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
+          this.subjects = data;
           this.isDataAvailable = true;
         });
       });
@@ -62,11 +62,11 @@ export class CreateExamClassroomComponent implements OnInit {
   }
 
   onSubmit() {
-    this.examService.createExamsFromForm(this.collect(this.marks, this.raw_exams, this.selectedCourse.id, this.written_at, this.etype))
+    this.examService.createExamsFromForm(this.collect(this.marks, this.raw_exams, this.selectedSubject.id, this.written_at, this.etype))
     .subscribe(data =>  {
       this.refresh();
        this.notifyService.showSuccess('Exams created', 'Ok');
-    }, error => { this.notifyService.showError("Failed ", "");});
+    }, error => { this.notifyService.showError(error)});
   }
 
   refresh() {
@@ -74,17 +74,17 @@ export class CreateExamClassroomComponent implements OnInit {
     this.isBasicSet = false;
     this.marks = {};
     this.written_at = {};
-    this.selectedCourse= {};
+    this.selectedSubject= {};
   }
 
-  collect(marks: number[], entities: ExamDTO[], course_id: number,
+  collect(marks: number[], entities: ExamDTO[], subject_id: number,
     written_at: string, etype: string): ExamResponseDTO[] {
     var index = 0;
     var result: ExamResponseDTO[] = [];
 
     for(let entity of entities) {
       result.push(new ExamResponseDTO());
-      result[index].course_id = course_id;
+      result[index].subject_id = subject_id;
       result[index].student_id = entity.student.id;
       result[index].examType = etype;
       result[index].written_at = written_at;

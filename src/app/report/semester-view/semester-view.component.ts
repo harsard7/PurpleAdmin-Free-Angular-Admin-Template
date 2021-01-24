@@ -8,8 +8,8 @@ import { ReportService } from 'src/app/service/report.service';
 import { Student } from 'src/app/model/student';
 import { TeacherService } from 'src/app/service/teacher.service';
 import { Teacher } from 'src/app/model/teacher';
-import { CourseService } from 'src/app/service/course.service';
-import { Course } from 'src/app/model/course';
+import { SubjectService } from 'src/app/service/subject.service';
+import { Subject } from 'src/app/model/subject';
 import { isTeacher, isIdMatches } from 'src/app/shared/roles';
 
 @Component({
@@ -28,10 +28,10 @@ export class SemesterViewComponent implements OnInit {
   reports: Observable<Report[]>;
   student = new Student();
   teacher = new Teacher();
-  courses: Course[];
+  subjects: Subject[];
 
   constructor(private userService: UserService, private studentService: StudentService, private teacherService: TeacherService,
-    private router: Router, private route: ActivatedRoute, private reportService: ReportService, private courseService: CourseService) { }
+    private router: Router, private route: ActivatedRoute, private reportService: ReportService, private subjectService: SubjectService) { }
 
   ngOnInit() {
     this.student_id = this.route.snapshot.params['id'];
@@ -58,7 +58,7 @@ export class SemesterViewComponent implements OnInit {
   }
 
   userRole() {
-    if(isTeacher(this.currentUser, this.router) || 
+    if(isTeacher(this.currentUser, this.router) ||
     isIdMatches(this.currentUser, this.router, this.student_id, this.studentService)) {
       return true;
     } else {

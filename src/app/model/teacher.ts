@@ -3,7 +3,7 @@ import { User } from './user';
 export class Teacher {
 
     id: number;
-    teacher: User;
+  fkUser: User;
     email: string;
     phone: string;
 }

@@ -61,7 +61,7 @@ export class RemarkListComponent implements OnInit {
     this.remarkService.delete(remark_id).subscribe(() => {
       this.refresh();
        this.notifyService.showSuccess('Remark deleted.', 'Ok');
-    }, error => {  this.notifyService.showError("Failed ", "");});
+    }, error => {  this.notifyService.showError(error)});
   }
 
   refresh(): void {

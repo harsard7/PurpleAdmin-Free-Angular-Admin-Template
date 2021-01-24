@@ -29,8 +29,8 @@ export class AdminPanelComponent implements OnInit {
     this.router.navigate(['classroom/all']);
   }
 
-  getAllCourse() {
-    this.router.navigate(['course/all']);
+  getAllSubject() {
+    this.router.navigate(['subject/all']);
   }
 
   getAllRooms() {

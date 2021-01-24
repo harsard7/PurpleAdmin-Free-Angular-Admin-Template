@@ -39,11 +39,11 @@ export class ClassroomService {
     return this.apiService.get(this.configService.getGetStudentsFromClassroomUrl + '/' + id);
   }
 
-  setCourse(classroom_id: number, course_id: number) {
-    return this.apiService.put(this.configService.getSetCourseUrl + '/' + classroom_id, course_id);
+  setSubject(classroom_id: number, subject_id: number) {
+    return this.apiService.put(this.configService.getSetSubjectUrl + '/' + classroom_id, subject_id);
   }
 
-  unsetCourse(classroom_id: number, course_id: number) {
-    return this.apiService.put(this.configService.getUnsetCourseUrl + '/' + classroom_id, course_id);
+  unsetSubject(classroom_id: number, subject_id: number) {
+    return this.apiService.put(this.configService.getUnsetSubjectUrl + '/' + classroom_id, subject_id);
   }
 }

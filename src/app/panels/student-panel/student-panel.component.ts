@@ -15,7 +15,7 @@ export class StudentPanelComponent implements OnInit {
   student = new Student();
   isDataAvailable: boolean = false;
 
-  constructor(private userService: UserService, private router: Router, 
+  constructor(private userService: UserService, private router: Router,
     private studentService: StudentService) { }
 
   ngOnInit() {
@@ -40,8 +40,8 @@ export class StudentPanelComponent implements OnInit {
     this.studentService.findByUserId(this.currentUser.id).subscribe(data =>    this.router.navigate(['attendance/student', data.id]));
   }
 
-  course() {
-    this.router.navigate(['course/all']);
+  subject() {
+    this.router.navigate(['subject/all']);
   }
 
   update() {

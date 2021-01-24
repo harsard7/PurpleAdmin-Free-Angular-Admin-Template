@@ -1,7 +1,7 @@
 export class ArchiveReport {
 
     id: number;
-    courseName: string;
+    subjectName: string;
     year: number;
     mark: number;
 }

@@ -9,7 +9,6 @@ import {RoomResponseDTO} from "../dto/response/roomResponseDTO";
 export class RoomService {
 
   constructor(private apiService: ApiService, private configService: ConfigService) {
-
   }
 
   findAll() {

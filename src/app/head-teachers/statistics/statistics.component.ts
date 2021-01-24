@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FailedStudentDTO } from 'src/app/dto/failedStudentDTO';
-import { ClassroomCourseResultDTO } from 'src/app/dto/classroomCourseResultDTO';
+import { ClassroomSubjectResultDTO } from 'src/app/dto/classroomSubjectResultDTO';
 import { HeadteacherService} from "../../service/headteacher.service";
 import { UserService } from 'src/app/service/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -18,7 +18,7 @@ export class StatisticsComponent implements OnInit {
   isDataAvailable: boolean = false;
   currentUser: any = {};
   failed: Observable<FailedStudentDTO[]>;
-  averages: ClassroomCourseResultDTO[];
+  averages: ClassroomSubjectResultDTO[];
   classroom_id: number;
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute,
@@ -30,7 +30,7 @@ export class StatisticsComponent implements OnInit {
       this.currentUser = data;
       this.headTeacherService.findFailedStudentsInClass(this.classroom_id).subscribe(data => {
         this.failed = data;
-        this.headTeacherService.showResultByCourse(this.classroom_id).subscribe(data => {
+        this.headTeacherService.showResultBySubject(this.classroom_id).subscribe(data => {
           this.averages = this.format(data);
           this.isDataAvailable = true;
         });
@@ -38,7 +38,7 @@ export class StatisticsComponent implements OnInit {
     });
   }
 
-  format(data: ClassroomCourseResultDTO[]) {
+  format(data: ClassroomSubjectResultDTO[]) {
     for(let key in data) {
       if(isNaN(data[key].result)) data[key].result= 0;
     }

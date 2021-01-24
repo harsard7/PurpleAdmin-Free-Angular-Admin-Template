@@ -5,19 +5,22 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ClassroomCreateComponent} from "./classroom-create/classroom-create.component";
 import {ClassroomListComponent} from "./classroom-list/classroom-list.component";
 import {ClassroomUpdateComponent} from "./classroom-update/classroom-update.component";
-import {SetCourseClassroomComponent} from "./set-course-classroom/set-course-classroom.component";
+
 import {Ng2SearchPipeModule} from "ng2-search-filter";
+import {SetSubjectClassroomComponent} from "./set-subject-classroom/set-subject-classroom.component";
+
+
 
 const routes: Routes = [
   { path: 'create', component: ClassroomCreateComponent },
   { path: 'all', component: ClassroomListComponent },
   { path: 'update/:id', component: ClassroomUpdateComponent },
-  { path: 'setCourse/:id', component: SetCourseClassroomComponent },
+  { path: 'setSubject/:id', component: SetSubjectClassroomComponent },
 ]
 
 
 @NgModule({
-  declarations: [ClassroomCreateComponent,ClassroomListComponent, ClassroomUpdateComponent,SetCourseClassroomComponent],
+  declarations: [ClassroomCreateComponent,ClassroomListComponent, ClassroomUpdateComponent,SetSubjectClassroomComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

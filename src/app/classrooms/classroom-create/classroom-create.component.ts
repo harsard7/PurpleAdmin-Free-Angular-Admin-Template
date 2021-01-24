@@ -16,12 +16,13 @@ import {NotificationService} from "../../service/notification.service";
   styleUrls: ['./classroom-create.component.scss']
 })
 export class ClassroomCreateComponent implements OnInit {
-
+  sections=['A','B','C','D'];
   classroom = new ClassroomResponseDTO();
   currentUser: any = {};
   isDataAvailable: boolean  = false;
   teachers: Observable<Teacher[]>;
-  selectedOption: any = {};
+  section: any;
+  selected:number;
 
   constructor(private userService: UserService, private router: Router,
     private teacherService: TeacherService, private classroomService: ClassroomService, private notifyService : NotificationService
@@ -34,25 +35,29 @@ export class ClassroomCreateComponent implements OnInit {
       this.currentUser = data;
       this.teacherService.findAll().subscribe(data => {
         this.teachers = data;
+        console.log(this.teachers);
         this.isDataAvailable = true;
       });
     });
   }
 
   onSubmit() {
-    this.classroom.headTeacher_id = Number(this.selectedOption.id);
+    this.classroom.headTeacher_id = Number(this.selected);
+    this.classroom.letter = this.section;
     this.classroomService.create(this.classroom).subscribe(() => {
-      this.reset();
       this.notifyService.showSuccess("Classroom created.", "Success");
+      this.reset();
     }, error => {
-      this.notifyService.showError("Failed ", "");
+      this.notifyService.showError(error);
     });
   }
 
   reset() {
     this.classroom = new ClassroomResponseDTO();
-    this.selectedOption = {};
+    this.selected =0;
+    this.section = {};
   }
+
 
   goBack() {
     this.router.navigate(['classroom/all']);

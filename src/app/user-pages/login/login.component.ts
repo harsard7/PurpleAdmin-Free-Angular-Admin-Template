@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../service/auth.service";
 import {UserService} from "../../service/user.service";
 import {takeUntil} from "rxjs/operators";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private authService: AuthService, private userService: UserService,
-              private router: Router, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder) { }
+              private router: Router, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder,private notifyService : NotificationService) { }
 
   ngOnInit() {
 
@@ -51,19 +52,40 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.notification = undefined;
     this.submitted = true;
-console.log(JSON.stringify(this.form.value));
+// console.log(JSON.stringify(this.form.value));
     this.authService.login(this.form.value)
       .subscribe(data => {
-          console.log(JSON.stringify(data));
+          // console.log(JSON.stringify(data));
           this.userService.getMyInfo().subscribe();
           console.log("this.login ts "+JSON.stringify(this.userService.currentUser));
           this.router.navigate(['dashboard']);
         },
         error => {
+          // this.errorHandle(error);
+          this.notifyService.showError(error);
           this.submitted = false;
-          console.log("error");
-          this.notification = {msgType: 'error', msgBody: 'Incorrect username or password.'};
+          // this.notification = {msgType: 'error', msgBody: 'Incorrect username or password.'};
         });
+  }
+
+  errorHandle(error){
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      this.notification = {msgType: 'error', msgBody: 'Incorrect username or password.'};
+      var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+      this.notifyService.showError(error, "Client Side Error");
+      // console.log("Error 1:-> "+JSON.stringify(error));
+    } else {
+      // server-side error
+      // var err = `Error Code 2: ${error.status}\nMessage: ${error.message}`;
+      var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+      if(error.error.message===undefined){
+        err='Server Not working :Please contact Admin'
+      }
+      // this.errorMessage = `Connection Failed :\n Contact Admin`;
+      // console.log("Error:-> "+JSON.stringify(error.error));
+      this.notifyService.showError(error, "Server side Error");
+    }
   }
 
 }

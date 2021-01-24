@@ -83,7 +83,7 @@ export class StudentUpdateComponent implements OnInit {
         this.notifyService.showSuccess('Student updated.', 'Ok');
         this.refresh();
       }, error => {
-        this.notifyService.showError("Failed ", "");
+        this.notifyService.showError(error)
       });
     }
   }
@@ -97,13 +97,8 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   userUpdate() {
-    this.userService.getById(this.student.student.id).subscribe(data => {
-      this.student = data;
-      this.response = new StudentResponseDTO();
-      this.selectedOption = {};
-    }, error => {
-      this.notifyService.showError("Failed ", "");
-    });
+    this.userService.getById(this.student.student.id).subscribe(data =>
+      this.router.navigate(['user/update', data.id]), error => {  this.notifyService.showError(error)});
   }
 
   refresh() {

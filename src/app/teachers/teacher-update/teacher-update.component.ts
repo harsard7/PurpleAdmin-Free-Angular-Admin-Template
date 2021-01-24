@@ -45,7 +45,7 @@ export class TeacherUpdateComponent implements OnInit {
       if(!this.response.phone) this.response.phone = this.teacher.phone;
       this.teacherService.update(this.id, this.response).subscribe(() => {
          this.notifyService.showSuccess('Teacher updated.', 'Ok');
-      }, error => {  this.notifyService.showError("Failed ", "");});
+      }, error => {  this.notifyService.showError(error)});
     }
   }
 
@@ -58,12 +58,14 @@ export class TeacherUpdateComponent implements OnInit {
   }
 
   userUpdate() {
-    this.userService.getById(this.teacher.teacher.id).subscribe(data =>
-      this.router.navigate(['user/update', data.id]));
+    console.log("sd");
+    this.userService.getById(this.teacher.fkUser.id).subscribe(data =>
+      this.router.navigate(['user/update', data.id]), error => {  this.notifyService.showError(error)});
+    console.log("sd222");
   }
 
   userRole() {
-    if(isAdmin(this.currentUser, this.router) || this.currentUser.id === this.teacher.teacher.id) {
+    if(isAdmin(this.currentUser, this.router) || this.currentUser.id === this.teacher.fkUser.id) {
       return true;
     } else {
       this.router.navigate(['403']);

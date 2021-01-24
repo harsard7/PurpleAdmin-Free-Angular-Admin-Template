@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/service/user.service';
-import { CourseService } from 'src/app/service/course.service';
+import { SubjectService } from 'src/app/service/subject.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TimeTableEntity } from 'src/app/model/timeTableEntity';
-import { Course } from 'src/app/model/course';
+import { Subject } from 'src/app/model/subject';
 import { TimetableService} from "../../service/timetable.service";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isAdmin } from 'src/app/shared/roles';
@@ -17,22 +17,22 @@ import {NotificationService} from "../../service/notification.service";
 })
 export class TimetableListComponent implements OnInit {
   searchText;
-  course_id: number;
+  subject_id: number;
   currentUser: any = {};
-  course = new Course();
+  subject = new Subject();
   isDataAvailable: boolean = false;
   timeTable: Observable<TimeTableEntity[]>;
 
-  constructor(private userService: UserService, private courseService: CourseService, private notifyService : NotificationService,
+  constructor(private userService: UserService, private subjectService: SubjectService, private notifyService : NotificationService,
     private router: Router, private route: ActivatedRoute, private timeTableService: TimetableService) { }
 
   ngOnInit() {
-    this.course_id = this.route.snapshot.params['id'];
+    this.subject_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      this.courseService.findById(this.course_id).subscribe(data => {
-        this.course = data;
-        this.timeTableService.getTimeTableEntitiesByCourse(this.course_id).subscribe(data => {
+      this.subjectService.findById(this.subject_id).subscribe(data => {
+        this.subject = data;
+        this.timeTableService.getTimeTableEntitiesBySubject(this.subject_id).subscribe(data => {
           this.timeTable = data;
           this.isDataAvailable = true;
         });
@@ -43,7 +43,7 @@ export class TimetableListComponent implements OnInit {
 
 
   create() {
-    this.courseService.findById(this.course_id).subscribe(data =>
+    this.subjectService.findById(this.subject_id).subscribe(data =>
       this.router.navigate(['timetable/create', data.id])
     );
   }

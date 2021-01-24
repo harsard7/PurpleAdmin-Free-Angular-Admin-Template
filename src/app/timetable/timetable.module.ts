@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'create/:id', component: TimetableEntityCreateComponent },
   { path: 'update/:id', component: TimetableEntityUpdateComponent },
   { path: 'view/:id', component: TimetableEntityViewComponent },
-  { path: 'course/:id', component: TimetableListComponent },
+  { path: 'subject/:id', component: TimetableListComponent },
 ]
 
 @NgModule({

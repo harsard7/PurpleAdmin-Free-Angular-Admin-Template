@@ -2,7 +2,7 @@ import { Exam } from '../model/exam';
 
 export class SummaryDTO {
 
-    courseName: string;
+    subjectName: string;
     exams: Exam[];
     average: number;
 }

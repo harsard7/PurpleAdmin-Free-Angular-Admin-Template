@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ConfigService {
 
+
   private baseUrl = '/api';
 
   private refreshTokenUrl = this.baseUrl + '/refresh';
@@ -141,8 +142,8 @@ export class ConfigService {
   private updateClassroomUrl = this.classroomUrl + '/update';
   private deleteClassroomUrl = this.classroomUrl;
   private getStudentsFromClassroomUrl = this.classroomUrl + '/students';
-  private setCourseUrl = this.classroomUrl + '/setCourse';
-  private unsetCourseUrl = this.classroomUrl + '/unsetCourse';
+  private setSubjectUrl = this.classroomUrl + '/setSubject';
+  private unsetSubjectUrl = this.classroomUrl + '/unsetSubject';
   private getClassroomByIdUrl = this.classroomUrl;
 
   get getAllClassroomUrl(): string {
@@ -169,58 +170,58 @@ export class ConfigService {
     return this.getStudentsFromClassroomUrl;
   }
 
-  get getSetCourseUrl(): string {
-    return this.setCourseUrl;
+  get getSetSubjectUrl(): string {
+    return this.setSubjectUrl;
   }
 
   get getGetClassroomByIdUrl(): string {
     return this.getClassroomByIdUrl;
   }
 
-  get getUnsetCourseUrl(): string {
-    return this.setCourseUrl;
+  get getUnsetSubjectUrl(): string {
+    return this.setSubjectUrl;
   }
 
-  private courseUrl = this.baseUrl + '/courses';
-  private getCoursesByTeacherIdUrl = this.courseUrl + '/teacher';
-  private createCourseUrl = this.courseUrl + '/create';
-  private updateCourseUrl = this.courseUrl + '/update';
-  private setCourseToStudentUrl = this.courseUrl + '/setCourse';
-  private deleteCourseUrl = this.courseUrl;
-  private getCourseByIdUrl = this.courseUrl;
-  private getAllCoursesUrl = this.courseUrl + '/all';
-  private unsetCourseToStudentUrl = this.courseUrl + '/unsetCourse';
+  private subjectUrl = this.baseUrl + '/subjects';
+  private getSubjectsByTeacherIdUrl = this.subjectUrl + '/teacher';
+  private createSubjectUrl = this.subjectUrl + '/create';
+  private updateSubjectUrl = this.subjectUrl + '/update';
+  private setSubjectToStudentUrl = this.subjectUrl + '/setSubject';
+  private deleteSubjectUrl = this.subjectUrl;
+  private getSubjectByIdUrl = this.subjectUrl;
+  private getAllSubjectsUrl = this.subjectUrl + '/all';
+  private unsetSubjectToStudentUrl = this.subjectUrl + '/unsetSubject';
 
-  get getCreateCourseUrl(): string {
-    return this.createCourseUrl;
+  get getCreateSubjectUrl(): string {
+    return this.createSubjectUrl;
   }
 
-  get getGetCoursesByTeacherIdUrl(): string {
-    return this.getCoursesByTeacherIdUrl;
+  get getGetSubjectsByTeacherIdUrl(): string {
+    return this.getSubjectsByTeacherIdUrl;
   }
 
-  get getUpdateCourseUrl(): string {
-    return this.updateCourseUrl;
+  get getUpdateSubjectUrl(): string {
+    return this.updateSubjectUrl;
   }
 
-  get getSetCourseToStudentUrl(): string {
-    return this.setCourseToStudentUrl;
+  get getSetSubjectToStudentUrl(): string {
+    return this.setSubjectToStudentUrl;
   }
 
-  get getDeleteCourseUrl(): string {
-    return this.deleteCourseUrl;
+  get getDeleteSubjectUrl(): string {
+    return this.deleteSubjectUrl;
   }
 
-  get getGetCourseByIdUrl(): string {
-    return this.getCourseByIdUrl;
+  get getGetSubjectByIdUrl(): string {
+    return this.getSubjectByIdUrl;
   }
 
-  get getGetAllCoursesUrl(): string {
-    return this.getAllCoursesUrl;
+  get getGetAllSubjectsUrl(): string {
+    return this.getAllSubjectsUrl;
   }
 
-  get getUnsetCourseToStudentUrl(): string {
-    return this.unsetCourseToStudentUrl;
+  get getUnsetSubjectToStudentUrl(): string {
+    return this.unsetSubjectToStudentUrl;
   }
 
   private examUrl = this.baseUrl + '/exams';
@@ -308,7 +309,7 @@ export class ConfigService {
   private findTeacherByUserId = this.teacherUrl + '/user';
   private createTeacherUrl = this.teacherUrl + '/create';
   private updateTeacherUrl = this.teacherUrl + '/update';
-  private setCourseToTeacherUrl = this.teacherUrl + '/setCourse';
+  private setSubjectToTeacherUrl = this.teacherUrl + '/setSubject';
   private deleteTeacherUrl = this.teacherUrl;
   private setTeacherPreferencesUrl = this.teacherUrl + '/preferences';
   private getAllTeacherPreferencesUrl = this.teacherUrl + '/preferences';
@@ -333,8 +334,8 @@ export class ConfigService {
     return this.updateTeacherUrl;
   }
 
-  get getSetCourseToTeacherUrl(): string {
-    return this.setCourseToTeacherUrl;
+  get getSetSubjectToTeacherUrl(): string {
+    return this.setSubjectToTeacherUrl;
   }
 
   get getDeleteTeacherUrl(): string {
@@ -356,7 +357,7 @@ export class ConfigService {
   private findByIdTimeTableUrl = this.timetableUrl;
   private getTimeTableByStudentUrl = this.timetableUrl + '/student';
   private getTimeTableByTeacherUrl = this.timetableUrl + '/teacher';
-  private getTimeTableEntitiesByCourseUrl = this.timetableUrl + '/course';
+  private getTimeTableEntitiesBySubjectUrl = this.timetableUrl + '/subject';
 
   get getFindByIdTimeTableUrl(): string {
     return this.findByIdTimeTableUrl;
@@ -382,8 +383,8 @@ export class ConfigService {
     return this.getTimeTableByTeacherUrl;
   }
 
-  get getGetTimeTableEntitiesByCourseUrl(): string {
-    return this.getTimeTableEntitiesByCourseUrl;
+  get getGetTimeTableEntitiesBySubjectUrl(): string {
+    return this.getTimeTableEntitiesBySubjectUrl;
   }
 
   private adminUrl = this.baseUrl + '/admin';
@@ -415,14 +416,14 @@ export class ConfigService {
 
   private headteacherUrl = this.baseUrl + '/headteacher';
   private findFailedStudentsInClassUrl = this.headteacherUrl + '/find-failed';
-  private showResultByCourseUrl = this.headteacherUrl + '/show-result';
+  private showResultBySubjectUrl = this.headteacherUrl + '/show-result';
 
   get getFindFailedStudentsInClassUrl(): string {
     return this.findFailedStudentsInClassUrl;
   }
 
-  get getShowResultByCourseUrl(): string {
-    return this.showResultByCourseUrl;
+  get getShowResultBySubjectUrl(): string {
+    return this.showResultBySubjectUrl;
   }
 
   private messageUrl = this.baseUrl + '/messages';
@@ -482,7 +483,7 @@ export class ConfigService {
   private roomUrl = this.baseUrl + '/rooms';
   private findAllRoomsUrl = this.roomUrl + '/all';
   private findByRoomUrl = this.roomUrl;
-  private createRoomUrl = this.roomUrl + 'create';
+  private createRoomUrl = this.roomUrl + '/create';
   private deleteRoomUrl = this.roomUrl;
 
   get getFindAllRoomsUrl(): string {
@@ -500,4 +501,65 @@ export class ConfigService {
   get getDeleteRoomUrl(): string {
     return this.deleteRoomUrl;
   }
+
+  private _schoolUrl = this.baseUrl + '/school';
+  private findAllSchoolUrl = this._schoolUrl + '/all';
+  private _findBySchoolUrl = this._schoolUrl;
+  private createSchoolUrl = this._schoolUrl + '/create';
+  private _deleteSchoolUrl = this._schoolUrl;
+  private _activeSchoolUrl = this._schoolUrl + '/active';
+
+
+
+  get findBySchoolUrl(): string {
+    return this._findBySchoolUrl;
+  }
+
+  get deleteSchoolUrl(): string {
+    return this._deleteSchoolUrl;
+  }
+
+  get getFindAllSesionUrl(): string {
+    return this.findAllSchoolUrl;
+  }
+
+  get getCreateSessionUrl(): string {
+    return this.createSchoolUrl;
+  }
+  get activeSchoolUrl(): string {
+    return this._activeSchoolUrl;
+  }
+
+  private employeeUrl = this.baseUrl + '/employees';
+  private employeeAllUrl = this.employeeUrl + '/all';
+  private employeeByIdUrl = this.employeeUrl;
+  private employeeByUserIdUrl = this.employeeUrl + '/user';
+  private createEmployeeUrl =  this.employeeUrl + '/create';
+  private updateEmployeeUrl = this.employeeUrl + '/update';
+  private deleteEmployeeUrl = this.employeeUrl;
+
+  get getEmployeeAllUrl(): string {
+    return this.employeeAllUrl;
+  }
+
+  get getEmployeeByUserIdUrl(): string {
+    return this.employeeByUserIdUrl;
+  }
+
+  get getCreateEmployeeUrl(): string {
+    return this.createEmployeeUrl;
+  }
+
+  get getEmployeeUrl(): string {
+    return this.employeeByIdUrl;
+  }
+
+  get getUpdateEmployeeUrl(): string {
+    return this.updateEmployeeUrl;
+  }
+
+  get getDeleteEmployeeUrl(): string {
+    return this.deleteEmployeeUrl;
+  }
+
 }

@@ -110,7 +110,7 @@
           <li class="nav-item"> <a class="nav-link" (click)='admin()' routerLinkActive="active" #admadm="routerLinkActive">Admin</a></li>
           <li class="nav-item"> <a class="nav-link" (click)='archives()' routerLinkActive="active" #admarc="routerLinkActive"> Archives </a></li>
           <li class="nav-item"> <a class="nav-link" (click)='getAllClassroom()' routerLinkActive="active" #admclass="routerLinkActive"> Classrooms </a></li>
-          <li class="nav-item"> <a class="nav-link" (click)='getAllCourse()' routerLinkActive="active" #admcouse="routerLinkActive"> Courses</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='getAllSubject()' routerLinkActive="active" #admcouse="routerLinkActive"> Subjects</a></li>
           <li class="nav-item"> <a class="nav-link" (click)="updateAdmin()" routerLinkActive="active" #admupdate="routerLinkActive"> Update</a></li>
         </ul>
       </div>
@@ -134,7 +134,7 @@
     </li>
 
     <!--  TEACHER -->
-    <li class="nav-item" *ngIf="userRole() === 'ROLE_TEACHER' && isDataAvailable" [ngClass]="{ 'active' : timetbl.isActive || clas.isActive || course.isActive || pref.isActive || upd.isActive  }">
+    <li class="nav-item" *ngIf="userRole() === 'ROLE_TEACHER' && isDataAvailable" [ngClass]="{ 'active' : timetbl.isActive || clas.isActive || subject.isActive || pref.isActive || upd.isActive  }">
       <a class="nav-link" (click)="teacherCollapse = !teacherCollapse"  [attr.aria-expanded]="teacherCollapse" aria-controls="teacher">
         <span class="menu-title">Teacher</span>
         <i class="menu-arrow"></i>
@@ -145,7 +145,7 @@
           <li class="nav-item"> <a class="nav-link" (click)="timetable()" routerLinkActive="active" #timetbl="routerLinkActive">Timetable</a></li>
           <li class="nav-item"> <a class="nav-link" (click)="classrooms()" routerLinkActive="active" #clas="routerLinkActive"> Classes</a></li>
           <li class="nav-item"> <a class="nav-link" (click)="preferences()" routerLinkActive="active" #pref="routerLinkActive">Preferences</a></li>
-          <li class="nav-item"> <a class="nav-link" (click)="courses()" routerLinkActive="active" #course="routerLinkActive">Courses</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)="subjects()" routerLinkActive="active" #subject="routerLinkActive">Subjects</a></li>
           <li class="nav-item"> <a class="nav-link" (click)="updateTeacrPanel()" routerLinkActive="active" #upd="routerLinkActive">Update</a></li>
 
         </ul>
@@ -165,7 +165,7 @@
           <li class="nav-item"> <a class="nav-link"(click)='studenttimetable()' routerLinkActive="active" #stutimtbl="routerLinkActive"> Timetable</a></li>
           <li class="nav-item"> <a class="nav-link" (click)='reports()' routerLinkActive="active" #sturpt="routerLinkActive"> Reports</a></li>
           <li class="nav-item"> <a class="nav-link" (click)='remarks()' routerLinkActive="active" #strmk="routerLinkActive"> Remarks</a></li>
-          <li class="nav-item"> <a class="nav-link" (click)='studentcourse()' routerLinkActive="active" #stcour="routerLinkActive"> Courses</a></li>
+          <li class="nav-item"> <a class="nav-link" (click)='studentsubject()' routerLinkActive="active" #stcour="routerLinkActive"> Subjects</a></li>
           <li class="nav-item"> <a class="nav-link" (click)='updateStudent()' routerLinkActive="active" #stuupdat="routerLinkActive"> Update</a></li>
           <li class="nav-item"> <a class="nav-link" (click)='attendances()' routerLinkActive="active" #stuattnd="routerLinkActive"> Attendances</a></li>
           <li class="nav-item"> <a class="nav-link" (click)='details()' routerLinkActive="active" #studetails="routerLinkActive"> Details</a></li>
@@ -173,5 +173,42 @@
       </div>
     </li>
 
+    <li class="nav-item" [ngClass]="{ 'active': sessn.isActive }">
+      <a class="nav-link" (click)="school()" routerLinkActive #sessn="routerLinkActive">
+        <span class="menu-title">School</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item" [ngClass]="{ 'active': usr.isActive }">
+      <a class="nav-link" (click)='getAllUser()' routerLinkActive #usr="routerLinkActive">
+        <span class="menu-title">User</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item" [ngClass]="{ 'active': employe.isActive }">
+      <a class="nav-link" routerLink="employee/create" routerLinkActive #employe="routerLinkActive">
+        <span class="menu-title">Employee</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item" [ngClass]="{ 'active': student.isActive }">
+      <a class="nav-link" routerLink="student/all" routerLinkActive #student="routerLinkActive">
+        <span class="menu-title">Student</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item" [ngClass]="{ 'active': tcr.isActive }">
+<!--      <a class="nav-link" (click)='getAllTeacher()' routerLinkActive #tcr="routerLinkActive">-->
+      <a class="nav-link" routerLink="teacher/all" routerLinkActive #tcr="routerLinkActive">
+        <span class="menu-title">Teacher</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+    <li class="nav-item" [ngClass]="{ 'active': class.isActive }">
+      <a class="nav-link" routerLink="classroom/all" routerLinkActive #class="routerLinkActive">
+        <span class="menu-title">Classroom</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
   </ul>
 </nav>

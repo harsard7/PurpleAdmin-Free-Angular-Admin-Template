@@ -10,13 +10,13 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Course</th>
+                            <th>Subject</th>
                             <th>Average</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let average of averages">
-                            <td><strong>{{average.course.title}}</strong></td>
+                            <td><strong>{{average.subject.title}}</strong></td>
                             <td>{{average.result.toFixed(2)}}</td>
                         </tr>
                     </tbody>
@@ -35,7 +35,7 @@
                         <tr *ngFor="let fail of failed">
                             <td>{{fail.student.student.username}}</td>
                             <td>{{fail.student.student.fullName}}</td>
-                            <td *ngFor="let course of fail.courses" style="border: 1px solid #000">{{course.title}}</td>
+                            <td *ngFor="let subject of fail.subjects" style="border: 1px solid #000">{{subject.title}}</td>
                         </tr>
                     </tbody>
                 </table>

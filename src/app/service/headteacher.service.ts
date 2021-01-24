@@ -14,7 +14,7 @@ export class HeadteacherService {
     return this.apiService.get(this.configService.getFindFailedStudentsInClassUrl + '/' + classroom_id);
   }
 
-  showResultByCourse(classroom_id: number) {
-    return this.apiService.get(this.configService.getShowResultByCourseUrl + '/' + classroom_id);
+  showResultBySubject(classroom_id: number) {
+    return this.apiService.get(this.configService.getShowResultBySubjectUrl + '/' + classroom_id);
   }
 }

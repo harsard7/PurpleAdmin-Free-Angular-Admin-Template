@@ -1,0 +1,6 @@
+export enum StudentStatus {
+  STUDYING,
+  DROPED_OUT,
+  SCHO0LL_CHANGED,
+  COMPLETED,
+}

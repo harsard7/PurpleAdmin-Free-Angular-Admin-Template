@@ -1,16 +1,18 @@
-<div *ngIf="isDataAvailable">
 
-    <div class="container" *ngIf="userRole()">
-        <h2>Create</h2>
-        <div class="container">
-            <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-room">
-                <div class="form-group">
-                    <label for="classroomNumber">Classroom number</label>
-                    <input type="text" class="form-control" id="classroomNumber" required [(ngModel)]="room.classroomNumber" name="classroomNumber">
-                </div>
-                <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
+<div class="list-wrapper pt-2" *ngIf="isDataAvailable">
+  <div class="container" *ngIf="userRole()">
+    <h2>New Class Room</h2>
+    <div class="container">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()"  class="form-room">
+        <div class="form-group">
+          <label for="classroomNumber">Classroom number</label>
+          <input type="text" formControlName="classno" class="form-control" id="classroomNumber" required [(ngModel)]="room.classroomNumber" name="classroomNumber">
         </div>
+        <button type="submit" (click)="goBack()" class="btn btn-dark py-2">Back</button>
+<!--        <button type="submit" class="btn btn-success">Submit</button>-->
+        <button class="btn btn-primary  py-2" type="submit" [disabled]="form.invalid">Submit</button>
+      </form>
     </div>
+  </div>
 </div>
+

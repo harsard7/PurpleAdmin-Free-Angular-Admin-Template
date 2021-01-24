@@ -1,5 +1,5 @@
 import { Student } from './student';
-import { Course } from './course';
+import { Subject } from './subject';
 
 export class Report {
 
@@ -7,6 +7,6 @@ export class Report {
     student: Student;
     year: number;
     semester: number;
-    course: Course;
+    subject: Subject;
     mark: number;
 }

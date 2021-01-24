@@ -46,21 +46,21 @@ export class StudentCreateComponent implements OnInit {
 
   showToasterSuccess()
   {
-    this.notifyService.showSuccess("Data shown successfully !!", "ItSolutionStuff.com")
+    this.notifyService.showSuccess("Data shown successfully !!", "SMS sys")
   }
 
   showToasterError()
   {
-    this.notifyService.showError("Something is wrong", "ItSolutionStuff.com")
+    this.notifyService.showError("Something is wrong", "SMS sys")
   }
 
   showToasterInfo()
   {
-    this.notifyService.showInfo("This is info", "ItSolutionStuff.com")
+    this.notifyService.showInfo("This is info", "SMS sys")
   }
 
   showToasterWarning(){
-    this.notifyService.showWarning("This is warning", "ItSolutionStuff.com")
+    this.notifyService.showWarning("This is warning", "SMS sys")
   }
 
   onUserSubmit() {
@@ -73,16 +73,16 @@ export class StudentCreateComponent implements OnInit {
       this.userSubmitted = false;
       if (error.error instanceof ErrorEvent) {
         // client-side error
-        var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
-        this.notifyService.showError(err, "Client Side Error");
+        // var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+        this.notifyService.showError(error, "Client Side Error");
         console.log("Error 1:-> "+JSON.stringify(error));
       } else {
         // server-side error
        // var err = `Error Code 2: ${error.status}\nMessage: ${error.message}`;
-       var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+       // var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
         // this.errorMessage = `Connection Failed :\n Contact Admin`;
         // console.log("Error:-> "+JSON.stringify(error.error));
-        this.notifyService.showError(err, "Server side Error");
+        this.notifyService.showError(error, "Server side Error");
       }
       });
 
@@ -108,7 +108,7 @@ export class StudentCreateComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['user/all']);
+    this.router.navigate(['student/all']);
   }
 
   userRole() {
@@ -123,7 +123,7 @@ export class StudentCreateComponent implements OnInit {
     if (error.error instanceof ErrorEvent) {
       // client-side error
       var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
-      this.notifyService.showError(err, "Client Side Error");
+      this.notifyService.showError(err);
       console.log("Error 1:-> "+JSON.stringify(error));
     } else {
       // server-side error
@@ -131,7 +131,7 @@ export class StudentCreateComponent implements OnInit {
       var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
       // this.errorMessage = `Connection Failed :\n Contact Admin`;
       console.log("Error:-> "+JSON.stringify(error.error));
-      this.notifyService.showError(err, "Server side Error");
+      this.notifyService.showError(err);
     }
   }
 

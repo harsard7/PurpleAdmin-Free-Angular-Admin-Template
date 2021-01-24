@@ -13,7 +13,7 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let summary of summaries">
-                    <td *ngIf="summary.courseName">{{summary.courseName}}</td>
+                    <td *ngIf="summary.subjectName">{{summary.subjectName}}</td>
                     <td><ng-container *ngFor="let exam of summary.exams">
                       <span *ngIf="(exam.examType == 'TEST')" style="color: black;">
                         {{exam?.mark}},

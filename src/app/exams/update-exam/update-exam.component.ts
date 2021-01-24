@@ -49,7 +49,7 @@ export class UpdateExamComponent implements OnInit {
 
   onSubmit() {
     if(this.isDataChanged) {
-      this.response.course_id = this.exam.course.id;
+      this.response.subject_id = this.exam.subject.id;
       this.response.student_id = this.exam.student.id;
       if(!this.etype) this.response.examType = this.etype;
       else this.response.examType = this.exam.examType;
@@ -58,7 +58,7 @@ export class UpdateExamComponent implements OnInit {
       this.examService.update(this.exam_id, this.response).subscribe(() => {
         this.refresh();
          this.notifyService.showSuccess('Exams updated.', 'Ok');
-      }, error => { this.notifyService.showError("Failed ", "");});
+      }, error => { this.notifyService.showError(error)});
     }
   }
 

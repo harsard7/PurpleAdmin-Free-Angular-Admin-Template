@@ -35,6 +35,7 @@ const routes: Routes = [
   { path: 'statistics', loadChildren: () => import('./head-teachers/head-teachers.module').then(m => m.HeadTeachersModule) },
   { path: 'school', loadChildren: () => import('./school/school.module').then(m => m.SchoolModule) },
   { path: 'employee', loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule) },
+  { path: 'parent', loadChildren: () => import('./parent/parent.module').then(m => m.ParentModule) },
 ];
 
 @NgModule({

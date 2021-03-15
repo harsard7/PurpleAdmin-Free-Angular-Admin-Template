@@ -34,7 +34,6 @@ export class UserService {
   getMyInfo() {
     return this.apiService.get(this.configService.getWhoami)
       .pipe(map(user =>this.currentUser = user));
-
   }
 
   getAll() {

@@ -40,6 +40,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import {SchoolModule} from "./school/school.module";
 import {SubjectsModule} from "./subject/subject.module";
 import {EmployeeModule} from "./employee/employee.module";
+import { ParentCreateComponent } from './parent/parent-create/parent-create.component';
+import { ParentUpdateComponent } from './parent/parent-update/parent-update.component';
+import { ParentListComponent } from './parent/parent-list/parent-list.component';
+import {ParentModule} from "./parent/parent.module";
 
 @NgModule({
   declarations: [
@@ -51,6 +55,9 @@ import {EmployeeModule} from "./employee/employee.module";
     SpinnerComponent,
     ContentAnimateDirective,
     LoginComponent,
+    ParentCreateComponent,
+    ParentUpdateComponent,
+    ParentListComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,6 +84,7 @@ import {EmployeeModule} from "./employee/employee.module";
     AdminModule,
     SchoolModule,
     EmployeeModule,
+    ParentModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     Ng2SearchPipeModule,

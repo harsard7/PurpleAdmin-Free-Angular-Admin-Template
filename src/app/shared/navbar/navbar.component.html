@@ -15,7 +15,7 @@
           </div>
           <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
         </div>
-        <div class="input-group">
+        <div class="input-group" *ngIf="school">
           <div class="badge badge-danger">{{school.session}}</div>
         </div>
       </form>

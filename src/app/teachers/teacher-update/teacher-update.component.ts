@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {TeacherDTO} from "../../dto/TeacherDTO";
 
 @Component({
   selector: 'app-teacher-update',
@@ -19,7 +20,8 @@ export class TeacherUpdateComponent implements OnInit {
   currentUser: any = {}
   id: number;
   teacher = new Teacher();
-  response = new TeacherResponseDTO();
+  // response = new TeacherResponseDTO();
+  response = new TeacherDTO();
   isDataAvailable: boolean  = false;
 
   constructor(private userService: UserService, private teacherService: TeacherService,
@@ -34,20 +36,20 @@ export class TeacherUpdateComponent implements OnInit {
   }
 
 
-  isDataChanged() {
-    if(!this.response.email || !this.response.phone) return true;
-    return false;
-  }
+  // isDataChanged() {
+  //   if(!this.response.email || !this.response.phone) return true;
+  //   return false;
+  // }
 
-  submit() {
-    if(this.isDataChanged) {
-      if(!this.response.email) this.response.email = this.teacher.email;
-      if(!this.response.phone) this.response.phone = this.teacher.phone;
-      this.teacherService.update(this.id, this.response).subscribe(() => {
-         this.notifyService.showSuccess('Teacher updated.', 'Ok');
-      }, error => {  this.notifyService.showError(error)});
-    }
-  }
+  // submit() {
+  //   if(this.isDataChanged) {
+  //     if(!this.response.email) this.response.email = this.teacher.email;
+  //     if(!this.response.phone) this.response.phone = this.teacher.phone;
+  //     this.teacherService.update(this.id, this.response).subscribe(() => {
+  //        this.notifyService.showSuccess('Teacher updated.', 'Ok');
+  //     }, error => {  this.notifyService.showError(error)});
+  //   }
+  // }
 
   goBack() {
     if(this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN') {

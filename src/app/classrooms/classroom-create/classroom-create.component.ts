@@ -9,6 +9,7 @@ import { ClassroomResponseDTO } from 'src/app/dto/response/classroomResponseDTO'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {TeacherDTO} from "../../dto/TeacherDTO";
 
 @Component({
   selector: 'app-classroom-create',
@@ -20,9 +21,9 @@ export class ClassroomCreateComponent implements OnInit {
   classroom = new ClassroomResponseDTO();
   currentUser: any = {};
   isDataAvailable: boolean  = false;
-  teachers: Observable<Teacher[]>;
+  teachers: Observable<TeacherDTO[]>;
   section: any;
-  selected:number;
+  selectedteacher:Teacher;
 
   constructor(private userService: UserService, private router: Router,
     private teacherService: TeacherService, private classroomService: ClassroomService, private notifyService : NotificationService
@@ -31,19 +32,25 @@ export class ClassroomCreateComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log('onSubmit');
     this.userService.getMyInfo().toPromise().then(data =>  {
+      console.log('onSubmit 1');
       this.currentUser = data;
       this.teacherService.findAll().subscribe(data => {
+        console.log('onSubmit 2');
         this.teachers = data;
         console.log(this.teachers);
         this.isDataAvailable = true;
       });
     });
+    console.log('onSubmit 3');
   }
 
   onSubmit() {
-    this.classroom.headTeacher_id = Number(this.selected);
+    // this.classroom.headTeacher_id = Number(this.selectedteacher);
+console.log('onSubmit');
     this.classroom.letter = this.section;
+    this.classroom.headTeacher = this.selectedteacher;
     this.classroomService.create(this.classroom).subscribe(() => {
       this.notifyService.showSuccess("Classroom created.", "Success");
       this.reset();
@@ -54,7 +61,7 @@ export class ClassroomCreateComponent implements OnInit {
 
   reset() {
     this.classroom = new ClassroomResponseDTO();
-    this.selected =0;
+    this.selectedteacher =new Teacher();
     this.section = {};
   }
 

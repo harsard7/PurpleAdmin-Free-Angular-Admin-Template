@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ApiService} from "./api.service";
 import {ConfigService} from "./config.service";
-import {TeacherResponseDTO} from "../dto/response/teacherResponseDTO";
 import {TeacherPreferenceResponseDTO} from "../dto/response/teacherPreferenceResponseDTO";
+import {TeacherDTO} from "../dto/TeacherDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +24,11 @@ export class TeacherService {
     return this.apiService.get(this.configService.getFindAllTeacherUrl);
   }
 
-  create(teacher: TeacherResponseDTO) {
+  create(teacher: TeacherDTO) {
     return this.apiService.post(this.configService.getCreateTeacherUrl, teacher);
   }
 
-  update(id: number, teacher: TeacherResponseDTO) {
+  update(id: number, teacher: TeacherDTO) {
     return this.apiService.put(this.configService.getUpdateTeacherUrl + '/' + id, teacher);
   }
 

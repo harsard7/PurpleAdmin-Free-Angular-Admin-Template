@@ -1,4 +1,5 @@
 export enum StudentStatus {
+  ADMISSION_PENDING,
   STUDYING,
   DROPED_OUT,
   SCHO0LL_CHANGED,

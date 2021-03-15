@@ -191,6 +191,12 @@
         <i class="mdi mdi-home menu-icon"></i>
       </a>
     </li>
+    <li class="nav-item" [ngClass]="{ 'active': parent.isActive }">
+      <a class="nav-link" routerLink="parent/create" routerLinkActive #parent="routerLinkActive">
+        <span class="menu-title">Parent</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
     <li class="nav-item" [ngClass]="{ 'active': student.isActive }">
       <a class="nav-link" routerLink="student/all" routerLinkActive #student="routerLinkActive">
         <span class="menu-title">Student</span>

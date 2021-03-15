@@ -50,22 +50,19 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.notification = undefined;
-    this.submitted = true;
-// console.log(JSON.stringify(this.form.value));
-    this.authService.login(this.form.value)
-      .subscribe(data => {
-          // console.log(JSON.stringify(data));
+    // this.notification.msgBody ='Enter the Username';
+
+    // this.submitted = true;
+    this.authService.login(this.form.value).subscribe(data => {
           this.userService.getMyInfo().subscribe();
-          console.log("this.login ts "+JSON.stringify(this.userService.currentUser));
+        console.log( this.notification);
           this.router.navigate(['dashboard']);
         },
         error => {
-          // this.errorHandle(error);
           this.notifyService.showError(error);
           this.submitted = false;
-          // this.notification = {msgType: 'error', msgBody: 'Incorrect username or password.'};
         });
+    // this.notification = {msgType: 'error', msgBody: 'Incorrect username or password.'};
   }
 
   errorHandle(error){

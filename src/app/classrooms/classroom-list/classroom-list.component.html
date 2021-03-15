@@ -28,7 +28,7 @@
                             <td>{{classroom.year}}/{{classroom.letter}}</td>
                             <td>{{classroom.start_year}}</td>
                             <td>{{classroom.end_year}}</td>
-                            <td>{{classroom.headTeacher.fkUser.username}}</td>
+                            <td>{{classroom.headTeacher.firstName}} - {{classroom.headTeacher.lastName}}</td>
                             <td>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="update(classroom.id)" class="badge badge-warning">Update</button>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="delete(classroom.id)" class="badge badge-danger">Delete</button>

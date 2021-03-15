@@ -1,37 +1,173 @@
-<div *ngIf="isDataAvailable">
+<div class="page-header" *ngIf="isDataAvailable">
+  <h3 class="page-title">
+    Teacher Form
+  </h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:;">Teacher</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Create Teacher</li>
+    </ol>
+  </nav>
+</div>
 
-    <div class="container" *ngIf="userRole()">
-        <div class="container">
-            <h2>Create-Teacher</h2>
-        </div>
-        <div class="container">
-            <form (ngSubmit)="onUserSubmit()" #form="ngForm" class="form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input [disabled]="userSubmitted" type="text" class="form-control" id="username" required [(ngModel)]="user.username" name="username" placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input [disabled]="userSubmitted" type="password" class="form-control" id="password" required [(ngModel)]="user.password" name="password" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <label for="fullName">Fullname</label>
-                    <input [disabled]="userSubmitted" type="text" class="form-control" id="fullName" required [(ngModel)]="user.fullName" name="fullName" placeholder="Fullname">
-                </div>
-                <button [disabled]="userSubmitted" type="submit" class="btn btn-success">Submit</button>
-            </form>
-            <form *ngIf="userSubmitted" (ngSubmit)="onTeacherSubmit()" #form="ngForm" class="form">
-                <div class="form-group">
-                    <label for="email">E-mail</label>
-                    <input type="email" class="form-control" id="email" required [(ngModel)]="teacher.email" name="email" placeholder="name@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="text" class="form-control" id="phone" required [(ngModel)]="teacher.phone" name="phone" placeholder="+36 10 999 9999">
-                </div>
-                <button type="button" (click)="goBack()" class="btn btn-outline-warning">Back</button>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
-        </div>
+
+<div class="row">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Teacher Full Details</h4>
+      <form  (ngSubmit)="onTeacherSubmit()" #form="ngForm" class="form-sample">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label">First Name</label>
+                     <div class="col-sm-9">
+                       <div class="col-sm-9">
+                            <input type="text" class="form-control" id="fname" required [(ngModel)]="teacher.firstName" name="fname" placeholder="First Name">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Last Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="lname" required [(ngModel)]="teacher.lastName" name="lanem" placeholder="Last Name">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Reg No</label>
+                        <div class="col-sm-9">
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" id="regno" required [(ngModel)]="teacher.regNo" name="regno" placeholder="Reg No">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-9">
+                          <input type="email" class="form-control" id="email" required [(ngModel)]="teacher.email" name="email" placeholder="Valid Email">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Gender</label>
+                        <div class="col-sm-6">
+                          <select class="form-control" name="gender" [(ngModel)]="selectedOptionGender">
+                            <option *ngFor="let gender of genders" [ngValue]="gender">{{gender.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Date of Birth</label>
+                        <div class="col-sm-9">
+                          <input type="date" class="form-control" id="dateOfBirth" required [(ngModel)]="teacher.dateOfBirth" name="dateOfBirth">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Address Line 1</label>
+                        <div class="col-sm-9">
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" id="add1" required [(ngModel)]="teacher.address1" name="add1" placeholder="Address 1">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Address Line 2</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="add2" required [(ngModel)]="teacher.address2" name="add2" placeholder="Address 2">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Address Line 3</label>
+                        <div class="col-sm-9">
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" id="add3" required [(ngModel)]="teacher.address3" name="add3" placeholder="Address 3">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Address Line 4</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="add4" required [(ngModel)]="teacher.address4" name="add4" placeholder="Address 4">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">City</label>
+                        <div class="col-sm-9">
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" id="city" required [(ngModel)]="teacher.city" name="city" placeholder="City">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Qualification</label>
+                        <div class="col-sm-9">
+                          <textarea type="text" class="form-control" id="qual" required [(ngModel)]="teacher.qualification" name="qual" placeholder="Qualification"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Contact 1</label>
+                        <div class="col-sm-9">
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" id="con1" required [(ngModel)]="teacher.mobileNo1" name="con1" placeholder="Contact 1">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Contact 2</label>
+                        <div class="col-sm-9">
+                          <input type="text" class="form-control" id="con2" required [(ngModel)]="teacher.mobileNo2" name="con2" placeholder="Contact 2">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
+                  <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+
+      </form>
     </div>
+  </div>
 </div>

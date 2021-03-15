@@ -5,10 +5,11 @@
         <div class="brand-logo">
           <img src="assets/images/logo.svg" alt="logo">
         </div>
-        <h4>Hello! let's get started</h4>
-        <h6 class="font-weight-light">{{title}}</h6>
+        <h4>User Login</h4>
+<!--        <h6 class="font-weight-light">{{title}}</h6>-->
+        <p *ngIf="notification" class="notification" style="background-color: #c1a30e">{{notification.msgBody}}</p>
         <form class="pt-3" #loginForm="ngForm" (ngSubmit)="onSubmit()" *ngIf="!submitted" [formGroup]="form">
-          <p *ngIf="notification" class="notification">{{notification.msgBody}}</p>
+<!--          <p *ngIf="notification" class="notification">{{notification.msgBody}}</p>-->
           <div class="form-group">
             <input type="text" formControlName="username" class="form-control form-control-lg" id="username" placeholder="Username">
           </div>

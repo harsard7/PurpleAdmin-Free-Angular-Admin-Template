@@ -49,8 +49,7 @@ export class StudentUpdateComponent implements OnInit {
 
 
   isDataChanged() {
-    if(!this.response.address
-      || !this.response.parent1Name
+    if(!this.response.parent1Name
       || !this.response.parent2Name
       || !this.response.parent1Phone
       || !this.response.parent2Phone
@@ -66,7 +65,6 @@ export class StudentUpdateComponent implements OnInit {
   submit() {
     if(this.isDataChanged) {
       if(!this.selectedOptionGender)
-      if(!this.response.address) this.response.address = this.student.address;
       if(!this.response.parent1Name) this.response.parent1Name = this.student.parent1Name;
       if(!this.response.parent2Name) this.response.parent2Name = this.student.parent2Name;
       if(!this.response.parent1Phone) this.response.parent1Phone = this.student.parent1Phone;

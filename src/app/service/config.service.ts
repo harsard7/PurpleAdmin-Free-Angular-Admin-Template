@@ -537,6 +537,7 @@ export class ConfigService {
   private createEmployeeUrl =  this.employeeUrl + '/create';
   private updateEmployeeUrl = this.employeeUrl + '/update';
   private deleteEmployeeUrl = this.employeeUrl;
+  private findPrincipalUrl = this.employeeUrl +'/principals';
 
   get getEmployeeAllUrl(): string {
     return this.employeeAllUrl;
@@ -560,6 +561,43 @@ export class ConfigService {
 
   get getDeleteEmployeeUrl(): string {
     return this.deleteEmployeeUrl;
+  }
+  get getFindPrincipalUrl(): string {
+    return this.findPrincipalUrl;
+  }
+
+
+  private parentUrl = this.baseUrl + '/parent';
+  private parentAllUrl = this.parentUrl + '/all';
+  private parentByIdUrl = this.parentUrl;
+  private parentByUserIdUrl = this.parentUrl + '/user';
+  private createparentUrl =  this.parentUrl + '/create';
+  private updateparentUrl = this.parentUrl + '/update';
+  private deleteparentUrl = this.parentUrl;
+
+
+  get getParentAllUrl(): string {
+    return this.parentAllUrl;
+  }
+
+  get getParentByUserIdUrl(): string {
+    return this.parentByUserIdUrl;
+  }
+
+  get getCreateParentUrl(): string {
+    return this.createparentUrl;
+  }
+
+  get getParentUrl(): string {
+    return this.parentByIdUrl;
+  }
+
+  get getUpdateParentUrl(): string {
+    return this.updateparentUrl;
+  }
+
+  get getDeleteParentUrl(): string {
+    return this.deleteparentUrl;
   }
 
 }

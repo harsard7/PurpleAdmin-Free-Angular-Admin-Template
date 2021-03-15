@@ -52,13 +52,17 @@ export class SidebarComponent implements OnInit {
 
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.user = data;
-      this.isDataAvailable = true;
-      var tcr=this.user.authorities[0].authority + '';
-      if(tcr === 'ROLE_HEADTEACHER' || tcr==='ROLE_TEACHER'){
-        this.teacherService.findByUserId(this.user.id).subscribe(data =>  {
-          this.teacher = data;
-        })
+      console.log(data);
+      if(data){
+        this.isDataAvailable = true;
+        var tcr=this.user.authorities[0].authority + '';
+        if(tcr === 'ROLE_HEADTEACHER' || tcr==='ROLE_TEACHER'){
+          this.teacherService.findByUserId(this.user.id).subscribe(data =>  {
+            this.teacher = data;
+          })
+        }
       }
+
     });
   }
 

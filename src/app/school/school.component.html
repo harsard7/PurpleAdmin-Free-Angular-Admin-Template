@@ -1,0 +1,85 @@
+<div class="page-header">
+  <h3 class="page-title">
+    Session Details
+  </h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:;">School</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Create</li>
+    </ol>
+  </nav>
+</div>
+<!--<div class="row" *ngIf="userRole()">-->
+
+<div class="row">
+  <form class="form-sample" (ngSubmit)="onSubmit()" #form="ngForm">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+<!--          <p class="card-description">-->
+<!--            Please fill the Login Details-->
+<!--          </p>-->
+          <div class="form-group">
+            <label for="startdate">School Start</label>
+            <input onkeydown="return false" [disabled]="submitted" type="date" class="form-control" id="startdate" required [(ngModel)]="school.sessionStartdate" name="startdate" placeholder="Start Date">
+          </div>
+          <div class="form-group">
+            <label for="enddate">End Date</label>
+            <input [disabled]="submitted" type="date" class="form-control" id="enddate" required [(ngModel)]="school.sessionEnddate" name="enddate" placeholder="End Date">
+          </div>
+          <div class="form-group">
+            <label for="type">Session type</label>
+            <input [disabled]="submitted" type="text" class="form-control" id="type" required [(ngModel)]="school.sesionType" name="type" placeholder="Session Type">
+          </div>
+          <div class="form-group">
+            <label for="type">Address</label>
+            <input [disabled]="submitted" type="text" class="form-control" id="address" required [(ngModel)]="school.address" name="address" placeholder="address">
+          </div>
+          <div class="form-group">
+            <label for="type">Princilpal</label>
+            <select name="employee" class="form-control" [(ngModel)]="selectedprinciple" >
+              <option *ngFor="let c of principals" [ngValue]="c">{{c.firstName}} {{c.lastName}}</option>
+            </select>
+          </div>
+
+          <button [disabled]="submitted" type="submit" class="btn btn-success">Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div></div>
+
+  <div class="container" >
+    <div class="container">
+      <div class="user-list-header">
+        <h3>School Details</h3>
+      </div>
+      <div class="container">
+        <input class="form-control-searchbox" type="text" name="search" [(ngModel)]="searchText" autocomplete="on"
+               placeholder="&#171; Search">
+        <table  class="table table-striped table-sm">
+          <thead class="thead-dark">
+          <tr>
+            <th>Created By</th>
+            <th>Created On</th>
+            <th>Session</th>
+            <th>Address</th>
+            <th>Active</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let school of schools | filter:searchText">
+            <td>{{school.createdBy}}</td>
+            <td>{{ school.createdOn | date:'longDate'}}</td>
+            <td>{{school.session}} </td>
+            <td>{{school.address}} </td>
+            <td *ngIf="!school.active" class="pr-0 text-right"><div class="badge badge-danger">DEACTIVE</div></td>
+            <td *ngIf="school.active" class="pr-0 text-right"><div class="badge badge-info">ACTIVE</div></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

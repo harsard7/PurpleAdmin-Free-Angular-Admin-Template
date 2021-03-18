@@ -1,0 +1,68 @@
+<div *ngIf="isDataAvailable">
+
+  <div class="container" *ngIf="userRole()">
+    <h2>Create</h2>
+    <div class="container">
+      <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-subject">
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select name="subject" class="form-control form-control-sm" [(ngModel)]="selectedsubject">
+            <option *ngFor="let subject of subjects" [ngValue]="subject">{{subject.title}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="teacher">Teacher</label>
+          <select id="teacher" name="teacher" class="form-control form-control-sm" [(ngModel)]="selectedteacher">
+            <option *ngFor="let teacher of teachers" [ngValue]="teacher">{{teacher.firstName}} - {{teacher.lastName}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="classroom">Classroom</label>
+          <select name="classroom" class="form-control form-control-sm" [(ngModel)]="selectedclassroom">
+            <option *ngFor="let classroom of classrooms" [ngValue]="classroom">{{classroom.year}}/{{classroom.letter}}</option>
+          </select>
+        </div>
+
+
+        <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="input-group">
+    <div class="input-group-prepend bg-transparent">
+      <i style="color: #6a00d3;font-size: 20px" class="input-group-text border-0 mdi mdi-magnify"></i>
+    </div>
+    <input  type="text" class="form-control bg-transparent border-0" placeholder="Search Users"  name="search" [(ngModel)]="searchText">
+  </div>
+  <table  class="table table-striped table-sm">
+    <thead class="thead-dark">
+    <tr>
+      <th>Subject</th>
+      <th>Class room</th>
+      <th>Teacher</th>
+      <!--                            <th>Teacher</th>-->
+      <!--      <th>Functions</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let subjectdetail of subjectsDetails | filter:searchText">
+      <td>{{subjectdetail.fkSubject.title}}</td>
+      <td>{{subjectdetail.fkClassroom.year}}/{{subjectdetail.fkClassroom.letter}}</td>
+      <td>{{subjectdetail.fkTeacher.firstName}} {{subjectdetail.fkTeacher.lastName}}</td>
+      <!--                            <td>{{subject.fkTeacher.fkUser.username}}</td>-->
+      <!--      <td>-->
+      <!--        <button (click)="details(subject.id)" class="badge badge-success">Details</button>-->
+      <!--        <button *ngIf="currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="update(subject.id)" class="badge badge-warning">Update</button>-->
+      <!--        <button *ngIf="currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="delete(subject.id)" class="badge badge-danger">Delete</button>-->
+      <!--        <button *ngIf="currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="timetable(subject.id)" class="badge badge-info">TimeTable</button>-->
+      <!--      </td>-->
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+

@@ -17,7 +17,7 @@
                 <div class="form-group">
                     <label for="teacher">Teacher</label>
                    <select name="teacher" class="form-control form-control-sm" [(ngModel)]="selectedOption">
-                        <option *ngFor="let teacher of teachers" [ngValue]="teacher">{{teacher.fkUser.username}}</option>
+                        <option *ngFor="let teacher of teachers" [ngValue]="teacher">{{teacher.firstName}}</option>
                    </select>
                 </div>
                 <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>

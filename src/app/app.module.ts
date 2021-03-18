@@ -45,6 +45,7 @@ import { ParentUpdateComponent } from './parent/parent-update/parent-update.comp
 import { ParentListComponent } from './parent/parent-list/parent-list.component';
 import {ParentModule} from "./parent/parent.module";
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +59,7 @@ import {ParentModule} from "./parent/parent.module";
     ParentCreateComponent,
     ParentUpdateComponent,
     ParentListComponent,
+
   ],
   imports: [
     BrowserModule,

@@ -14,7 +14,6 @@ import {ParentDTO} from "../../dto/parentDTO";
 import {UserType} from "../../enums/userType";
 import {StudentStatus} from "../../enums/studentStatus";
 import {EnumValues} from "enum-values";
-import {ProfessionType} from "../../enums/professionType";
 import {ParentType} from "../../enums/parentType";
 
 @Component({
@@ -31,6 +30,7 @@ export class StudentCreateComponent implements OnInit {
   isDataAvailable: boolean  = false;
   classrooms: Observable<Classroom[]>;
   selectedclassroom: Classroom;
+  joinedclassroom: Classroom;
   selectedOptionGender: any = {};
   genders: string[] = ['MALE', 'FEMALE'];
   selectedparent: ParentDTO;
@@ -57,22 +57,19 @@ export class StudentCreateComponent implements OnInit {
   }
 
   onUserSubmit() {
-    console.log(this.selectedclassroom);
-    console.log(this.selectedclassroom.id);
     this.user.role = 'ROLE_STUDENT';
     this.user.username = this.student.firstName+this.student.lastName;
     this.user.password = 'changeme';
     this.user.userType = UserType.ACADAMIC;
     this.user.firstName =this.student.firstName;
     this.user.lastName = this.student.lastName;
-    this.student.username = this.user.username;
     this.student.fkuser= this.user;
     this.student.parent= this.selectedparent;
     this.student.parentType= this.selectedParentType.name;
     this.student.status=StudentStatus.ADMISSION_PENDING;
     this.student.active=true;
-    this.student.classroom_id=this.selectedclassroom.id;
-     console.log(this.student);
+    this.student.classroom=this.selectedclassroom;
+    this.student.JoinClass=this.joinedclassroom;
     this.userService.create(this.user).subscribe((data) => {
       this.student.fkuser=data;
       this.onStudentSubmit();
@@ -90,7 +87,6 @@ export class StudentCreateComponent implements OnInit {
   }
 
   onStudentSubmit() {
-    this.student.classroom_id = Number(this.selectedclassroom.id);
     this.student.gender = this.selectedOptionGender;
     this.studentService.create(this.student).subscribe(() => {
       this.notifyService.showSuccess("Student Details Created !!", "Success");
@@ -139,23 +135,6 @@ export class StudentCreateComponent implements OnInit {
       this.notifyService.showError(err);
     }
   }
-  showToasterSuccess()
-  {
-    this.notifyService.showSuccess("Data shown successfully !!", "SMS sys")
-  }
 
-  showToasterError()
-  {
-    this.notifyService.showError("Something is wrong", "SMS sys")
-  }
-
-  showToasterInfo()
-  {
-    this.notifyService.showInfo("This is info", "SMS sys")
-  }
-
-  showToasterWarning(){
-    this.notifyService.showWarning("This is warning", "SMS sys")
-  }
 
 }

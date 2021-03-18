@@ -1,7 +1,8 @@
 import { Student } from '../model/student';
+import {StudentResponseDTO} from "./response/studentResponseDTO";
 
 export class AttendanceDTO {
 
-    student: Student;
+    student: StudentResponseDTO;
     isMiss: boolean;
 }

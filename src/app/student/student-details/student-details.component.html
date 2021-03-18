@@ -1,6 +1,7 @@
 <div *ngIf="isDataAvailable">
 
-    <div class="container" *ngIf="userRole()">
+<!--    <div class="container" *ngIf="userRole()">-->
+    <div class="container" >
         <div class="container">
             <h2>Student</h2>
         </div>
@@ -8,12 +9,12 @@
             <table class="table table-bordered" *ngIf="student">
                 <tbody>
                     <tr>
-                        <td>Username</td>
-                        <td>{{student.student.username}}</td>
+                        <td>First Name</td>
+                        <td>{{student.firstNamee}}</td>
                     </tr>
                     <tr>
-                        <td>Fullname</td>
-                        <td>{{student.student.fullName}}</td>
+                        <td>Last Name</td>
+                        <td>{{student.lastName}}</td>
                     </tr>
                     <tr>
                         <td>Date of birth</td>
@@ -24,40 +25,32 @@
                         <td>{{student.start_year}}</td>
                     </tr>
                     <tr>
-                        <td>Address</td>
-                        <td>{{student.address}}</td>
+                        <td>Parent Name</td>
+                        <td>{{student.parent.firstName}} {{student.parent.lastName}}</td>
                     </tr>
                     <tr>
                         <td>Gender</td>
                         <td>{{student.gender}}</td>
                     </tr>
                     <tr>
-                        <td>Education ID</td>
-                        <td>{{student.educationId}}</td>
+                        <td>Index No</td>
+                        <td>{{student.indexNo}}</td>
                     </tr>
                     <tr>
-                        <td>Health Care ID</td>
-                        <td>{{student.healthCareId}}</td>
+                        <td>Join Date</td>
+                        <td>{{student.dateofJoin}}</td>
                     </tr>
                     <tr>
-                        <td>Parent 1</td>
-                        <td>{{student.parent1Name}}</td>
+                        <td>Mobile No</td>
+                        <td>{{student.mobileNo}}</td>
                     </tr>
                     <tr>
-                        <td>Parent 2</td>
-                        <td>{{student.parent2Name}}</td>
-                    </tr>
-                    <tr>
-                        <td>Phone number 1</td>
-                        <td>{{student.parent1Phone}}</td>
-                    </tr>
-                    <tr>
-                        <td>Phone number 2</td>
-                        <td>{{student.parent2Phone}}</td>
+                        <td>Status</td>
+                        <td>{{student.status}}</td>
                     </tr>
                     <tr>
                         <td>Classroom</td>
-                        <td>{{student.classroom.year}}/{{student.classroom.letter}}</td>
+                        <td>{{student.classroom.start_year}}/{{student.classroom.letter}}</td>
                     </tr>
                 </tbody>
             </table>

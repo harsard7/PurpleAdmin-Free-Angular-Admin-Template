@@ -192,6 +192,7 @@ export class ConfigService {
   private getAllSubjectsUrl = this.subjectUrl + '/all';
   private unsetSubjectToStudentUrl = this.subjectUrl + '/unsetSubject';
 
+
   get getCreateSubjectUrl(): string {
     return this.createSubjectUrl;
   }
@@ -222,6 +223,38 @@ export class ConfigService {
 
   get getUnsetSubjectToStudentUrl(): string {
     return this.unsetSubjectToStudentUrl;
+  }
+
+  private _subjecdetailtUrl = this.baseUrl + '/subjectdetail';
+  private _createSubjecdetailtUrl = this._subjecdetailtUrl + '/create';
+  private _updateSubjecdetail = this._subjecdetailtUrl + '/update';
+  private _deleteSubjecdetailtUrl = this._subjecdetailtUrl;
+  private _subjecdetailtByIdUrl = this._subjecdetailtUrl;
+  private _allSubjecdetailUrl = this._subjecdetailtUrl + '/all';
+  private _subdetailByClassIdUrl = this._subjecdetailtUrl + '/classroom';
+
+
+  get createSubjecdetailtUrl(): string {
+    return this._createSubjecdetailtUrl;
+  }
+
+  get updateSubjecdetail(): string {
+    return this._updateSubjecdetail;
+  }
+
+  get deleteSubjecdetailtUrl(): string {
+    return this._deleteSubjecdetailtUrl;
+  }
+
+  get subjecdetailtByIdUrl(): string {
+    return this._subjecdetailtByIdUrl;
+  }
+
+  get allSubjecdetailUrl(): string {
+    return this._allSubjecdetailUrl;
+  }
+  get subdetailByClassIdUrl(): string {
+    return this._subdetailByClassIdUrl;
   }
 
   private examUrl = this.baseUrl + '/exams';
@@ -350,14 +383,16 @@ export class ConfigService {
     return this.getAllTeacherPreferencesUrl;
   }
 
-  private timetableUrl = this.baseUrl + '/timetables';
-  private createTimeTableUrl = this.timetableUrl + '/create';
-  private updateTimeTableUrl = this.timetableUrl + '/update';
-  private deleteTimeTableUrl = this.timetableUrl;
-  private findByIdTimeTableUrl = this.timetableUrl;
-  private getTimeTableByStudentUrl = this.timetableUrl + '/student';
-  private getTimeTableByTeacherUrl = this.timetableUrl + '/teacher';
-  private getTimeTableEntitiesBySubjectUrl = this.timetableUrl + '/subject';
+  private _timetableUrl = this.baseUrl + '/timetables';
+  private createTimeTableUrl = this._timetableUrl + '/create';
+  private updateTimeTableUrl = this._timetableUrl + '/update';
+  private deleteTimeTableUrl = this._timetableUrl;
+  private findByIdTimeTableUrl = this._timetableUrl;
+  private getTimeTableByStudentUrl = this._timetableUrl + '/student';
+  private getTimeTableByTeacherUrl = this._timetableUrl + '/teacher';
+  private getTimeTableEntitiesBySubjectUrl = this._timetableUrl + '/subject';
+  private _timetableAllUrl = this._timetableUrl + '/all';
+
 
   get getFindByIdTimeTableUrl(): string {
     return this.findByIdTimeTableUrl;
@@ -385,6 +420,13 @@ export class ConfigService {
 
   get getGetTimeTableEntitiesBySubjectUrl(): string {
     return this.getTimeTableEntitiesBySubjectUrl;
+  }
+
+  get timetableAllUrl(): string {
+    return this._timetableAllUrl;
+  }
+  get timetableUrl(): string {
+    return this._timetableUrl;
   }
 
   private adminUrl = this.baseUrl + '/admin';
@@ -600,4 +642,26 @@ export class ConfigService {
     return this.deleteparentUrl;
   }
 
+  private entrollmentUrl = this.baseUrl + '/entrollment';
+  private _entrollmentUrlAll = this.entrollmentUrl + '/all';
+  private _entrollmentByIdUrl = this.parentUrl;
+  private _createEntrollmentUrl =  this.entrollmentUrl + '/create';
+  private _updateEntrollmentUrl = this.entrollmentUrl + '/update';
+
+
+  get entrollmentUrlAll(): string {
+    return this._entrollmentUrlAll;
+  }
+
+  get entrollmentByIdUrl(): string {
+    return this._entrollmentByIdUrl;
+  }
+
+  get createEntrollmentUrl(): string {
+    return this._createEntrollmentUrl;
+  }
+
+  get updateEntrollmentUrl(): string {
+    return this._updateEntrollmentUrl;
+  }
 }

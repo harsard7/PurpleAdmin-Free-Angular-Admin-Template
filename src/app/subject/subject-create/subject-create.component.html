@@ -1,22 +1,24 @@
 <div *ngIf="isDataAvailable">
 
     <div class="container" *ngIf="userRole()">
+      <button  mat-button mat-ripple (click)='goSubjectMapping()' class="btn btn-warning">Subject Mapping</button>
         <h2>Create</h2>
         <div class="container">
             <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-subject">
                 <div class="form-group">
-                    <label for="title">Title</label>
+                    <label for="title">Subject Name</label>
                     <input type="text" class="form-control" id="title" required [(ngModel)]="subject.title" name="title">
                 </div>
+<!--                <div class="form-group">-->
+<!--                    <label for="year">Year</label>-->
+<!--                    <input type="number" class="form-control" id="year" required [(ngModel)]="subject.year" name="year">-->
+<!--                </div>-->
                 <div class="form-group">
-                    <label for="year">Year</label>
-                    <input type="number" class="form-control" id="year" required [(ngModel)]="subject.year" name="year">
-                </div>
-                <div class="form-group">
-                    <label for="teacher">Teacher</label>
-                   <select id="teacher" name="teacher" class="form-control form-control-sm" [(ngModel)]="selectedOption">
-                        <option *ngFor="let teacher of teachers" [ngValue]="teacher">{{teacher.fkUser.username}}</option>
-                   </select>
+                    <label for="subtype">Subject Type</label>
+                  <select id="subtype" class="form-control" required [(ngModel)]="subtype" name="semster">
+                    <option [ngValue]='Mandotory'>Mandotory</option>
+                    <option [ngValue]="Optional">Optional</option>
+                  </select>
                 </div>
                 <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
                 <button type="submit" class="btn btn-success">Submit</button>

@@ -36,6 +36,8 @@ const routes: Routes = [
   { path: 'school', loadChildren: () => import('./school/school.module').then(m => m.SchoolModule) },
   { path: 'employee', loadChildren: () => import('./employee/employee.module').then(m => m.EmployeeModule) },
   { path: 'parent', loadChildren: () => import('./parent/parent.module').then(m => m.ParentModule) },
+  { path: 'subjectdetail', loadChildren: () => import('./subjectdetail/subjectdetail.module').then(m => m.SubjectdetailModule) },
+  { path: 'entrollment', loadChildren: () => import('./entrollment/entrollment.module').then(m => m.EntrollmentModule) },
 ];
 
 @NgModule({

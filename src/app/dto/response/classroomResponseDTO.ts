@@ -2,6 +2,7 @@ import {Teacher} from "../../model/teacher";
 
 export class ClassroomResponseDTO {
 
+    id: number;
     start_year: number;
     headTeacher: Teacher;
     end_year: number;

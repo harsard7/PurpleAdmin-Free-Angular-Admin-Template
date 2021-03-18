@@ -31,10 +31,12 @@ export class CreateAttendanceComponent implements OnInit {
   constructor(private userService: UserService, private router: Router, private notifyService : NotificationService,
     private attendanceService: AttendanceService,  private route: ActivatedRoute) { }
   ngOnInit() {
+    console.log("dsf");
     this.classroom_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.isDataAvailable = true;
+      console.log("dsf2");
     });
   }
   onSubmit() {
@@ -46,10 +48,12 @@ export class CreateAttendanceComponent implements OnInit {
     });
   }
   setBasic() {
-    this.attendanceService.makeAttendanceFormToClassroom(this.classroom_id).subscribe(data => {
+    console.log('dfdf');
+    this.attendanceService.makeAttendanceFormToClassroom(1).subscribe(data => {
       this.attendances = data;
       this.raw_attendances = data;
       this.isBasicSet = true;
+      console.log(data);
     });
   }
 

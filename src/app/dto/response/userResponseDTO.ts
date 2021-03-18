@@ -2,6 +2,7 @@ import {UserType} from "../../enums/userType";
 
 export class UserResponseDTO {
 
+    id: number;
     username: string;
   lastName: string;
   firstName: string;

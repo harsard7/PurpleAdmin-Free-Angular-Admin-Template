@@ -6,7 +6,7 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()"  class="form-room">
         <div class="form-group">
           <label for="classroomNumber">Classroom number</label>
-          <input type="text" formControlName="classno" class="form-control" id="classroomNumber" required [(ngModel)]="room.classroomNumber" name="classroomNumber">
+          <input type="text" formControlName="classno" class="form-control" id="classroomNumber" required [(ngModel)]="room.roomNumber" name="classroomNumber">
         </div>
         <button type="submit" (click)="goBack()" class="btn btn-dark py-2">Back</button>
 <!--        <button type="submit" class="btn btn-success">Submit</button>-->

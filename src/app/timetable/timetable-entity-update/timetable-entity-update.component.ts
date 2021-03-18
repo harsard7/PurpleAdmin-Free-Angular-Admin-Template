@@ -53,21 +53,21 @@ export class TimetableEntityUpdateComponent implements OnInit {
 
 
   isDataChanged() {
-    if(!this.response.classroom_id
-      || !this.response.day
-      || !this.response.lessonNumber) return true;
+    // if(!this.response.classroom_id
+    //   || !this.response.day
+    //   || !this.response.lessonNumber) return true;
       return false;
   }
 
   onSubmit() {
     if(this.isDataChanged) {
-      this.response.subject_id = this.timeTableEntity.subject.id;
-      this.response.room_id = this.selectedOptionRoom.id;
-      if(!this.response.room_id) this.response.room_id = this.timeTableEntity.room.id;
-      if(!this.response.day) this.response.day = this.timeTableEntity.day;
-      if(!this.response.lessonNumber) this.response.lessonNumber = this.timeTableEntity.lessonNumber;
-      this.response.classroom_id = this.selectedOptionClassroom.id;
-      if(!this.response.classroom_id) this.response.classroom_id = this.timeTableEntity.classroom.id;
+      // this.response.subject_id = this.timeTableEntity.subject.id;
+      // this.response.room_id = this.selectedOptionRoom.id;
+      // if(!this.response.room_id) this.response.room_id = this.timeTableEntity.room.id;
+      // if(!this.response.day) this.response.day = this.timeTableEntity.day;
+      // if(!this.response.lessonNumber) this.response.lessonNumber = this.timeTableEntity.lessonNumber;
+      // this.response.classroom_id = this.selectedOptionClassroom.id;
+      // if(!this.response.classroom_id) this.response.classroom_id = this.timeTableEntity.classroom.id;
       this.timeTableService.update(this.id, this.response).subscribe(() => {
         this.refresh();
          this.notifyService.showSuccess('Time table entity updated', 'Ok');

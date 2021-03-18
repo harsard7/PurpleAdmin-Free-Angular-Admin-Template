@@ -1,6 +1,7 @@
 <div *ngIf="isDataAvailable">
 
-    <div class="container" *ngIf="userRole()">
+<!--    <div class="container" *ngIf="userRole()">-->
+    <div class="container" >
         <div class="container">
             <h2>Create attendances for class</h2>
         </div>
@@ -24,10 +25,10 @@
                         <tbody>
                             <tr *ngFor="let attendance of attendances; index as i">
                                 <td>
-                                    <i>{{attendance.student.student.username}}</i>
+                                    <i>{{attendance.student.firstName}}</i>
                                 </td>
                                 <td>
-                                    <b>{{attendance.student.student.fullName}}</b>
+                                    <b>{{attendance.student.lastName}}</b>
                                 </td>
                                 <td>
                                     <input type="checkbox" class="miss-input" [(ngModel)]="miss[i]" name="miss">

@@ -1,4 +1,6 @@
 export class RoomResponseDTO {
 
-    classroomNumber: string;
+    id: number;
+    roomNumber: string;
+  description: string;
 }

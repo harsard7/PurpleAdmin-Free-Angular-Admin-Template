@@ -8,6 +8,9 @@ import { Teacher } from 'src/app/model/teacher';
 import { SubjectResponseDTO } from 'src/app/dto/response/subjectResponseDTO';
 import { isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {TeacherDTO} from "../../dto/TeacherDTO";
+import {TimeTableEntityResponseDTO} from "../../dto/response/timeTableEntityResponseDTO";
+import {TimetableService} from "../../service/timetable.service";
 
 @Component({
   selector: 'app-subject-create',
@@ -19,8 +22,11 @@ export class SubjectCreateComponent implements OnInit {
   subject = new SubjectResponseDTO();
   currentUser: any = {};
   isDataAvailable: boolean  = false;
-  teachers: Observable<Teacher[]>;
+  teachers: Observable<TeacherDTO[]>;
   selectedOption: any = {};
+  subtype: any;
+  Mandotory: any;
+  Optional: any;
 
   constructor(private userService: UserService, private router: Router, private notifyService : NotificationService,
     private teacherService: TeacherService, private subjectService: SubjectService) {
@@ -38,12 +44,14 @@ export class SubjectCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    this.subject.teacher_id = Number(this.selectedOption.id);
+    // this.subject.teacher_id = Number(this.selectedOption.id);
+    this.subject.subjectType=this.subtype;
     this.subjectService.create(this.subject).subscribe(() => {
-      this.reset();
       this.notifyService.showSuccess("Subject created.", "Success");
+      this.reset();
     }, error => { this.notifyService.showError(error)});
-    this.refresh();
+    // this.refresh();
+
   }
 
   reset() {
@@ -67,4 +75,7 @@ export class SubjectCreateComponent implements OnInit {
     }
   }
 
+  goSubjectMapping() {
+    this.router.navigate(['subjectdetail/create']);
+  }
 }

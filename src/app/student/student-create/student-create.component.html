@@ -128,63 +128,21 @@
           </div>
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Address</label>
+              <label class="col-sm-3 col-form-label">Join Class</label>
               <div class="col-sm-9">
-<!--                <input type="text" class="form-control" id="address" required [(ngModel)]="student.address" name="address" placeholder="4444, Kecskecen Vetheln utca 13.">-->
-              </div>
+             <select name="classroom" class="form-control form-control-sm" [(ngModel)]="joinedclassroom">
+                  <option *ngFor="let classroom of classrooms" [ngValue]="classroom">{{classroom.year}}/{{classroom.letter}}</option>
+                </select>  </div>
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="col-md-6">
             <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Education ID</label>
+              <label class="col-sm-3 col-form-label">Student Phone</label>
               <div class="col-sm-9">
-                <input type="text" class="form-control" id="educationId" required [(ngModel)]="student.educationId" name="educationId" placeholder="1234567">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Health care ID</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="healthCareId" required [(ngModel)]="student.healthCareId" name="healthCareId" placeholder="333/222/111">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Parent 1</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="parent1Name" [(ngModel)]="student.parent1Name" name="parent1Name" placeholder="Firstname Middlename Lastname">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Parent 2</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="parent2Name" [(ngModel)]="student.parent2Name" name="parent2Name" placeholder="Firstname Middlename Lastname">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Parent 1 Phone</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="parent1Phone" [(ngModel)]="student.parent1Phone" name="parent1Phone" placeholder="parent 1 Phone">
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group row">
-              <label class="col-sm-3 col-form-label">Parent 2 Phone</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="parent2Phone" [(ngModel)]="student.parent2Phone" name="parent2Phone" placeholder="parent 2 Phone">
+                <input type="text" class="form-control" id="parent1Phone" [(ngModel)]="student.mobileNo" name="parent1Phone" placeholder="parent 1 Phone">
               </div>
             </div>
           </div>

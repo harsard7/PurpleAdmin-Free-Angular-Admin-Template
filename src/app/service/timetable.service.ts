@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {ApiService} from "./api.service";
 import {ConfigService} from "./config.service";
 import {TimeTableEntityResponseDTO} from "../dto/response/timeTableEntityResponseDTO";
+import {DayOfWeek} from "../enums/day-of-week";
+import {TimeEnum} from "../enums/time-enum";
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +24,18 @@ export class TimetableService {
   findById(id: number) {
     return this.apiService.get(this.configService.getFindByIdTimeTableUrl + '/' + id);
   }
+  findAll() {
+    return this.apiService.get(this.configService.timetableAllUrl);
+  }
+  findByClassAndDayAndTime(id:number,day:DayOfWeek,time:TimeEnum){
+    return this.apiService.get(this.configService.timetableUrl + '/' + id + '/' + day + '/' + time);
+  }
 
-  create(timetable_id: number, timeTableEntity: TimeTableEntityResponseDTO) {
-    return this.apiService.post(this.configService.getCreateTimeTableUrl + '/' + timetable_id, timeTableEntity);
+  // create(timetable_id: number, timeTableEntity: TimeTableEntityResponseDTO) {
+  //   return this.apiService.post(this.configService.getCreateTimeTableUrl + '/' + timetable_id, timeTableEntity);
+  // }
+  create( timeTableEntity: TimeTableEntityResponseDTO) {
+    return this.apiService.post(this.configService.getCreateTimeTableUrl,  timeTableEntity);
   }
 
   update(id: number, timeTableEntity: TimeTableEntityResponseDTO) {

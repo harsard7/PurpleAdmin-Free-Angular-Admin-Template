@@ -20,7 +20,7 @@ export class StudentUpdateComponent implements OnInit {
 
   currentUser: any = {}
   id: number;
-  student = new Student();
+  student = new StudentResponseDTO();
   response = new StudentResponseDTO();
   isDataAvailable: boolean  = false;
   classrooms: Observable<Classroom[]>;
@@ -49,15 +49,9 @@ export class StudentUpdateComponent implements OnInit {
 
 
   isDataChanged() {
-    if(!this.response.parent1Name
-      || !this.response.parent2Name
-      || !this.response.parent1Phone
-      || !this.response.parent2Phone
-      || !this.response.dateOfBirth
-      || !this.response.educationId
+    if(!this.response.dateOfBirth
       || !this.response.start_year
-      || !this.response.healthCareId
-      || !this.response.classroom_id
+      || !this.response.classroom
       || !this.response.gender) return true;
     return false;
   }
@@ -65,16 +59,14 @@ export class StudentUpdateComponent implements OnInit {
   submit() {
     if(this.isDataChanged) {
       if(!this.selectedOptionGender)
-      if(!this.response.parent1Name) this.response.parent1Name = this.student.parent1Name;
-      if(!this.response.parent2Name) this.response.parent2Name = this.student.parent2Name;
-      if(!this.response.parent1Phone) this.response.parent1Phone = this.student.parent1Phone;
-      if(!this.response.parent2Phone) this.response.parent2Phone = this.student.parent2Phone;
+
+      if(!this.response.mobileNo) this.response.mobileNo = this.student.mobileNo;
       if(!this.response.dateOfBirth) this.response.dateOfBirth = this.student.dateOfBirth;
-      if(!this.response.educationId) this.response.educationId = this.student.educationId;
+
       if(!this.response.start_year) this.response.start_year = this.student.start_year;
-      if(!this.response.healthCareId) this.response.healthCareId = this.student.healthCareId;
-      if(!this.selectedOption) this.response.classroom_id = this.student.classroom.id;
-      else this.response.classroom_id = Number(this.selectedOption.id);
+
+      if(!this.selectedOption) this.response.classroom = this.student.classroom;
+      // else this.response.classroom = Number(this.selectedOption.id);
       if(!this.selectedOptionGender) this.response.gender = this.student.gender;
       else this.response.gender = this.selectedOptionGender;
       this.studentService.update(this.id, this.response).subscribe(() => {
@@ -95,12 +87,12 @@ export class StudentUpdateComponent implements OnInit {
   }
 
   userUpdate() {
-    this.userService.getById(this.student.student.id).subscribe(data =>
+    this.userService.getById(this.student.fkuser.id).subscribe(data =>
       this.router.navigate(['user/update', data.id]), error => {  this.notifyService.showError(error)});
   }
 
   refresh() {
-    this.userService.getById(this.student.student.id).subscribe(data => {
+    this.userService.getById(this.student.fkuser.id).subscribe(data => {
       this.student = data;
     });
     this.response = new StudentResponseDTO();

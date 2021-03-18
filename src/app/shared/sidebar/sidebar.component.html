@@ -216,5 +216,11 @@
         <i class="mdi mdi-home menu-icon"></i>
       </a>
     </li>
+    <li class="nav-item" [ngClass]="{ 'active': subject.isActive }">
+      <a class="nav-link" routerLink="subject/all" routerLinkActive #subject="routerLinkActive">
+        <span class="menu-title">Subject</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
   </ul>
 </nav>

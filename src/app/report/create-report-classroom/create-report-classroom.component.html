@@ -7,10 +7,10 @@
         <div class="container">
             <form (ngSubmit)="setBasic()" #form="ngForm" class="form-basic">
                 <div class="form-group">
-                    <label for="subject">Subject</label>
-                    <select name="subject" class="form-control form-control-sm" [(ngModel)]="selectedSubject">
-                        <option *ngFor="let subject of subjects" [ngValue]="subject">{{subject.title}}/{{subject.year}}</option>
-                    </select>
+                  <label for="subject">Subject</label>
+                  <select name="subject" class="form-control form-control-sm" [(ngModel)]="selectedsubject">
+                    <option *ngFor="let subject of subjects" [ngValue]="subject">{{subject.title}}</option>
+                  </select>
                 </div>
                 <div class="form-group">
                     <label for="year">Year</label>
@@ -30,10 +30,10 @@
                         <tbody>
                             <tr *ngFor="let report of reports; index as i">
                                 <td>
-                                    <i>{{report.student.student.username}}</i>
+                                    <i>{{report.student.firstName}}</i>
                                 </td>
                                 <td>
-                                    <b>{{report.student.student.fullName}}</b>
+                                    <b>{{report.student.lastName}}</b>
                                 </td>
                                 <td>
                                     <input type="number" class="mark-input" required [(ngModel)]="marks[i]" min="1" max="5" name="mark">

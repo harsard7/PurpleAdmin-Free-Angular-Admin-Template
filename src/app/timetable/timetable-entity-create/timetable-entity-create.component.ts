@@ -47,7 +47,7 @@ export class TimetableEntityCreateComponent implements OnInit {
     private classroomService: ClassroomService, private timeTableService: TimetableService, private notifyService : NotificationService,private  subjecteDetailservice:SubjectdetailService) { }
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
+    // this.id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.classroomService.findAll().subscribe(data => {

@@ -33,6 +33,7 @@ export class ViewAttendanceComponent implements OnInit {
       this.currentUser = data;
       this.attendanceService.getAllByStudent(this.student_id).subscribe(data => {
         this.attendances = data;
+        console.log(this.attendances);
         this.studentService.findById(this.student_id).subscribe(data => {
           this.student = data;
           this.isDataAvailable = true;

@@ -3,7 +3,7 @@
 <!--    <div class="container" *ngIf="userRole()">-->
     <div class="container" >
         <div class="container">
-            <h2>Create attendances for class</h2>
+            <h2>Create attendances for class - {{classroom.year}} / {{classroom.letter}}</h2>
         </div>
         <div class="container">
             <form (ngSubmit)="setBasic()" #form="ngForm" class="form-basic">

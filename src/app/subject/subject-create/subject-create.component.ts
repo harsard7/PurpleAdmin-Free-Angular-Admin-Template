@@ -24,7 +24,7 @@ export class SubjectCreateComponent implements OnInit {
   isDataAvailable: boolean  = false;
   teachers: Observable<TeacherDTO[]>;
   selectedOption: any = {};
-  subtype: any;
+  subtype: any= {};
   Mandotory: any;
   Optional: any;
 

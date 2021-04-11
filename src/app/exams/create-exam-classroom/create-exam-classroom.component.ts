@@ -11,6 +11,8 @@ import { TeacherService } from 'src/app/service/teacher.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isTeacher } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {ClassroomService} from "../../service/classroom.service";
+import {Classroom} from "../../model/classroom";
 
 @Component({
   selector: 'app-create-exam-classroom',
@@ -19,6 +21,7 @@ import {NotificationService} from "../../service/notification.service";
 })
 export class CreateExamClassroomComponent implements OnInit {
 
+  classroom=new Classroom();
   classroom_id: number;
   currentUser: any = {};
   etype: any = {};
@@ -37,16 +40,24 @@ export class CreateExamClassroomComponent implements OnInit {
   HOMEWORK: any;
 
   constructor(private userService: UserService, private subjectService: SubjectService, private router: Router,
-    private examService: ExamService, private teacherService: TeacherService, private route: ActivatedRoute,private notifyService : NotificationService) { }
+    private examService: ExamService, private teacherService: TeacherService, private route: ActivatedRoute,private notifyService : NotificationService,private classroomService: ClassroomService) { }
 
   ngOnInit() {
+    console.log("1");
     this.classroom_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
+      console.log("2");
       this.teacherService.findByUserId(this.currentUser.id).subscribe(data => {
+        console.log("3");
         this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
           this.subjects = data;
+          console.log("4");
           this.isDataAvailable = true;
+          this.classroomService.findById( this.classroom_id).subscribe(data=>{
+            this.classroom=data;
+            console.log("5");
+          });
         });
       });
     });
@@ -54,9 +65,11 @@ export class CreateExamClassroomComponent implements OnInit {
 
 
   setBasic() {
+    console.log( this.etype);
     this.examService.makeExamsFormToClassroom(this.classroom_id, this.written_at, this.etype).subscribe(data => {
       this.exams = data;
       this.raw_exams = data;
+      console.log(this.exams);
       this.isBasicSet = true;
     });
   }
@@ -77,8 +90,7 @@ export class CreateExamClassroomComponent implements OnInit {
     this.selectedSubject= {};
   }
 
-  collect(marks: number[], entities: ExamDTO[], subject_id: number,
-    written_at: string, etype: string): ExamResponseDTO[] {
+  collect(marks: number[], entities: ExamDTO[], subject_id: number, written_at: string, etype: string): ExamResponseDTO[] {
     var index = 0;
     var result: ExamResponseDTO[] = [];
 
@@ -95,6 +107,7 @@ export class CreateExamClassroomComponent implements OnInit {
       }
       index++;
     }
+    console.log(result);
     return result;
   }
 

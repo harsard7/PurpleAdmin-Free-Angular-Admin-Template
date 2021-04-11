@@ -7,6 +7,8 @@ import { UserService } from 'src/app/service/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {NotificationService} from "../../service/notification.service";
+import {Classroom} from "../../model/classroom";
+import {ClassroomService} from "../../service/classroom.service";
 
 @Component({
   selector: 'app-statistics',
@@ -14,7 +16,7 @@ import {NotificationService} from "../../service/notification.service";
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent implements OnInit {
-
+  classroom=new Classroom();
   isDataAvailable: boolean = false;
   currentUser: any = {};
   failed: Observable<FailedStudentDTO[]>;
@@ -22,7 +24,7 @@ export class StatisticsComponent implements OnInit {
   classroom_id: number;
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute,
-    private headTeacherService: HeadteacherService, private notifyService : NotificationService) { }
+    private headTeacherService: HeadteacherService, private notifyService : NotificationService,private classroomService: ClassroomService) { }
 
   ngOnInit() {
     this.classroom_id = this.route.snapshot.params['id'];
@@ -33,6 +35,9 @@ export class StatisticsComponent implements OnInit {
         this.headTeacherService.showResultBySubject(this.classroom_id).subscribe(data => {
           this.averages = this.format(data);
           this.isDataAvailable = true;
+          this.classroomService.findById( this.classroom_id).subscribe(data=>{
+            this.classroom=data;
+          });
         });
       });
     });

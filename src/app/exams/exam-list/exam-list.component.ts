@@ -10,6 +10,8 @@ import { TeacherService } from 'src/app/service/teacher.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isStudent, isTeacher, isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {StudentService} from "../../service/student.service";
+import {StudentResponseDTO} from "../../dto/response/studentResponseDTO";
 
 @Component({
   selector: 'app-exam-list',
@@ -18,6 +20,7 @@ import {NotificationService} from "../../service/notification.service";
 })
 export class ExamListComponent implements OnInit {
   searchText;
+  student = new StudentResponseDTO();
   student_id: number;
   currentUser: any = {};
   exams: Observable<Exam[]>;
@@ -27,7 +30,7 @@ export class ExamListComponent implements OnInit {
   selectedOption: any = {};
 
   constructor(private userService: UserService, private subjectService: SubjectService, private teacherService: TeacherService,
-    private examService: ExamService, private router: Router, private route: ActivatedRoute, private notifyService : NotificationService) { }
+    private examService: ExamService, private router: Router, private route: ActivatedRoute, private notifyService : NotificationService,private studentserveice : StudentService) { }
 
   ngOnInit() {
     this.student_id = this.route.snapshot.params['id'];
@@ -37,6 +40,7 @@ export class ExamListComponent implements OnInit {
         this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
           this.subjects = data;
           this.isDataAvailable = true;
+          this.studentserveice.findById(this.student_id).subscribe(data=>{this.student=data  });
         });
       });
     });
@@ -51,6 +55,7 @@ export class ExamListComponent implements OnInit {
   onSubmit() {
     this.examService.findAllByStudent(this.student_id, this.selectedOption.id).subscribe(data => {
       this.exams = data;
+      console.log(data);
       this.selected = true;
     });
   }

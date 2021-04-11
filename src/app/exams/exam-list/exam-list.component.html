@@ -3,7 +3,7 @@
     <div class="container" *ngIf="userRole()">
         <div class="container">
             <div class="container">
-                <h3>Exams</h3>
+                <h3>Exams - {{student.firstName}} {{student.lastName}} ({{student.classroom.year}} / {{student.classroom.letter}})</h3>
                 <button (click)="create()" id="create" class="btn btn-dark">Create Exam</button>
             </div>
             <div class="container">
@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let exam of exams | filter:searchText">
-                            <td>{{exam.writtenAt}}</td>
+                            <td>{{exam.written_at}}</td>
                             <td>{{exam.mark}}</td>
                             <td>
                                 <button (click)="update(exam.id)" class="btn btn-warning">Update</button>

@@ -12,6 +12,8 @@ import { TeacherService } from 'src/app/service/teacher.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isStudent, isTeacher, isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {Student} from "../../model/student";
+import {StudentResponseDTO} from "../../dto/response/studentResponseDTO";
 
 @Component({
   selector: 'app-create-exam',
@@ -28,6 +30,7 @@ export class CreateExamComponent implements OnInit {
   subjects: Observable<Subject[]>;
   selectedOption: any = {};
   classroom = new Classroom();
+  student = new StudentResponseDTO();
   TEST: any;
   TOPIC_TEST: any;
   REPETITION: any;
@@ -44,6 +47,9 @@ export class CreateExamComponent implements OnInit {
         this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
           this.subjects = data;
           this.isDataAvailable = true;
+          this.studentService.findById( this.student_id).subscribe(data=>{
+           this. student=data;
+          });
         });
       });
     });

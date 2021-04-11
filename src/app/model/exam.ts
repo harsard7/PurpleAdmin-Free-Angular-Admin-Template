@@ -5,7 +5,7 @@ export class Exam {
 
     id: number;
     mark: number;
-    writtenAt: string;
+  written_at: string;
     examType: string;
     subject: Subject;
     student: Student;

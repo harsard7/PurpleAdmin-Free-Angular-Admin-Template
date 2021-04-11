@@ -20,17 +20,17 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let attendance of attendances; index as i">
-                                <td *ngIf="attendance.verified" class="green"><b>{{attendance.dateOfMiss}}</b></td>
-                                <td *ngIf="attendance.verified" class="green"><b>{{attendance.lecture}}</b></td>
-                                <td *ngIf="attendance.verified" class="green"><b>{{attendance.student.student.fullName}}</b></td>
-                                <td *ngIf="attendance.verified" class="green"><b>{{attendance.verified}}</b></td>
+                                <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.dateOfMiss}}</b></td>
+                                <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.lecture}}</b></td>
+                                <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.student.firstName}}</b></td>
+                                <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.isVerified}}</b></td>
 
-                                <td *ngIf="!attendance.verified" class="red"><b>{{attendance.dateOfMiss}}</b></td>
-                                <td *ngIf="!attendance.verified" class="red"><b>{{attendance.lecture}}</b></td>
-                                <td *ngIf="!attendance.verified" class="red"><b>{{attendance.student.student.fullName}}</b></td>
-                                <td *ngIf="!attendance.verified" class="red"><b>{{attendance.verified}}</b></td>
+                                <td *ngIf="!attendance.isVerified" class="red"><b>{{attendance.dateOfMiss}}</b></td>
+                                <td *ngIf="!attendance.isVerified" class="red"><b>{{attendance.lecture}}</b></td>
+                                <td *ngIf="!attendance.isVerified" class="red"><b>{{attendance.student.firstName}}</b></td>
+                                <td *ngIf="!attendance.isVerified" class="red"><b>{{attendance.isVerified}}</b></td>
                                 <td>
-                                    <input [attr.disabled]="attendance.verified ? true : null" type="checkbox" class="miss-input" [(ngModel)]="miss[i]" name="miss">
+                                    <input [attr.disabled]="attendance.isVerified ? true : null" type="checkbox" class="miss-input" [(ngModel)]="miss[i]" name="miss">
                                 </td>
 
                             </tr>

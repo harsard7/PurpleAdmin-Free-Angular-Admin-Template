@@ -8,6 +8,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isTeacher } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {ClassroomService} from "../../service/classroom.service";
+import {Classroom} from "../../model/classroom";
 
 @Component({
   selector: 'app-create-attendance',
@@ -15,7 +17,7 @@ import {NotificationService} from "../../service/notification.service";
   styleUrls: ['./create-attendance.component.scss']
 })
 export class CreateAttendanceComponent implements OnInit {
-
+  classroom = new Classroom();
   classroom_id: number;
   currentUser: any = {};
   isDataAvailable: boolean = false;
@@ -29,14 +31,15 @@ export class CreateAttendanceComponent implements OnInit {
 
 
   constructor(private userService: UserService, private router: Router, private notifyService : NotificationService,
-    private attendanceService: AttendanceService,  private route: ActivatedRoute) { }
+    private attendanceService: AttendanceService,  private route: ActivatedRoute,private classroomService: ClassroomService) { }
   ngOnInit() {
-    console.log("dsf");
     this.classroom_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.isDataAvailable = true;
-      console.log("dsf2");
+      this.classroomService.findById(this.classroom_id).subscribe(data =>  {
+        this.classroom = data;
+      });
     });
   }
   onSubmit() {
@@ -48,12 +51,10 @@ export class CreateAttendanceComponent implements OnInit {
     });
   }
   setBasic() {
-    console.log('dfdf');
-    this.attendanceService.makeAttendanceFormToClassroom(1).subscribe(data => {
+    this.attendanceService.makeAttendanceFormToClassroom(this.classroom_id).subscribe(data => {
       this.attendances = data;
       this.raw_attendances = data;
       this.isBasicSet = true;
-      console.log(data);
     });
   }
 
@@ -71,6 +72,9 @@ export class CreateAttendanceComponent implements OnInit {
       result[index].student_id = entity.student.id;
       index++;
     }
+    console.log(dom[0]);
+    console.log(typeof dom[0]);
+    console.log(JSON.stringify(result));
     return result;
   }
 

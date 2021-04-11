@@ -1,22 +1,22 @@
 <div *ngIf="isDataAvailable">
 
     <div class="container" *ngIf="userRole()">
-        <h2>Create</h2>
+        <h2>Create Exam Details  - {{student.firstName}} {{student.lastName}} ({{student.classroom.year}} / {{student.classroom.letter}}) </h2>
         <div class="container">
             <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-exam">
                 <div class="form-group">
                     <label for="subject">Subject</label>
                     <select name="subject" class="form-control form-control-sm" [(ngModel)]="selectedOption">
-                        <option *ngFor="let subject of subjects" [ngValue]="subject">{{subject.title}}/{{subject.year}}</option>
+                        <option *ngFor="let subject of subjects" [ngValue]="subject">{{subject.title}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="etype">Exam Type</label>
                     <select id="etype" class="form-control" required [(ngModel)]="etype" name="etype">
-                        <option [ngValue]="TEST">Test</option>
-                        <option [ngValue]="TOPIC_TEST">Topic Test</option>
-                        <option [ngValue]="REPETITION">Repetition</option>
-                        <option [ngValue]="HOMEWORK">Homework</option>
+                      <option [ngValue]="'TEST'">Test</option>
+                      <option [ngValue]="'TOPIC_TEST'">Topic Test</option>
+                      <option [ngValue]="'REPETITION'">Repetition</option>
+                      <option [ngValue]="'HOMEWORK'">Homework</option>
                     </select>
                 </div>
                 <div class="form-group">

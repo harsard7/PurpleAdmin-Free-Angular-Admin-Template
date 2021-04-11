@@ -12,6 +12,8 @@ import { TeacherService } from 'src/app/service/teacher.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isTeacher } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {SubjectResponseDTO} from "../../dto/response/subjectResponseDTO";
+import {Report} from "../../model/report";
 
 @Component({
   selector: 'app-create-report-classroom',
@@ -24,8 +26,9 @@ export class CreateReportClassroomComponent implements OnInit {
   currentUser: any = {};
   isDataAvailable: boolean = false;
   isBasicSet: boolean = false;
-  subjects: Observable<Subject[]>;
+  subjects: Observable<SubjectResponseDTO[]>;
   reports: Observable<ReportDTO>;
+  report=new Report();
   raw_reports: ReportDTO[];
   response: ReportResponseDTO[];
   marks: any = {};
@@ -44,6 +47,7 @@ export class CreateReportClassroomComponent implements OnInit {
         this.teacherService.findByUserId(this.currentUser.id).subscribe(data => {
           this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
             this.subjects = data;
+            console.log(this.subjects);
             this.isDataAvailable = true;
           });
         });

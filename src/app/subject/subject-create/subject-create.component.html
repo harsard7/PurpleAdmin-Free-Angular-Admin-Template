@@ -16,8 +16,8 @@
                 <div class="form-group">
                     <label for="subtype">Subject Type</label>
                   <select id="subtype" class="form-control" required [(ngModel)]="subtype" name="semster">
-                    <option [ngValue]='Mandotory'>Mandotory</option>
-                    <option [ngValue]="Optional">Optional</option>
+                    <option [ngValue]="'Mandotory'">Mandotory</option>
+                    <option [ngValue]="'Optional'">Optional</option>
                   </select>
                 </div>
                 <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>

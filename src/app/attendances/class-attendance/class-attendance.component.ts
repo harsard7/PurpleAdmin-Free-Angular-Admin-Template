@@ -30,8 +30,8 @@ export class ClassAttendanceComponent implements OnInit {
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.attendanceService.getAllAttendancesByClassroom(this.classroom_id).subscribe(data => {
-
         this.attendances = data;
+        console.log(this.attendances);
         this.raw_attendances = data;
         this.isDataAvailable = true;
       });

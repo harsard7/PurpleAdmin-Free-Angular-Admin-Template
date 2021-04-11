@@ -55,7 +55,7 @@ export class UpdateMessageComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['home']);
+    this.router.navigate(['']);
   }
 
   userRole(): string {

@@ -54,7 +54,7 @@ export class UpdateExamComponent implements OnInit {
       if(!this.etype) this.response.examType = this.etype;
       else this.response.examType = this.exam.examType;
       if(!this.response.mark) this.response.mark = this.exam.mark;
-      if(!this.response.written_at) this.response.written_at = this.exam.writtenAt;
+      if(!this.response.written_at) this.response.written_at = this.exam.written_at;
       this.examService.update(this.exam_id, this.response).subscribe(() => {
         this.refresh();
          this.notifyService.showSuccess('Exams updated.', 'Ok');

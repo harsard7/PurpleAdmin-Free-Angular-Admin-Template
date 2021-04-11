@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-group">
                     <label for="letter">Letter</label>
-                  <select id="letter" name="section" class="form-control form-control-sm" [(ngModel)]="section">
+                  <select [disabled]="true" id="letter" name="section" class="form-control form-control-sm" [(ngModel)]="section">
                     <option *ngFor="let sec of sections" [ngValue]="sec">{{sec}}</option>
                   </select>
                 </div>

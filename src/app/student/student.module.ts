@@ -12,6 +12,9 @@ import {SummaryStudentComponent} from "./summary-student/summary-student.compone
 import { StudentAllComponent } from './student-all/student-all.component';
 import {NgxPaginationModule} from "ngx-pagination";
 
+
+
+
 const routes: Routes = [
   { path: 'create', component: StudentCreateComponent },
   { path: 'details/:id', component: StudentDetailsComponent },
@@ -23,7 +26,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  declarations: [StudentCreateComponent,StudentDetailsComponent,StudentUpdateComponent,StudentClassroomListComponent,SummaryStudentComponent, StudentAllComponent],
+  declarations: [StudentCreateComponent,StudentDetailsComponent,StudentUpdateComponent,StudentClassroomListComponent,SummaryStudentComponent, StudentAllComponent,],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

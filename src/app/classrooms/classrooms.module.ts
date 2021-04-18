@@ -8,6 +8,7 @@ import {ClassroomUpdateComponent} from "./classroom-update/classroom-update.comp
 
 import {Ng2SearchPipeModule} from "ng2-search-filter";
 import {SetSubjectClassroomComponent} from "./set-subject-classroom/set-subject-classroom.component";
+import {NgxPaginationModule} from "ngx-pagination";
 
 
 
@@ -21,12 +22,13 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [ClassroomCreateComponent,ClassroomListComponent, ClassroomUpdateComponent,SetSubjectClassroomComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    ReactiveFormsModule,
-    FormsModule,
-    Ng2SearchPipeModule,
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        ReactiveFormsModule,
+        FormsModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+    ]
 })
 export class ClassroomsModule { }

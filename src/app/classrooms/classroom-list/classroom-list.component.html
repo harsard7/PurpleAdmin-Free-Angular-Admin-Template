@@ -1,40 +1,51 @@
-<div *ngIf="isDataAvailable">
+<div class="page-header" *ngIf="isDataAvailable">
+  <div style="margin-left: 20px">
+    <h3 class="page-title">
+      Classroom List
+    </h3>
+  </div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:;">Classroom</a></li>
+      <li class="breadcrumb-item active" aria-current="page">All</li>
+    </ol>
+  </nav>
+</div>
 
-    <div class="container" *ngIf="userRole()">
-        <div class="container">
-            <div class="container">
-                <h3>Classes</h3>
-                <button *ngIf="userRole()"  (click)='createClassroom()' class="badge badge-warning">Create Classroom</button>
-            </div>
-            <div class="container">
-              <div class="input-group">
-                <div class="input-group-prepend bg-transparent">
-                  <i style="color: #6a00d3;font-size: 20px" class="input-group-text border-0 mdi mdi-magnify"></i>
-                </div>
-                <input  type="text" class="form-control bg-transparent border-0" placeholder="Search Users"  name="search" [(ngModel)]="searchText">
-              </div>
-                <table  class="table table-striped table-sm">
-                    <thead class="thead-dark">
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <div class="row stutbl">
+        <div class="col-md-3 card-title"></div>
+        <div class="col-md-6"></div>
+        <div *ngIf="adminuser()"  class="col-md-3"> <button type="button" (click)='createClassroom()'  class="btn btn-gradient-primary btn-rounded btn-fw">Create </button></div>
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend bg-transparent">
+          <i class="input-group-text border-0 mdi mdi-magnify"></i>
+        </div>
+        <input  type="text" class="form-control bg-transparent border-0" placeholder="Search"  name="search" [(ngModel)]="searchText">
+      </div>
+      <div class="table-responsive pt-3">
+        <!--        <h4 class="card-title">Employee table</h4>-->
+        <table class="table table-bordered">
+            <thead style="background-color: #8a53c2">
                         <tr>
-                            <th>Class tag</th>
-                            <th>Start year</th>
-                            <th>End year</th>
+                            <th>Class</th>
                             <th>Headteacher</th>
                             <th>Function</th>
                         </tr>
                     </thead>
-                    <tbody>
+                <tbody>
                         <tr *ngFor="let classroom of classrooms | filter:searchText">
                             <td>{{classroom.year}}/{{classroom.letter}}</td>
-                            <td>{{classroom.start_year}}</td>
-                            <td>{{classroom.end_year}}</td>
                             <td>{{classroom.headTeacher.firstName}} - {{classroom.headTeacher.lastName}}</td>
                             <td>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="update(classroom.id)" class="badge badge-warning">Update</button>
-                                <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="delete(classroom.id)" class="badge badge-danger">Delete</button>
-<!--                                <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="setSubject(classroom.id)" class="badge badge-info">Set Subject</button>-->
+<!--                                <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="delete(classroom.id)" class="badge badge-danger">Delete</button>-->
+                                <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="setSubject(classroom.id)" class="badge badge-info">Set Subject</button>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="finished(classroom.id)" class="badge badge-success">Graduated</button>
-
+                                <button  (click)="subjectDetails(classroom.id)" class="badge badge-gradient-secondary">Subject Mapping</button>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' != 'ROLE_ADMIN'" (click)="exam(classroom.id)" class="badge badge-gradient-warning">Exam</button>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' != 'ROLE_ADMIN'" (click)="report(classroom.id)" class="badge badge-gradient-danger">Report</button>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' != 'ROLE_ADMIN'" (click)="attendance(classroom.id)" class="badge badge-gradient-info">Attendance</button>
@@ -42,8 +53,19 @@
                             </td>
                         </tr>
                     </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+        </table>
+        <pagination-controls
+          [maxSize]="maxSize"
+          [directionLinks]="directionLinks"
+          [autoHide]="autoHide"
+          [responsive]="responsive"
+          [previousLabel]="labels.previousLabel"
+          [nextLabel]="labels.nextLabel"
+          [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+          [screenReaderPageLabel]="labels.screenReaderPageLabel"
+          [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
+          (pageChange)="onPageChange($event)"></pagination-controls>
+       </div>
+     </div>
+  </div>
 </div>

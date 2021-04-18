@@ -1,28 +1,40 @@
 <div *ngIf="isDataAvailable">
+  <div class="page-header">
+    Subject Update
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:;">Subject</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Update</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+<div class="container" *ngIf="userRole()">
+  <div class="col-md-10 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4></h4>
+        <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-subject">
+          <div class="form-group">
+            <label for="title">Subject Name <span class="mand">*</span></label>
+            <input type="text" class="form-control" id="title" required [(ngModel)]="subject.title" name="title">
+          </div>
 
-    <div class="container" *ngIf="userRole()">
-        <div class="container">
-            <h2>Update</h2>
-        </div>
-        <div class="container">
-            <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-subject">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" required [(ngModel)]="response.title" name="title" value="{{subject.title}}" placeholder="{{subject.title}}">
-                </div>
-                <div class="form-group">
-                    <label for="year">Year</label>
-                    <input type="number" class="form-control" id="year" required [(ngModel)]="response.year" name="year"  value="{{subject.year}}" placeholder="{{subject.year}}">
-                </div>
-                <div class="form-group">
-                    <label for="teacher">Teacher</label>
-                   <select name="teacher" class="form-control form-control-sm" [(ngModel)]="selectedOption">
-                        <option *ngFor="let teacher of teachers" [ngValue]="teacher">{{teacher.firstName}}</option>
-                   </select>
-                </div>
-                <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
-        </div>
+          <div class="form-group">
+            <label for="subtype">Subject Type <span class="mand">*</span></label>
+            <select id="subtype" class="form-control" required [(ngModel)]="subtype" name="semster">
+              <option  [ngValue]="undefined">SELECT</option>
+              <option [ngValue]="'Mandotory'">Mandotory</option>
+              <option [ngValue]="'Optional'">Optional</option>
+            </select>
+          </div>
+          <button type="button" (click)="goBack()" class="btn btn-gradient-secondary btn-rounded btn-fw">Back</button>
+          <button type="submit" class="btn btn-gradient-primary btn-rounded btn-fw">Submit</button>
+        </form>
+      </div>
     </div>
+  </div>
+
+
+
 </div>

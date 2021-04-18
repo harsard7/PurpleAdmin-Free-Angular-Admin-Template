@@ -1,35 +1,144 @@
-<div *ngIf="isDataAvailable">
+<div class="page-header" *ngIf="isDataAvailable">
+  <h3 class="page-title">
+    Student Update Form
+  </h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:;">Student</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Update Student</li>
+    </ol>
+  </nav>
+</div>
 
-    <div class="container" *ngIf="userRole()">
-        <div class="container">
-            <h2>Update</h2>
-        </div>
-        <div class="container">
-            <button mat-button mat-ripple (click)='userUpdate()' id="account" class="btn btn-dark">Account settings</button>
-            <form (ngSubmit)="submit()" #form="ngForm" class="form">
-                <div class="form-group">
-                    <label for="dateOfBirth">Date of Birth</label>
-                    <input type="date" class="form-control" id="dateOfBirth" required [(ngModel)]="response.dateOfBirth" name="dateOfBirth" value="{{student.dateOfBirth}}">
+<div class="grid-margin stretch-card" *ngIf="isDataAvailable && student">
+    <div class="card">
+      <div class="card-body">
+<!--        <h4 class="card-title">Student Full Details</h4>-->
+        <form  (ngSubmit)="onUserSubmit()" #form="ngForm" class="form">
+          <p class="card-description">
+<!--            <button type="button" (click)="createParent()"   class="btn btn-gradient-primary btn-rounded btn-fw">Create Parent</button>-->
+          </p>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Select Parent<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input [disabled]="true" type="text" class="form-control" id="pname"  name="parent"
+                         placeholder="{{student.parent.firstName}} {{student.parent.lastName}}">
+<!--                  <select [disabled]="true" name="parent" class="form-control" [(ngModel)]="selectedparent" >-->
+<!--                    <option  [ngValue]="undefined">SELECT</option>-->
+<!--                    <option *ngFor="let c of parents" [ngValue]="c">{{c.firstName}} {{c.lastName}}</option>-->
+<!--                  </select>-->
                 </div>
-                <div class="form-group" *ngIf="userRole() === 'ROLE_ADMIN'">
-                    <label for="start_year">Start year</label>
-                    <input type="number" class="form-control" id="start_year" required [(ngModel)]="response.start_year" name="start_year" placeholder="{{student.start_year}}" value="{{student.start_year}}">
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">First Name<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input [disabled]="true" type="text" class="form-control" id="fname" required [(ngModel)]="student.firstName" name="firstname" placeholder="">
                 </div>
-                <div class="form-group">
-                    <label for="gender">Gender</label>
-                   <select name="gender" class="form-control form-control-sm" [(ngModel)]="selectedOptionGender">
-                        <option *ngFor="let gender of genders" [ngValue]="gender">{{gender}}</option>
-                   </select>
-                </div>
+              </div>
+            </div>
+          </div>
 
-                <div class="form-group" *ngIf="userRole() === 'ROLE_ADMIN'">
-                    <label for="classroom">Classroom</label>
-                   <select name="classroom" class="form-control form-control-sm" [(ngModel)]="selectedOption">
-                        <option *ngFor="let classroom of classrooms" [ngValue]="classroom">{{classroom.year}}/{{classroom.letter}}</option>
-                   </select>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Last Name<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input [disabled]="true" type="text" class="form-control" id="lname" required [(ngModel)]="student.lastName" name="lname" placeholder="">
                 </div>
-                <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
-        </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Guardian Relation<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="grelation" required [(ngModel)]="student.guardianRelation" name="grelation" placeholder="">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Gender<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input [disabled]="true" type="text" class="form-control" id="gen" required [(ngModel)]="student.gender" name="gen" placeholder="">
+<!--                  <select  [disabled]="true" class="form-control" name="gender" [(ngModel)]="selectedOptionGender">-->
+<!--                    <option  [ngValue]="undefined">SELECT</option>-->
+<!--                    <option *ngFor="let gender of genders" [ngValue]="gender">{{gender}}</option>-->
+<!--                  </select>-->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Date of Birth<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input type="date" class="form-control" id="dateOfBirth" required [(ngModel)]="student.dateOfBirth" name="dateOfBirth" [max]=" getToday()">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Parent Type<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input [disabled]="true" type="text" class="form-control" id="ptyp" required  name="ptype"
+                         placeholder="{{student.parentType}}">
+<!--                  <select class="form-control" name="gender" [(ngModel)]="selectedParentType">-->
+<!--                    <option  [ngValue]="undefined">SELECT</option>-->
+<!--                    <option *ngFor="let parentpe of parenttypes" [ngValue]="parentpe">{{parentpe.name}}</option>-->
+<!--                  </select>-->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Class Room<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input [disabled]="true" type="text" class="form-control" id="clr" required  name="claroom"
+                         placeholder="{{student.classroom.year}}/{{student.classroom.letter}}">
+<!--                  <select [disabled]="true" name="classroom" class="form-control form-control-sm" [(ngModel)]="selectedclassroom">-->
+<!--                    <option  [ngValue]="undefined">SELECT</option>-->
+<!--                    <option *ngFor="let classroom of classrooms" [ngValue]="classroom">{{classroom.year}}/{{classroom.letter}}</option>-->
+<!--                  </select>-->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Student Phone<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control"  [(ngModel)]="student.mobileNo" name="parent1Phone" placeholder="Phone">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Status<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input [disabled]="true" type="text" class="form-control"  [(ngModel)]="student.status" name="parent1hone" placeholder="Phone">
+<!--                    <select   name="stutus" class="form-control form-control-sm" [(ngModel)]="selectedstatus">-->
+<!--&lt;!&ndash;                      <option  [ngValue]="'STUDYING'">SELECT</option>&ndash;&gt;-->
+<!--                      <option *ngFor="let status of stuStatuses" [ngValue]="status" >{{status.name}}</option>-->
+<!--                    </select>-->
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <button type="button" (click)="goBack()" class="btn btn-gradient-secondary">Back</button>
+          <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+        </form>
+      </div>
+    </div>
+
 </div>

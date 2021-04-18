@@ -1,39 +1,49 @@
 <div *ngIf="isDataAvailable">
-
-    <div class="container" *ngIf="userRole()">
-        <div class="container">
-            <div class="container">
-                <h3>TimeTable Entity for {{subject.subjectName}}</h3>
-                <button (click)="create(subject.id)" class="btn btn-primary">New</button>
-            </div>
-            <div class="container">
-                <input class="form-control-searchbox" type="text" name="search" [(ngModel)]="searchText" autocomplete="on"
-                placeholder="&#171; Search">
-                <table  class="table table-striped table-sm">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Day</th>
-                            <th>Lesson Number</th>
-                            <th>Classroom</th>
-                            <th>Class</th>
-                            <th>Functions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let entity of timeTable | filter:searchText">
-                            <td>{{entity.day}}</td>
-                            <td>{{entity.lessonNumber}}</td>
-                            <td>{{entity.room.classroomNumber}}</td>
-                            <td>{{entity.classroom.year}}/{{entity.classroom.letter}}</td>
-                            <td>
-                                <button (click)="update(subject.id)" class="btn btn-warning">Update</button>
-                                <button (click)="delete(subject.id)" class="btn btn-danger">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-md-9 page-title">Time Table - Subject</div>
+    <div class="col-md-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="javascript:;">Time Table</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Subject</li>
+        </ol>
+      </nav>
     </div>
+  </div>
+</div>
+
+<div class="col-lg-12 grid-margin stretch-card" >
+  <div class="card">
+    <div class="card-body">
+      <div class="row stutbl">
+        <div class="col-md-3 card-title">Class Room : {{subjectdetail.fkClassroom.year}}/{{subjectdetail.fkClassroom.letter}} - {{subjectdetail.fkSubject.title}}</div>
+        <div class="col-md-6"></div>
+        <div class="col-md-3">  <button (click)="subjectDetails()"  class="btn btn-gradient-primary btn-rounded btn-fw">Back</button></div>
+      </div>
+     <div >
+<!--      <div *ngFor="let class of classrooms; index as counter"  class="table-responsive pt-3">-->
+<!--      <h3><b>{{counter + 1}}.</b> Class room {{class.year}} / {{ class.letter}}</h3>-->
+      <table class="table" border="1px" class="table table-bordered">
+        <tr class="table-warning">
+          <td></td>
+          <td *ngFor="let day of days">
+            {{day}}
+          </td>
+        </tr>
+        <tr *ngFor="let time of timetableHours" class="table-success">
+          <td>{{time.value}}</td>
+          <td  *ngFor="let day of days">
+                    <span *ngIf="getSubjectByClassAndDayAndTimeForHeadteacher(subjectdetail.fkSubject.id,day,time)">
+                      {{getSubjectByClassAndDayAndTimeForHeadteacher(subjectdetail.fkSubject.id,day,time).subjectDetails.fkSubject.title}} /
+                      {{getSubjectByClassAndDayAndTimeForHeadteacher(subjectdetail.fkSubject.id,day,time).subjectDetails.fkTeacher.fkUser.fullname}}
+                    </span>
+            <span *ngIf="!getSubjectByClassAndDayAndTimeForHeadteacher(subjectdetail.fkSubject.id,day,time)">N/A</span>
+          </td>
+        </tr>
+      </table>
+<!--    </div>-->
+     </div>
+    </div>
+  </div>
 </div>
 

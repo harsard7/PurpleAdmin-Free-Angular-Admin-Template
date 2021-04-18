@@ -25,9 +25,10 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Parent Type</label>
-                <div class="col-sm-6">
+                <label class="col-sm-4 col-form-label">Parent Type <span class="mand">*</span></label>
+                <div class="col-sm-8">
                   <select name="employee" class="form-control" [(ngModel)]="selectedParentType" >
+                    <option  [ngValue]="undefined">SELECT</option>
                     <option *ngFor="let c of parentType" [ngValue]="c">{{c.name}}</option>
                   </select>
                 </div>
@@ -38,39 +39,35 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">First Name</label>
-                <div class="col-sm-9">
-                  <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">First Name<span class="mand">*</span></label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control" id="fname" required [(ngModel)]="parent.firstName" name="fname" placeholder="First Name">
-                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Last Name</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">Last Name<span class="mand">*</span></label>
+                <div class="col-sm-8">
                   <input type="text" class="form-control" id="lname" required [(ngModel)]="parent.lastName" name="lanem" placeholder="Last Name">
                 </div>
               </div>
-            </div>
+          </div>
           </div>
 
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Reg No</label>
-                <div class="col-sm-9">
-                  <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">NIC / Passport<span class="mand">*</span></label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control" id="regno" required [(ngModel)]="parent.regNo" name="regno" placeholder="Reg No">
-                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Email</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
                   <input type="email" class="form-control" id="email" required [(ngModel)]="parent.email" name="email" placeholder="Valid Email">
                 </div>
               </div>
@@ -80,9 +77,10 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Gender</label>
-                <div class="col-sm-6">
+                <label class="col-sm-4 col-form-label">Gender<span class="mand">*</span></label>
+                <div class="col-sm-8">
                   <select class="form-control" name="gender" [(ngModel)]="selectedOptionGender">
+                    <option  [ngValue]="undefined">SELECT</option>
                     <option *ngFor="let gender of genders" [ngValue]="gender">{{gender.name}}</option>
                   </select>
                 </div>
@@ -90,9 +88,9 @@
             </div>
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Date of Birth</label>
-                <div class="col-sm-9">
-                  <input type="date" class="form-control" id="dateOfBirth" required [(ngModel)]="parent.dateOfBirth" name="dateOfBirth">
+                <label class="col-sm-4 col-form-label">Date of Birth<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                  <input type="date" class="form-control" id="dateOfBirth" required [(ngModel)]="parent.dateOfBirth" name="dateOfBirth" [max]="getToday()">
                 </div>
               </div>
             </div>
@@ -101,18 +99,16 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Address 1</label>
-                <div class="col-sm-9">
-                  <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">Address 1<span class="mand">*</span></label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control" id="add1" required [(ngModel)]="parent.address1" name="add1" placeholder="Address 1">
-                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Address 1</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">Address 1</label>
+                <div class="col-sm-8">
                   <input type="text" class="form-control" id="add2" required [(ngModel)]="parent.address2" name="add2" placeholder="Address 2">
                 </div>
               </div>
@@ -122,18 +118,16 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Address 3</label>
-                <div class="col-sm-9">
-                  <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">Address 3</label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control" id="add3" required [(ngModel)]="parent.address3" name="add3" placeholder="Address 3">
-                  </div>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Address 4</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">Address 4</label>
+                <div class="col-sm-8">
                   <input type="text" class="form-control" id="add4" required [(ngModel)]="parent.address4" name="add4" placeholder="Address 4">
                 </div>
               </div>
@@ -143,18 +137,17 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">City</label>
-                <div class="col-sm-9">
-                  <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">City<span class="mand">*</span></label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control" id="city1" required [(ngModel)]="parent.city" name="city" placeholder="City">
-                  </div>
+
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Comment</label>
-                <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">Comment</label>
+                <div class="col-sm-8">
                   <textarea type="text" class="form-control" id="com" required [(ngModel)]="parent.comment" name="com" placeholder="Comment"></textarea>
                 </div>
               </div>
@@ -164,19 +157,17 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Contact 1</label>
-                <div class="col-sm-9">
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="con1" required [(ngModel)]="parent.mobileNo1" name="con1" placeholder="Contact 1">
-                  </div>
+                <label class="col-sm-4 col-form-label">Contact 1<span class="mand">*</span></label>
+                <div class="col-sm-8">
+                    <input (keyup)="numbersOnly()" type="text" class="form-control" id="con1" required [(ngModel)]="parent.mobileNo1" name="con1" placeholder="Contact 1">
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Contact 2</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="con2" required [(ngModel)]="parent.mobileNo2" name="con2" placeholder="Contact 2">
+                <label class="col-sm-4 col-form-label">Contact 2</label>
+                <div class="col-sm-8">
+                  <input  type="text" class="form-control" id="con2" required [(ngModel)]="parent.mobileNo2" name="con2" placeholder="Contact 2">
                 </div>
               </div>
             </div>
@@ -185,27 +176,15 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group row">
-                <label class="col-sm-3 col-form-label">City</label>
-                <div class="col-sm-9">
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="city" required [(ngModel)]="parent.city" name="city" placeholder="City">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Profession</label>
-                <div class="col-sm-9">
-                  <div class="col-sm-9">
+                <label class="col-sm-4 col-form-label">Profession<span class="mand">*</span></label>
+                <div class="col-sm-8">
                     <input type="text" class="form-control" id="profession" required [(ngModel)]="parent.profession" name="profession" placeholder="Profession">
-                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
+          <button type="button" (click)="goBack()" class="btn btn-dark">Back</button>
           <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
         </form>
       </div>

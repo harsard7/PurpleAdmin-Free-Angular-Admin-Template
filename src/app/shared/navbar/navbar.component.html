@@ -37,6 +37,16 @@
             Activity Log
           </a>
           <div class="dropdown-divider"></div>
+          <a class="dropdown-item" *ngIf="hasSignedIn()" (click)="profile()">
+            <i class="mdi mdi-account-box-outline mr-2 text-primary"></i>
+           Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" *ngIf="hasSignedIn()" (click)="userUpdate()">
+            <i class="mdi mdi-ubuntu mr-2 text-primary"></i>
+               Change Password
+          </a>
+          <div class="dropdown-divider"></div>
           <a class="dropdown-item" *ngIf="hasSignedIn()" (click)="logout()">
             <i class="mdi mdi-logout mr-2 text-primary"></i>
             Signout

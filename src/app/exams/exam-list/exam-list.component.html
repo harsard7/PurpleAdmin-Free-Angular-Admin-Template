@@ -1,17 +1,30 @@
 <div *ngIf="isDataAvailable">
-
-    <div class="container" *ngIf="userRole()">
+  <h5 class="page-title">
+<!--    <h2>Reports</h2>-->
+  </h5>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:;">Exam</a></li>
+      <li class="breadcrumb-item active" aria-current="page">View</li>
+    </ol>
+  </nav>
+</div>
+<div class="col-lg-12 grid-margin stretch-card" *ngIf="userRole()">
+  <div class="card">
+    <div class="card-body">
+<!--      <h2>Create</h2>-->
+      <div class="input-group">
         <div class="container">
-            <div class="container">
                 <h3>Exams - {{student.firstName}} {{student.lastName}} ({{student.classroom.year}} / {{student.classroom.letter}})</h3>
-                <button (click)="create()" id="create" class="btn btn-dark">Create Exam</button>
+                <button (click)="create()" id="create" class="btn btn-gradient-warning">Create Exam</button>
             </div>
             <div class="container">
                 <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-exam">
                     <div class="form-group">
                         <label for="subject">Subject</label>
                         <select name="subject" class="form-control form-control-sm" [(ngModel)]="selectedOption">
-                            <option *ngFor="let subject of subjects" [ngValue]="subject">{{subject.title}}/{{subject.year}}</option>
+                          <option  [ngValue]="undefined">SELECT</option>
+                            <option *ngFor="let subject of subjects" [ngValue]="subject">{{subject.title}}</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-success">Search</button>
@@ -20,10 +33,11 @@
             <div class="container" *ngIf="selected">
                 <input class="form-control-searchbox" type="text" name="search" [(ngModel)]="searchText" autocomplete="on"
                 placeholder="&#171; Search">
-                <table  class="table table-striped table-sm">
-                    <thead class="thead-dark">
+              <table class="table table-bordered" width="80%">
+                    <thead style="background-color: #8a53c2">
                         <tr>
                             <th>Written At</th>
+                            <th>Exam Type</th>
                             <th>Mark</th>
                             <th>Functions</th>
                         </tr>
@@ -31,10 +45,11 @@
                     <tbody>
                         <tr *ngFor="let exam of exams | filter:searchText">
                             <td>{{exam.written_at}}</td>
+                            <td>{{exam.examType}}</td>
                             <td>{{exam.mark}}</td>
                             <td>
-                                <button (click)="update(exam.id)" class="btn btn-warning">Update</button>
-                                <button (click)="delete(exam.id)" class="btn btn-danger">Delete</button>
+                                <button (click)="update(exam.id)" class="btn btn-gradient-primary">Update</button>
+                                <button (click)="delete(exam.id)" class="btn btn-gradient-danger">Delete</button>
                             </td>
                         </tr>
                     </tbody>
@@ -42,5 +57,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 

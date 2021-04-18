@@ -11,25 +11,27 @@ import {SubjectListComponent} from "../subject/subject-list/subject-list.compone
 import {SubjectUpdateComponent} from "../subject/subject-update/subject-update.component";
 import {SetSubjectComponent} from "../subject/set-subject/set-subject.component";
 import {Ng2SearchPipeModule} from "ng2-search-filter";
+import {NgxPaginationModule} from "ngx-pagination";
 
 
 
 const routes: Routes = [
   { path: 'create', component: CreateComponent },
   // { path: 'details/:id', component: SubjectDetailsComponent },
-  { path: 'all', component: ViewallComponent },
+  { path: 'classroom/:id', component: ViewallComponent },
   { path: 'update/:id', component: UpdateComponent },
   // { path: 'setSubject/:id', component: SetSubjectComponent },
 ]
 
 @NgModule({
   declarations: [CreateComponent,ViewallComponent,UpdateComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    ReactiveFormsModule,
-    FormsModule,
-    Ng2SearchPipeModule,
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        ReactiveFormsModule,
+        FormsModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+    ]
 })
 export class SubjectdetailModule { }

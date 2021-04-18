@@ -12,6 +12,7 @@
 
 
 <div class="row">
+  <div class="col-12 grid-margin">
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">Teacher Full Details</h4>
@@ -20,18 +21,16 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group row">
-                  <label class="col-sm-3 col-form-label">First Name</label>
-                     <div class="col-sm-9">
-                       <div class="col-sm-9">
+                  <label class="col-sm-4 col-form-label">First Name <span class="mand">*</span></label>
+                     <div class="col-sm-8">
                             <input type="text" class="form-control" id="fname" required [(ngModel)]="teacher.firstName" name="fname" placeholder="First Name">
-                          </div>
-                        </div>
+                       </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Last Name</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 col-form-label">Last Name<span class="mand">*</span></label>
+                        <div class="col-sm-8">
                           <input type="text" class="form-control" id="lname" required [(ngModel)]="teacher.lastName" name="lanem" placeholder="Last Name">
                         </div>
                       </div>
@@ -41,18 +40,16 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Reg No</label>
-                        <div class="col-sm-9">
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" id="regno" required [(ngModel)]="teacher.regNo" name="regno" placeholder="Reg No">
-                          </div>
-                        </div>
+                        <label class="col-sm-4 col-form-label">Reg No<span class="mand">*</span></label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="regno" required [(ngModel)]="teacher.regNo" name="regno" placeholder="Reg No">
+                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Email</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 col-form-label">Email<span class="mand">*</span></label>
+                        <div class="col-sm-8">
                           <input type="email" class="form-control" id="email" required [(ngModel)]="teacher.email" name="email" placeholder="Valid Email">
                         </div>
                       </div>
@@ -62,9 +59,10 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Gender</label>
-                        <div class="col-sm-6">
+                        <label class="col-sm-4 col-form-label">Gender<span class="mand">*</span></label>
+                        <div class="col-sm-8">
                           <select class="form-control" name="gender" [(ngModel)]="selectedOptionGender">
+                            <option  [ngValue]="undefined">SELECT</option>
                             <option *ngFor="let gender of genders" [ngValue]="gender">{{gender.name}}</option>
                           </select>
                         </div>
@@ -72,9 +70,9 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Date of Birth</label>
-                        <div class="col-sm-9">
-                          <input type="date" class="form-control" id="dateOfBirth" required [(ngModel)]="teacher.dateOfBirth" name="dateOfBirth">
+                        <label class="col-sm-4 col-form-label">Date of Birth<span class="mand">*</span></label>
+                        <div   class="col-sm-8">
+                          <input type="date" class="form-control" id="dateOfBirth" required [(ngModel)]="teacher.dateOfBirth" name="dateOfBirth" [max]="getToday()">
                         </div>
                       </div>
                     </div>
@@ -83,18 +81,16 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Address Line 1</label>
-                        <div class="col-sm-9">
-                          <div class="col-sm-9">
+                        <label class="col-sm-4 col-form-label">Address Line 1<span class="mand">*</span></label>
+                        <div class="col-sm-8">
                             <input type="text" class="form-control" id="add1" required [(ngModel)]="teacher.address1" name="add1" placeholder="Address 1">
                           </div>
-                        </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Address Line 2</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 col-form-label">Address Line 2<span class="mand">*</span></label>
+                        <div class="col-sm-8">
                           <input type="text" class="form-control" id="add2" required [(ngModel)]="teacher.address2" name="add2" placeholder="Address 2">
                         </div>
                       </div>
@@ -104,18 +100,16 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Address Line 3</label>
-                        <div class="col-sm-9">
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" id="add3" required [(ngModel)]="teacher.address3" name="add3" placeholder="Address 3">
-                          </div>
-                        </div>
+                        <label class="col-sm-4 col-form-label">Address Line 3</label>
+                        <div class="col-sm-8">
+                          <input type="text" class="form-control" id="add3" required [(ngModel)]="teacher.address3" name="add3" placeholder="Address 3">
+                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Address Line 4</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 col-form-label">Address Line 4</label>
+                        <div class="col-sm-8">
                           <input type="text" class="form-control" id="add4" required [(ngModel)]="teacher.address4" name="add4" placeholder="Address 4">
                         </div>
                       </div>
@@ -125,18 +119,16 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">City</label>
-                        <div class="col-sm-9">
-                          <div class="col-sm-9">
+                        <label class="col-sm-4 col-form-label">City<span class="mand">*</span></label>
+                        <div class="col-sm-8">
                             <input type="text" class="form-control" id="city" required [(ngModel)]="teacher.city" name="city" placeholder="City">
-                          </div>
-                        </div>
+                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Qualification</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 col-form-label">Qualification<span class="mand">*</span></label>
+                        <div class="col-sm-8">
                           <textarea type="text" class="form-control" id="qual" required [(ngModel)]="teacher.qualification" name="qual" placeholder="Qualification"></textarea>
                         </div>
                       </div>
@@ -146,18 +138,16 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Contact 1</label>
-                        <div class="col-sm-9">
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" id="con1" required [(ngModel)]="teacher.mobileNo1" name="con1" placeholder="Contact 1">
-                          </div>
+                        <label class="col-sm-4 col-form-label">Contact 1<span class="mand">*</span></label>
+                        <div class="col-sm-8">
+                            <input (keyup)="numbersOnly()" type="text" class="form-control" id="con1" required [(ngModel)]="teacher.mobileNo1" name="con1" placeholder="Contact 1">
                         </div>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Contact 2</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 col-form-label">Contact 2</label>
+                        <div class="col-sm-8">
                           <input type="text" class="form-control" id="con2" required [(ngModel)]="teacher.mobileNo2" name="con2" placeholder="Contact 2">
                         </div>
                       </div>
@@ -169,5 +159,6 @@
 
       </form>
     </div>
+  </div>
   </div>
 </div>

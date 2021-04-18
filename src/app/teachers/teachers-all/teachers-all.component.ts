@@ -8,6 +8,7 @@ import {TeacherService} from "../../service/teacher.service";
 import {NotificationService} from "../../service/notification.service";
 import {isAdmin} from "../../shared/roles";
 import {Teacher} from "../../model/teacher";
+import {TeacherDTO} from "../../dto/TeacherDTO";
 
 @Component({
   selector: 'app-teachers-all',
@@ -16,7 +17,7 @@ import {Teacher} from "../../model/teacher";
 })
 export class TeachersAllComponent implements OnInit {
   searchText;
-  teachers: Observable<Teacher[]>;
+  teachers: Observable<TeacherDTO[]>;
   isDataAvailable:boolean = false;
   currentUser: any = {};
   // table

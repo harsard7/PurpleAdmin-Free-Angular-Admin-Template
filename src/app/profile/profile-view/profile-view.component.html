@@ -1,0 +1,415 @@
+<div class="page-header">
+  <h3 class="page-title">
+    My profile
+  </h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="javascript:;">Profile</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">View</li>
+    </ol>
+  </nav>
+</div>
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Profile</h4>
+        <p class="card-description">Basic Details</p>
+        <ngb-tabset>
+          <ngb-tab title="Home">
+            <ng-template ngbTabContent>
+              <div class="media">
+                <img class="mr-3 w-25 rounded" src="assets/images/samples/300x300/13.jpg" alt="sample image">
+                <div class="media-body ">
+                  <div class="row">
+                  <div class="col-md-4">
+                    First Name
+                  </div>
+                  <div class="col-md-4">
+                       {{currentUser.firstName}}
+                  </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Last Name
+                    </div>
+                    <div class="col-md-4">
+                      {{currentUser.lastName}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      User Name
+                    </div>
+                    <div class="col-md-4">
+                      {{currentUser.username}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      User Type
+                    </div>
+                    <div class="col-md-4">
+                      {{currentUser.userType}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                     User Role
+                    </div>
+                    <div class="col-md-4">
+                      {{role}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Status
+                    </div>
+                    <div class="col-md-4">
+                      <div *ngIf="currentUser.active" class="badge badge-success">Active</div>
+                      <div *ngIf="!currentUser.active" class="badge badge-danger">Deactive</div>
+                    </div>
+                  </div>
+              </div>
+
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Profile">
+            <ng-template ngbTabContent>
+              <div class="media">
+                <img class="mr-3 w-25 rounded" src="assets/images/faces/face12.jpg" alt="sample image">
+<!--                 EMPLOYEE-->
+                <div class="media-body " *ngIf="employeerender">
+                  <div class="row">
+                    <div class="col-md-4">
+                      Profession
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.profession}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                     Qualification
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.qualification}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Reg No
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.regNo}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Gender
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.gender}}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-4">
+                     DOB
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.dateOfBirth}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                    Address
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.address1}}  {{employee.address2}}  {{employee.address3}}  {{employee.address4}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      City
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.city}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <i class="mdi mdi-phone text-info"></i> Mobile No
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.mobileNo1}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <i class="mdi mdi-email-outline text-success"></i> Email
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.email}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Status
+                    </div>
+                    <div class="col-md-4">
+                      <div *ngIf="employee.active" class="badge badge-success">Active</div>
+                      <div *ngIf="!employee.active" class="badge badge-danger">Deactive</div>
+                    </div>
+                  </div>
+                </div>
+<!--                     TEACHER-->
+                <div class="media-body " *ngIf="teacherrender">
+                  <div class="row">
+                    <div class="col-md-4">
+                      Profession
+                    </div>
+                    <div class="col-md-4">
+                      {{role}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Qualification
+                    </div>
+                    <div class="col-md-4">
+                      {{teacher.qualification}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Reg No
+                    </div>
+                    <div class="col-md-4">
+                      {{teacher.regNo}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Gender
+                    </div>
+                    <div class="col-md-4">
+                      {{teacher.gender}}
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-4">
+                      DOB
+                    </div>
+                    <div class="col-md-4">
+                      {{teacher.dateOfBirth}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Address
+                    </div>
+                    <div class="col-md-4">
+                      {{teacher.address1}}  {{teacher.address2}}  {{teacher.address3}}  {{teacher.address4}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      City
+                    </div>
+                    <div class="col-md-4">
+                      {{teacher.city}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <i class="mdi mdi-phone text-info"></i> Mobile No
+                    </div>
+                    <div class="col-md-4">
+                      {{teacher.mobileNo1}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <i class="mdi mdi-email-outline text-success"></i> Email
+                    </div>
+                    <div class="col-md-4">
+                      {{teacher.email}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Status
+                    </div>
+                    <div class="col-md-4">
+                      <div *ngIf="teacher.active" class="badge badge-success">Active</div>
+                      <div *ngIf="!teacher.active" class="badge badge-danger">Deactive</div>
+                    </div>
+                  </div>
+                </div>
+<!--                         STUDENT-->
+                <div class="media-body " *ngIf="studentrender">
+                  <div class="row">
+                    <div class="col-md-4">
+                      Profession
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.profession}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Qualification
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.qualification}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Reg No
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.regNo}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Gender
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.gender}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Mobile No
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.mobileNo1}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      DOB
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.dateOfBirth}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Address
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.address1}}  {{employee.address2}}  {{employee.address3}}  {{employee.address4}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      City
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.city}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Email
+                    </div>
+                    <div class="col-md-4">
+                      {{employee.email}}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      Status
+                    </div>
+                    <div class="col-md-4">
+                      <div *ngIf="employee.active" class="badge badge-success">Active</div>
+                      <div *ngIf="!employee.active" class="badge badge-danger">Deactive</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Subjects" *ngIf="subjectDetails">
+            <ng-template ngbTabContent>
+              <div class="media">
+                <div class="media-body ">
+                  <table class="table table-bordered" style="margin-bottom: 10px" width="70%">
+                    <thead style="background-color: #8a53c2" >
+                    <tr>
+                      <th scope="col">#</th>
+                      <th >Subject</th>
+                      <th>Classroom</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let subjectdetail of subjectDetails index as i">
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>{{subjectdetail.fkSubject.title}}</td>
+                      <td>{{ subjectdetail.fkClassroom.year}} / {{ subjectdetail.fkClassroom.letter}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="TimeTable" *ngIf="headteacherrender || studentrender">
+          <ng-template ngbTabContent>
+            <div *ngFor="let class of classrooms; index as counter"  class="table-responsive pt-3">
+              <h3><b>{{counter + 1}}.</b> Class room {{class.year}} / {{ class.letter}}</h3>
+              <table class="table" border="1px" class="table table-bordered">
+                <tr class="table-warning">
+                  <td></td>
+                  <td *ngFor="let day of days">
+                    {{day}}
+                  </td>
+                </tr>
+                <tr *ngFor="let time of timetableHours" class="table-success">
+                  <td>{{time.value}}</td>
+                  <td  *ngFor="let day of days">
+                    <span *ngIf="getSubjectByClassAndDayAndTimeForHeadteacher(class.id,day,time)">
+                      {{getSubjectByClassAndDayAndTimeForHeadteacher(class.id,day,time).subjectDetails.fkSubject.title}} /
+                      {{getSubjectByClassAndDayAndTimeForHeadteacher(class.id,day,time).subjectDetails.fkTeacher.fkUser.fullname}}
+                    </span>
+                    <span *ngIf="!getSubjectByClassAndDayAndTimeForHeadteacher(class.id,day,time)">N/A</span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </ng-template>
+        </ngb-tab>
+          <ngb-tab title="MY TimeTable" *ngIf="subjectDetails">
+            <ng-template ngbTabContent>
+                <table class="table" border="1px" class="table table-bordered">
+                  <tr class="table-warning">
+                    <td></td>
+                    <td *ngFor="let day of days">
+                      {{day}}
+                    </td>
+                  </tr>
+                  <tr *ngFor="let time of timetableHours" class="table-success">
+                    <td>{{time.value}}</td>
+                    <td  *ngFor="let day of days">
+                        <span *ngIf="getSubjectByClassAndDayAndTime(teacher.id,day,time)">{{getSubjectByClassAndDayAndTime(teacher.id,day,time).subjectDetails.fkSubject.title}}
+                          - {{getSubjectByClassAndDayAndTime(teacher.id,day,time).subjectDetails.fkClassroom.year}} / {{getSubjectByClassAndDayAndTime(teacher.id,day,time).subjectDetails.fkClassroom.letter}}</span>
+                      <span *ngIf="!getSubjectByClassAndDayAndTime(teacher.id,day,time)">N/A</span>
+                    </td>
+                  </tr>
+                </table>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+
+      </div>
+    </div>
+  </div>
+</div>

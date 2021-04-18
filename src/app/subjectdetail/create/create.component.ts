@@ -29,13 +29,14 @@ export class CreateComponent implements OnInit {
   currentUser: any = {};
   isDataAvailable: boolean  = false;
   teachers: Observable<TeacherDTO[]>;
-  selectedteacher: any = {};
-  selectedsubject: any = {};
-  selectedclassroom: any = {};
+  selectedteacher: any ;
+  selectedsubject: any ;
+  selectedclassroom: any ;
   subjects: Observable<SubjectResponseDTO[]>;
   classrooms: Observable<Classroom[]>;
   subjectsDetails: Observable<SubjectDetailDTO[]>;
   searchText: string;
+  userSubmitted: boolean;
 
   constructor(private userService: UserService, private router: Router, private notifyService : NotificationService,private classroomService: ClassroomService,
               private teacherService: TeacherService, private subjectService: SubjectService,private  subjecteDetailservice:SubjectdetailService) {
@@ -66,24 +67,45 @@ export class CreateComponent implements OnInit {
   }
 
   onSubmit() {
-    this.subjectdetail.fkClassroom=this.selectedclassroom;
-    this.subjectdetail.fkSubject=this.selectedsubject;
-    this.subjectdetail.fkTeacher=this.selectedteacher;
-    this.subjectdetail.active=true;
+    if (this.validate()) {
+    this.subjectdetail.fkClassroom = this.selectedclassroom;
+    this.subjectdetail.fkSubject = this.selectedsubject;
+    this.subjectdetail.fkTeacher = this.selectedteacher;
+    this.subjectdetail.active = true;
     console.log(this.subjectdetail);
     this.subjecteDetailservice.create(this.subjectdetail).subscribe(() => {
       this.notifyService.showSuccess("SubjectDetail created.", "Success");
       this.reset();
       this.loadSubjectDetails();
-    }, error => { this.notifyService.showError(error)});
+    }, error => {
+      this.notifyService.showError(error)
+    });
     // this.refresh();
+   }
+  }
+
+  validate(){
+    var valid=true;
+    if(!this.selectedsubject){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Subject ");
+    }
+    if(!this.selectedteacher){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Teacher ");
+    }
+    if(!this.selectedclassroom){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select classroom ");
+    }
+    return valid;
   }
 
   reset() {
-    this.subject = new SubjectResponseDTO();
-    this.selectedteacher = {};
-    this.selectedsubject= {};
-    this.selectedclassroom= {};
+    this.subjectdetail = new SubjectDetailDTO();
+    this.selectedteacher =undefined;
+    this.selectedsubject=undefined;
+    this.selectedclassroom=undefined;
   }
 
   refresh(): void {

@@ -186,13 +186,13 @@
       </a>
     </li>
     <li class="nav-item" [ngClass]="{ 'active': employe.isActive }">
-      <a class="nav-link" routerLink="employee/create" routerLinkActive #employe="routerLinkActive">
+      <a class="nav-link" routerLink="employee/all" routerLinkActive #employe="routerLinkActive">
         <span class="menu-title">Employee</span>
         <i class="mdi mdi-home menu-icon"></i>
       </a>
     </li>
     <li class="nav-item" [ngClass]="{ 'active': parent.isActive }">
-      <a class="nav-link" routerLink="parent/create" routerLinkActive #parent="routerLinkActive">
+      <a class="nav-link" routerLink="parent/all" routerLinkActive #parent="routerLinkActive">
         <span class="menu-title">Parent</span>
         <i class="mdi mdi-home menu-icon"></i>
       </a>
@@ -219,6 +219,27 @@
     <li class="nav-item" [ngClass]="{ 'active': subject.isActive }">
       <a class="nav-link" routerLink="subject/all" routerLinkActive #subject="routerLinkActive">
         <span class="menu-title">Subject</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+    </li>
+
+    <li *ngIf="itIsAdmin()" class="nav-item" [ngClass]="{ 'active' : all.isActive || view.isActive  }">
+      <a class="nav-link" (click)="timetableCollapsed = !timetableCollapsed"  [attr.aria-expanded]="timetableCollapsed" aria-controls="tmtbl">
+        <span class="menu-title">TimeTable</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="tmtbl" [ngbCollapse]="!timetableCollapsed">
+        <ul class="nav flex-column sub-menu">
+          <li  class="nav-item"> <a class="nav-link" routerLink="timetable/view/" routerLinkActive="active" #view="routerLinkActive">View </a></li>
+          <li class="nav-item"> <a class="nav-link" routerLink="timetable/create" routerLinkActive="active" #all="routerLinkActive"> Create </a></li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="nav-item" [ngClass]="{ 'active': attendance.isActive }">
+      <a class="nav-link" routerLink="attendance/all" routerLinkActive #attendance="routerLinkActive">
+        <span class="menu-title">Attendance</span>
         <i class="mdi mdi-home menu-icon"></i>
       </a>
     </li>

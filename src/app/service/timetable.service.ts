@@ -20,6 +20,9 @@ export class TimetableService {
   getTimeTableByTeacher(id: number) {
     return this.apiService.get(this.configService.getGetTimeTableByTeacherUrl + '/' + id);
   }
+  getTimeTableByClass(id: number) {
+    return this.apiService.get(this.configService.getFindByClassIdUrl + '/' + id);
+  }
 
   findById(id: number) {
     return this.apiService.get(this.configService.getFindByIdTimeTableUrl + '/' + id);

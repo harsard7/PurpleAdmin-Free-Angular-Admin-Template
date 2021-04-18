@@ -23,6 +23,9 @@ export class TeacherService {
   findAll() {
     return this.apiService.get(this.configService.getFindAllTeacherUrl);
   }
+  findAllForClassroom() {
+    return this.apiService.get(this.configService.findAllTeacherForClassroomUrl);
+  }
 
   create(teacher: TeacherDTO) {
     return this.apiService.post(this.configService.getCreateTeacherUrl, teacher);

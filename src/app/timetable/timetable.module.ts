@@ -8,11 +8,13 @@ import {TimetableEntityUpdateComponent} from "./timetable-entity-update/timetabl
 import {TimetableEntityViewComponent} from "./timetable-entity-view/timetable-entity-view.component";
 import {TimetableListComponent} from "./timetable-list/timetable-list.component";
 import {Ng2SearchPipeModule} from "ng2-search-filter";
+import {NgxPaginationModule} from "ngx-pagination";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 const routes: Routes = [
-  { path: 'create/:id', component: TimetableEntityCreateComponent },
+  { path: 'create', component: TimetableEntityCreateComponent },
   { path: 'update/:id', component: TimetableEntityUpdateComponent },
-  { path: 'view/:id', component: TimetableEntityViewComponent },
+  { path: 'view', component: TimetableEntityViewComponent },
   { path: 'subject/:id', component: TimetableListComponent },
 ]
 
@@ -24,6 +26,8 @@ const routes: Routes = [
         ReactiveFormsModule,
         FormsModule,
         Ng2SearchPipeModule,
+        NgxPaginationModule,
+        NgbModule,
     ]
 })
 export class TimetableModule { }

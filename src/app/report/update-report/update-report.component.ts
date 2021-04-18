@@ -63,7 +63,7 @@ export class UpdateReportComponent implements OnInit {
       if(!this.selectedOption) this.response.subject_id = this.selectedOption.subject.id;
       else this.response.subject_id = this.report.subject.id;
       if(this.semester) this.response.semester = Number(this.semester);
-      else this.response.semester = this.report.semester;
+      // else this.response.semester = this.report.semester;
       if(!this.response.year) this.response.year = this.report.year;
       if(!this.response.mark) this.response.mark = this.report.mark;
       this.reportService.update(this.report.id, this.response).subscribe(() => {

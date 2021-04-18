@@ -40,10 +40,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import {SchoolModule} from "./school/school.module";
 import {SubjectsModule} from "./subject/subject.module";
 import {EmployeeModule} from "./employee/employee.module";
-import { ParentCreateComponent } from './parent/parent-create/parent-create.component';
-import { ParentUpdateComponent } from './parent/parent-update/parent-update.component';
-import { ParentListComponent } from './parent/parent-list/parent-list.component';
 import {ParentModule} from "./parent/parent.module";
+import {RouterStateSnapshot} from "@angular/router";
+import {LoginGuard} from "./guard/login.guard";
+import {AdminGuard} from "./guard/admin.guard";
+import {DatePipe} from "@angular/common";
+
 
 
 @NgModule({
@@ -53,12 +55,9 @@ import {ParentModule} from "./parent/parent.module";
     SidebarComponent,
     FooterComponent,
     DashboardComponent,
-    SpinnerComponent,
     ContentAnimateDirective,
     LoginComponent,
-    ParentCreateComponent,
-    ParentUpdateComponent,
-    ParentListComponent,
+    SpinnerComponent,
 
   ],
   imports: [
@@ -92,7 +91,7 @@ import {ParentModule} from "./parent/parent.module";
     Ng2SearchPipeModule,
     NgxPaginationModule
   ],
-  providers: [ThemeService, CookieService, AuthService, {
+  providers: [ThemeService, CookieService, AuthService,LoginGuard,AdminGuard,DatePipe, {
     provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
   }],
   exports: [

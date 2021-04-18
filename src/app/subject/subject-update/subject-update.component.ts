@@ -23,10 +23,10 @@ export class SubjectUpdateComponent implements OnInit {
   isDataAvailable: boolean = false;
   subject_id: number;
   teachers: Observable<Teacher[]>;
-  subject = new Subject();
+  subject = new SubjectResponseDTO();
   response = new SubjectResponseDTO();
   selectedOption: any = {};
-
+  subtype: any;
   constructor(private userService: UserService, private teacherService: TeacherService,private notifyService : NotificationService,
     private router: Router, private route: ActivatedRoute, private subjectService: SubjectService) { }
 
@@ -36,6 +36,7 @@ export class SubjectUpdateComponent implements OnInit {
       this.currentUser = data;
       this.subjectService.findById(this.subject_id).subscribe(data => {
         this.subject = data;
+        this.subtype=this.subject.subjectType;
         this.teacherService.findAll().subscribe(data => {
           this.teachers = data;
           this.isDataAvailable = true;
@@ -50,19 +51,46 @@ export class SubjectUpdateComponent implements OnInit {
       || !this.response.teacher_id) return true;
     return false;
   }
-
+  validation(){
+    console.log("dasddfdfdf");
+    var valid=true;
+    if(!this.subject.title){
+      valid=false;
+      this.notifyService.showWarning(null,'Please select subject name')
+    }
+    if(!this.subtype){
+      valid=false;
+      this.notifyService.showWarning(null,'Please select Subject type')
+    }
+    return valid;
+  }
   onSubmit() {
-    if(this.isDataChanged) {
-      if(!this.selectedOption) this.response.teacher_id = this.subject.fkTeacher.id;
-      else this.response.teacher_id = Number(this.selectedOption.id);
-      if(!this.response.title) this.response.title = this.subject.title;
-      if(!this.response.year) this.response.year = this.subject.year;
-      this.subjectService.update(this.subject_id, this.response).subscribe(() => {
+    if(this.validation()) {
+      // this.subject.teacher_id = Number(this.selectedOption.id);
+      this.subject.subjectType = this.subtype;
+      this.subjectService.update(this.subject.id,this.subject).subscribe(() => {
         this.notifyService.showSuccess("Subject updated.", "Success");
-        this.refresh();
+        this.router.navigate(['subject/all']);
+      }, error => {
+        this.notifyService.showError(error)
       });
+      // this.refresh();
     }
   }
+
+
+  // onSubmit() {
+  //   if(this.isDataChanged) {
+  //     // if(!this.selectedOption) this.response.teacher_id = this.subject.fkTeacher.id;
+  //     else this.response.teacher_id = Number(this.selectedOption.id);
+  //     if(!this.response.title) this.response.title = this.subject.title;
+  //     if(!this.response.year) this.response.year = this.subject.year;
+  //     this.subjectService.update(this.subject_id, this.response).subscribe(() => {
+  //       this.notifyService.showSuccess("Subject updated.", "Success");
+  //       this.refresh();
+  //     });
+  //   }
+  // }
 
   refresh() {
     this.subjectService.findById(this.subject_id).subscribe(data => {

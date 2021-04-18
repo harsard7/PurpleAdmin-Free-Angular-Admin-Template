@@ -13,6 +13,9 @@ import { isTeacher } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
 import {ClassroomService} from "../../service/classroom.service";
 import {Classroom} from "../../model/classroom";
+import {EnumValues} from "enum-values";
+import {DayOfWeek} from "../../enums/day-of-week";
+import {ExamType} from "../../enums/ExamType";
 
 @Component({
   selector: 'app-create-exam-classroom',
@@ -24,20 +27,21 @@ export class CreateExamClassroomComponent implements OnInit {
   classroom=new Classroom();
   classroom_id: number;
   currentUser: any = {};
-  etype: any = {};
+  etype: any;
   isDataAvailable: boolean = false;
   isBasicSet: boolean = false;
   subjects: Observable<Subject[]>;
   exams: Observable<ExamDTO[]>;
   raw_exams: ExamDTO[];
   response: ExamResponseDTO[];
-  marks: any = {};
-  written_at: any = {};
-  selectedSubject: any = {};
+  marks: any ={};
+  written_at: any;
+  selectedSubject: any;
   TEST: any;
   TOPIC_TEST: any;
   REPETITION: any;
   HOMEWORK: any;
+  examTypes: any;
 
   constructor(private userService: UserService, private subjectService: SubjectService, private router: Router,
     private examService: ExamService, private teacherService: TeacherService, private route: ActivatedRoute,private notifyService : NotificationService,private classroomService: ClassroomService) { }
@@ -56,7 +60,7 @@ export class CreateExamClassroomComponent implements OnInit {
           this.isDataAvailable = true;
           this.classroomService.findById( this.classroom_id).subscribe(data=>{
             this.classroom=data;
-            console.log("5");
+            this.examTypes = EnumValues.getNames(ExamType);
           });
         });
       });
@@ -65,13 +69,13 @@ export class CreateExamClassroomComponent implements OnInit {
 
 
   setBasic() {
-    console.log( this.etype);
-    this.examService.makeExamsFormToClassroom(this.classroom_id, this.written_at, this.etype).subscribe(data => {
-      this.exams = data;
-      this.raw_exams = data;
-      console.log(this.exams);
-      this.isBasicSet = true;
-    });
+    if(this.validate()) {
+      this.examService.makeExamsFormToClassroom(this.classroom_id, this.written_at, this.etype).subscribe(data => {
+        this.exams = data;
+        this.raw_exams = data;
+        this.isBasicSet = true;
+      });
+    }
   }
 
   onSubmit() {
@@ -81,16 +85,33 @@ export class CreateExamClassroomComponent implements OnInit {
        this.notifyService.showSuccess('Exams created', 'Ok');
     }, error => { this.notifyService.showError(error)});
   }
+  validate(){
+    var valid=true;
+    if(!this.selectedSubject){
+      valid=false;
+      this.notifyService.showWarning(null, "Please select Subject");
+    }
+    if(!this.etype){
+      valid=false;
+      this.notifyService.showWarning(null, "Please select Exam Type");
+    }
+    if(!this.written_at){
+      valid=false;
+      this.notifyService.showWarning(null, "Please select Exam written Date");
+    }
+    return valid;
+  }
 
   refresh() {
     this.response = [];
     this.isBasicSet = false;
     this.marks = {};
-    this.written_at = {};
-    this.selectedSubject= {};
+    this.written_at = undefined;
+    this.selectedSubject= undefined;
+    this.etype= undefined;
   }
 
-  collect(marks: number[], entities: ExamDTO[], subject_id: number, written_at: string, etype: string): ExamResponseDTO[] {
+  collect(marks: number[], entities: ExamDTO[], subject_id: number, written_at: string, etype: ExamType): ExamResponseDTO[] {
     var index = 0;
     var result: ExamResponseDTO[] = [];
 
@@ -114,7 +135,9 @@ export class CreateExamClassroomComponent implements OnInit {
   goBack() {
     this.router.navigate(['classroom/all']);
   }
-
+  getToday(): string {
+    return new Date().toISOString().split('T')[0]
+  }
   userRole() {
     if(isTeacher(this.currentUser, this.router)) {
       return true;

@@ -109,6 +109,7 @@ export class ConfigService {
   private verifyAttendanceUrl = this.attendanceUrl + '/verify';
   private getAllAttendancesByClassroomUrl = this.attendanceUrl + '/classroom';
   private allAttendanceByStudentUrl = this.attendanceUrl + '/all';
+  private allAttendance = this.attendanceUrl + '/all';
   private deleteAttendaceUrl = this.attendanceUrl;
 
   get getMakeAttendanceFormToClassroomUrl(): string {
@@ -130,8 +131,10 @@ export class ConfigService {
   get getAllAttendanceByStudentUrl(): string {
     return this.allAttendanceByStudentUrl;
   }
-
-  get getDeleteAttendaceUrl(): string {
+  get getAllAttendaceUrl(): string {
+    return this.allAttendance;
+  }
+  get getDeleteAttendaceUrl():string{
     return this.deleteAttendaceUrl;
   }
 
@@ -338,6 +341,7 @@ export class ConfigService {
 
   private teacherUrl = this.baseUrl + '/teachers';
   private findAllTeacherUrl = this.teacherUrl + '/all';
+  private _findAllTeacherForClassroomUrl = this.teacherUrl + '/classroom';
   private findTeacherById = this.teacherUrl;
   private findTeacherByUserId = this.teacherUrl + '/user';
   private createTeacherUrl = this.teacherUrl + '/create';
@@ -346,6 +350,11 @@ export class ConfigService {
   private deleteTeacherUrl = this.teacherUrl;
   private setTeacherPreferencesUrl = this.teacherUrl + '/preferences';
   private getAllTeacherPreferencesUrl = this.teacherUrl + '/preferences';
+
+
+  get findAllTeacherForClassroomUrl(): string {
+    return this._findAllTeacherForClassroomUrl;
+  }
 
   get getFindAllTeacherUrl(): string {
     return this.findAllTeacherUrl;
@@ -390,12 +399,16 @@ export class ConfigService {
   private findByIdTimeTableUrl = this._timetableUrl;
   private getTimeTableByStudentUrl = this._timetableUrl + '/student';
   private getTimeTableByTeacherUrl = this._timetableUrl + '/teacher';
+  private getTimeTableByClassUrl = this._timetableUrl + '/class';
   private getTimeTableEntitiesBySubjectUrl = this._timetableUrl + '/subject';
   private _timetableAllUrl = this._timetableUrl + '/all';
 
 
   get getFindByIdTimeTableUrl(): string {
     return this.findByIdTimeTableUrl;
+  }
+  get getFindByClassIdUrl(): string {
+    return this.getTimeTableByClassUrl;
   }
 
   get getCreateTimeTableUrl(): string {

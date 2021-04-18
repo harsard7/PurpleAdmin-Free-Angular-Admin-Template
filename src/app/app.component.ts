@@ -19,7 +19,9 @@ export class AppComponent implements OnInit{
     // Removing Sidebar, Navbar, Footer for Documentation, Error and Auth pages
     router.events.forEach((event) => {
       if(event instanceof NavigationStart) {
-        if((event['url'] == '/user-pages/login') || (event['url'] == '/user-pages/register') || (event['url'] == '/error-pages/404') || (event['url'] == '/error-pages/500') ) {
+        console.log(event['url']);
+        if((event['url'] == '/user-pages/login') || (event['url'] == '/user-pages/register') || (event['url'] == '/error-pages/404') || (event['url'] == '/error-pages/500')|| (event['url'] == '/error-pages/403') ) {
+          console.log(event['url']);
           this.showSidebar = false;
           this.showNavbar = false;
           this.showFooter = false;
@@ -31,6 +33,7 @@ export class AppComponent implements OnInit{
             document.querySelector('.content-wrapper').classList.add('p-0');
           }
         } else {
+          console.log(event['url']);
           this.showSidebar = true;
           this.showNavbar = true;
           this.showFooter = true;

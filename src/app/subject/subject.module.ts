@@ -9,6 +9,7 @@ import {SubjectDetailsComponent} from "./subject-details/subject-details.compone
 import {SubjectListComponent} from "./subject-list/subject-list.component";
 import {SubjectUpdateComponent} from "./subject-update/subject-update.component";
 import {SetSubjectComponent} from "./set-subject/set-subject.component";
+import {NgxPaginationModule} from "ngx-pagination";
 
 const routes: Routes = [
   { path: 'create', component: SubjectCreateComponent },
@@ -20,12 +21,13 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [SubjectCreateComponent,SubjectDetailsComponent,SubjectListComponent,SubjectUpdateComponent,SetSubjectComponent],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    ReactiveFormsModule,
-    FormsModule,
-    Ng2SearchPipeModule,
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        ReactiveFormsModule,
+        FormsModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+    ]
 })
 export class SubjectsModule { }

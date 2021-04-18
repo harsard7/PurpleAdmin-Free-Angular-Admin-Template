@@ -19,8 +19,6 @@ export class StudentResponseDTO {
   dateofJoin: string;
   dateofLeave: string;
   leavingReason: string;
-    start_year: number;
-    // address: string;
     gender: string;
     mobileNo: string;
   classroom: Classroom;

@@ -9,6 +9,13 @@ import { TimetableService} from "../../service/timetable.service";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {TimeTableEntityResponseDTO} from "../../dto/response/timeTableEntityResponseDTO";
+import {EnumValues} from "enum-values";
+import {DayOfWeek} from "../../enums/day-of-week";
+import {TimeEnum} from "../../enums/time-enum";
+import {ClassroomResponseDTO} from "../../dto/response/classroomResponseDTO";
+import {SubjectdetailService} from "../../service/subjectdetail.service";
+import {SubjectDetailDTO} from "../../dto/subjectDetailsDTO";
 
 @Component({
   selector: 'app-timetable-list',
@@ -17,33 +24,54 @@ import {NotificationService} from "../../service/notification.service";
 })
 export class TimetableListComponent implements OnInit {
   searchText;
-  subject_id: number;
+  subject_detail_id: number;
   currentUser: any = {};
   subject = new Subject();
+  subjectdetail = new SubjectDetailDTO();
   isDataAvailable: boolean = false;
   timeTable: Observable<TimeTableEntity[]>;
-
+  timetablesnml: TimeTableEntityResponseDTO[];
+  mytimetablesnml: TimeTableEntityResponseDTO[];
+  classroom:ClassroomResponseDTO[];
+  classrooms: ClassroomResponseDTO[]=[];
+  role:any;
+  days: string[];
+  timetableHours: any;
   constructor(private userService: UserService, private subjectService: SubjectService, private notifyService : NotificationService,
-    private router: Router, private route: ActivatedRoute, private timeTableService: TimetableService) { }
+              private  subjecteDetailservice:SubjectdetailService,private router: Router, private route: ActivatedRoute, private timeTableService: TimetableService) { }
 
   ngOnInit() {
-    this.subject_id = this.route.snapshot.params['id'];
+    this.subject_detail_id = this.route.snapshot.params['id'];
+    this.days = EnumValues.getNames(DayOfWeek);
+    this.timetableHours = EnumValues.getNamesAndValues(TimeEnum);
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      this.subjectService.findById(this.subject_id).subscribe(data => {
-        this.subject = data;
-        this.timeTableService.getTimeTableEntitiesBySubject(this.subject_id).subscribe(data => {
-          this.timeTable = data;
-          this.isDataAvailable = true;
+      this.subjecteDetailservice.findById(this.subject_detail_id).subscribe(data => {
+        this.subjectdetail=data;
+        this.timeTableService.getTimeTableByClass(this.subjectdetail.fkClassroom.id).subscribe(data=>{
+          this.timetablesnml=data;
+          this.isDataAvailable=true;
         });
       });
     });
   }
 
-
+  getSubjectByClassAndDayAndTimeForHeadteacher(subid, day, time): TimeTableEntityResponseDTO {
+    // console.log(this.timetablesnml);
+    if (this.timetablesnml != null) {
+      const enrs = this.timetablesnml.filter(enrs => (enrs.subjectDetails.fkSubject.id === subid && enrs.dayOfWeek === day && enrs.time===time.name));
+      // console.log(this.timetablesnml,null,4);
+      if (enrs.length > 0) {
+        return enrs[0];
+      } else {
+        return null;
+      }
+    }
+    // return this.timeTableService.findByClassAndDayAndTime(classid,day,time);
+  }
 
   create() {
-    this.subjectService.findById(this.subject_id).subscribe(data =>
+    this.subjectService.findById(this.subject_detail_id).subscribe(data =>
       this.router.navigate(['timetable/create', data.id])
     );
   }
@@ -58,6 +86,9 @@ export class TimetableListComponent implements OnInit {
 
   update(entity_id: number) {
     this.router.navigate(['timetable/update', entity_id]);
+  }
+  subjectDetails() {
+    this.router.navigate(['subjectdetail/classroom' , this.subjectdetail.fkClassroom.id]);
   }
 
   delete(entity_id: number) {

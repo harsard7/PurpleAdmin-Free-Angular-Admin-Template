@@ -10,6 +10,13 @@ import { ClassroomService } from 'src/app/service/classroom.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isStudent, isIdMatches, isTeacher, isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {UserResponseDTO} from "../../dto/response/userResponseDTO";
+import {ParentDTO} from "../../dto/parentDTO";
+import {UserType} from "../../enums/userType";
+import {StudentStatus} from "../../enums/studentStatus";
+import {EnumValues} from "enum-values";
+import {ParentType} from "../../enums/parentType";
+import {ParentService} from "../../service/parent.service";
 
 @Component({
   selector: 'app-student-update',
@@ -18,93 +25,163 @@ import {NotificationService} from "../../service/notification.service";
 })
 export class StudentUpdateComponent implements OnInit {
 
-  currentUser: any = {}
-  id: number;
+  user = new UserResponseDTO();
   student = new StudentResponseDTO();
-  response = new StudentResponseDTO();
+  currentUser: any = {};
+  userSubmitted: boolean = true;
   isDataAvailable: boolean  = false;
   classrooms: Observable<Classroom[]>;
-  selectedOption: any = {};
+  selectedclassroom: Classroom;
+  joinedclassroom: Classroom;
   selectedOptionGender: any = {};
-  genders: string[] = ['Male', 'Female', 'Other'];
+  selectedstatus: any ;
+  genders: string[] = ['MALE', 'FEMALE'];
+  selectedparent: ParentDTO;
+  parents: Observable<ParentDTO[]>;
+  selectedParentType: any;
+  parenttypes: any[];
+  stuStatuses: any[];
+  student_id: number;
 
-  constructor(private userService: UserService, private studentService: StudentService, private router: Router,
-    private route: ActivatedRoute, private classroomService: ClassroomService, private notifyService : NotificationService) { }
+  constructor(private userService: UserService, private router: Router,  private studentService: StudentService,
+              private route: ActivatedRoute,private classroomService: ClassroomService,private notifyService : NotificationService,private parentService:ParentService) { }
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
+    this.student_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      this.studentService.findById(this.id).subscribe(data => {
+      this.studentService.findById(this.student_id).subscribe(data => {
         this.student = data;
-        this.classroomService.findById(data.classroom.id).subscribe(data => {
-          this.classroomService.findAll().subscribe(data => {
-            this.classrooms = data;
-            this.isDataAvailable = true;
-          });
-        });
-      });
+        //  this.classroomService.findAll().subscribe(data => {
+        // this.classrooms = data;
+        this.isDataAvailable = true;
+
+        this.selectedparent= this.student.parent;
+        this.selectedOptionGender= this.student.gender;
+        this.selectedParentType= this.student.parentType;
+        this.selectedclassroom= this.student.classroom;
+        this.selectedstatus= this.student.status;
+        this.stuStatuses = EnumValues.getNamesAndValues(StudentStatus);
+        console.log(this.selectedstatus);
+        console.log(typeof this.selectedstatus);
+        console.log( typeof this.student.status);
+        console.log(StudentStatus[StudentStatus.STUDYING] );
+        this.selectedstatus=StudentStatus[StudentStatus.STUDYING];
+        // this.selectedstatus="STUDYING";
+        if("STUDYING"===StudentStatus[StudentStatus.STUDYING]){
+          console.log('fgfdgfd');
+        }
+
+       // this.parenttypes = EnumValues.getNamesAndValues(ParentType);
+      // });
+     });
     });
   }
 
-
-  isDataChanged() {
-    if(!this.response.dateOfBirth
-      || !this.response.start_year
-      || !this.response.classroom
-      || !this.response.gender) return true;
-    return false;
-  }
-
-  submit() {
-    if(this.isDataChanged) {
-      if(!this.selectedOptionGender)
-
-      if(!this.response.mobileNo) this.response.mobileNo = this.student.mobileNo;
-      if(!this.response.dateOfBirth) this.response.dateOfBirth = this.student.dateOfBirth;
-
-      if(!this.response.start_year) this.response.start_year = this.student.start_year;
-
-      if(!this.selectedOption) this.response.classroom = this.student.classroom;
-      // else this.response.classroom = Number(this.selectedOption.id);
-      if(!this.selectedOptionGender) this.response.gender = this.student.gender;
-      else this.response.gender = this.selectedOptionGender;
-      this.studentService.update(this.id, this.response).subscribe(() => {
-        this.notifyService.showSuccess('Student updated.', 'Ok');
-        this.refresh();
+  onUserSubmit() {
+    if(this.validate()) {
+      this.studentService.update(this.student.id,this.student).subscribe(() => {
+        this.notifyService.showSuccess(null, "Student Updated");
+        this.goBack();
       }, error => {
-        this.notifyService.showError(error)
+        this.userSubmitted = false;
+        if (error.error instanceof ErrorEvent) {
+          this.notifyService.showError(error, "Client Side Error");
+        } else {
+          this.notifyService.showError(error, "Server side Error");
+        }
       });
     }
+  }
+  validate(){
+    var valid=true;
+    // if(!this.selectedparent){
+    //   valid=false;
+    //   this.notifyService.showWarning(null, "Please Select Parent ");
+    // }
+    if(!this.student.firstName){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student First name");
+    }
+    if(!this.student.lastName){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student Last Name");
+    }else if(this.student.lastName.length<3){
+      valid=false;
+      this.notifyService.showWarning(null, "Student Lastname length should be minimum 3");
+    }
+    if(!this.student.guardianRelation){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student Guardian Relation");
+    }
+    if(!this.selectedOptionGender){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student Gender");
+    } if(!this.selectedParentType){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent type");
+    }
+    if(!this.student.dateOfBirth){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student DOB");
+    }
+
+    if(!this.student.mobileNo){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student mobile no");
+    }
+    if(!this.selectedclassroom){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Join class room");
+    }
+    return valid;
+  }
+  getToday(): string {
+    return new Date().toISOString().split('T')[0]
+  }
+
+
+  refresh() {
+    this.user = new UserResponseDTO();
+    this.student = new StudentResponseDTO();
+    this.userSubmitted = false;
+    this.selectedclassroom = undefined;
+    this.selectedParentType = undefined;
+    this.selectedOptionGender = undefined;
+    this.selectedparent = undefined;
   }
 
   goBack() {
-    if(this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN') {
-      this.router.navigate(['user/all']);
-    } else {
-      this.router.navigate(['home']);
-    }
+    this.router.navigate(['student/all']);
   }
 
-  userUpdate() {
-    this.userService.getById(this.student.fkuser.id).subscribe(data =>
-      this.router.navigate(['user/update', data.id]), error => {  this.notifyService.showError(error)});
-  }
-
-  refresh() {
-    this.userService.getById(this.student.fkuser.id).subscribe(data => {
-      this.student = data;
-    });
-    this.response = new StudentResponseDTO();
-    this.selectedOption = {};
+  createParent(){
+    this.router.navigate(['parent/create']);
   }
 
   userRole() {
-    if(isAdmin(this.currentUser, this.router) || isTeacher(this.currentUser, this.router) ||
-    isIdMatches(this.currentUser, this.router, this.student.id, this.studentService)) {
+    if(isAdmin(this.currentUser, this.router)) {
       return true;
     } else {
       this.router.navigate(['403']);
     }
   }
+
+  errorHandle(error){
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+      this.notifyService.showError(err);
+      console.log("Error 1:-> "+JSON.stringify(error));
+    } else {
+      // server-side error
+      // var err = `Error Code 2: ${error.status}\nMessage: ${error.message}`;
+      var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+      // this.errorMessage = `Connection Failed :\n Contact Admin`;
+      console.log("Error:-> "+JSON.stringify(error.error));
+      this.notifyService.showError(err);
+    }
+  }
+
+
 }

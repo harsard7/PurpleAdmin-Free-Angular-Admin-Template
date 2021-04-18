@@ -8,7 +8,9 @@ import {Router} from "@angular/router";
 import {Observable, of} from "rxjs";
 import {catchError, tap} from "rxjs/operators";
 
+
 const TOKEN_HEADER_KEY = 'Authorization';
+const EXPIRED_MESSAGE = 'Full authentication is required to access this resource';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -37,17 +39,40 @@ export class AuthInterceptor implements HttpInterceptor {
           if(evt.body && evt.body.success)
             // this.notification.showSuccess(evt.body.success.message, evt.body.success.title);
             this.notification.showSuccess("Loged In ", 'Success');
+          console.log('Loged In');
           // this.toasterService.error(err.error.message, err.error.title, { positionClass: 'toast-bottom-center' });
         }
       }),
       catchError((err: any) => {
         if(err instanceof HttpErrorResponse) {
           try {
+            if(err != null && err.status===403){
+              this.router.navigate(['error-pages/403']);
+            }
+            if(err != null && err.status===500){
+              this.router.navigate(['error-pages/500']);
+            }
+            // IF SESSION EXPIRED REDIRECT TO LOGIN
+            if(err != null && err.error != null && err.error.message != null ){
+                    if(EXPIRED_MESSAGE === err.error.message){
+                      this.router.navigate(['user-pages/login']);
+                    }
+            }
             // this.router.navigate(['user-pages/login']);
-            this.notification.showError(err, 'Error Occured');
+            // console.log(JSON.stringify(err,null,4));
+           if (err.error ==null) { // REDIRECT TO SENDER
+              const newRequest = req.clone();
+              return next.handle(newRequest);
+            }else{
+             this.notification.showError(err, 'Error Occured');
+             // this.router.navigate(['user-pages/login']);
+           }
+            // this.notification.showError(err, 'Error Occured');
+
           } catch(e) {
-            this.router.navigate(['user-pages/login']);
-            this.notification.showError('An Authenticatication error occurred', 'Error');
+            // console.log(JSON.stringify(err,null,4));
+            // this.router.navigate(['user-pages/login']);
+            this.notification.showError('An Authentication error occurred', 'Error');
           }
           //log error
         }

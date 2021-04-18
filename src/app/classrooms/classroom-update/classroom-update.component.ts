@@ -19,17 +19,19 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./classroom-update.component.scss']
 })
 export class ClassroomUpdateComponent implements OnInit {
-
+  classroom = new ClassroomResponseDTO();
   sections=['A','B','C','D'];
   currentUser: any = {};
   isDataAvailable: boolean = false;
   id: number;
   teachers: Observable<Teacher[]>;
-  classroom = new Classroom();
+  // classroom = new Classroom();
   response = new ClassroomResponseDTO();
     section: any;
     selected:number;
-
+  selectedteacher:Teacher;
+  updated:boolean;
+  teacherfullname='';
 
   constructor(private userService: UserService, private teacherService: TeacherService, private notifyService : NotificationService,
     private router: Router, private route: ActivatedRoute, private classroomService: ClassroomService,private fb: FormBuilder) { }
@@ -41,16 +43,24 @@ export class ClassroomUpdateComponent implements OnInit {
       this.classroomService.findById(this.id).subscribe(data =>  {
         this.classroom = data;
         this.section=this.classroom.letter;
-        this.teacherService.findAll().subscribe(data => {
+        this.teacherfullname=this.classroom.headTeacher.fkUser.fullname;
+        this.teacherService.findAllForClassroom().subscribe(data => {
           this.teachers = data;
           this.isDataAvailable = true;
           this.selected=this.classroom.headTeacher.id;
+          this.loadTeachers();
         });
       });
     });
   }
 
 
+
+loadTeachers(){
+  this.teacherService.findAllForClassroom().subscribe(data => {
+    this.teachers = data;
+  });
+}
   isDataChanged() {
     if(!this.response.end_year
       || !this.response.headTeacher_id
@@ -61,28 +71,30 @@ export class ClassroomUpdateComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.isDataChanged) {
-      console.log(this.section);
-      console.log(this.classroom);
-      this.response.headTeacher_id = Number(this.selected);
-      if(!this.response.headTeacher_id) this.response.headTeacher_id =this.selected;
-      if(!this.response.letter) this.response.letter = this.section;
-      if(!this.response.year) this.response.year = this.classroom.year;
-      console.log(this.response);
-      this.classroomService.update(this.id, this.response).subscribe(() => {
+    if(this.validate()) {
+      this.classroom.letter = this.section;
+      this.classroom.headTeacher = this.selectedteacher;
+      this.classroomService.update(this.id, this.classroom).subscribe(() => {
+        this.notifyService.showSuccess("Classroom Updated.", "Success");
         this.refresh();
-        this.notifyService.showSuccess("Classroom updated.", "Success");
-      }, error => { this.notifyService.showError(error)});
+        this.updated=true;
+      }, error => {
+        this.notifyService.showError(error);
+      });
     }
   }
 
+  validate(){
+    var valid=true;
+    if(!this.selectedteacher){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Class Teacher");
+    }
+    return valid;
+  }
   refresh() {
-    this.response = new ClassroomResponseDTO();
-    this.section = {};
-    this.selected=0;
-    this.classroomService.findById(this.id).subscribe(data =>  {
-      this.classroom = data;
-    });
+    this.selectedteacher=undefined;
+    this.ngOnInit();
   }
 
   goBack() {

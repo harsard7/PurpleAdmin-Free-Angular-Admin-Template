@@ -1,8 +1,8 @@
 import {SuperUser} from "../abstract/superUser";
-import {Subject} from "../model/subject";
+import {SubjectDetailDTO} from "./subjectDetailsDTO";
 
 export  class TeacherDTO extends SuperUser{
   qualification:string;
-  subjects: Subject[];
+  subjectsDetails: SubjectDetailDTO[];
 
 }

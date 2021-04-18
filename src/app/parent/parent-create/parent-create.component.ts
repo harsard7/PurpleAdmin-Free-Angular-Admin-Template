@@ -12,6 +12,7 @@ import {isAdmin} from "../../shared/roles";
 import {ParentType} from "../../enums/parentType";
 import {ParentService} from "../../service/parent.service";
 import {ParentDTO} from "../../dto/parentDTO";
+import {UserRole} from "../../enums/userRole";
 
 
 @Component({
@@ -49,50 +50,86 @@ export class ParentCreateComponent implements OnInit {
 
   // onUserSubmit() {
   onStudentSubmit() {
-    // todo add validation
-    this.user.role = 'ROLE_ASSISTANT';
-    if(this.selectedParentType.name==='PRINCIPAL'){
-      this.user.userType = UserType.ACADAMIC;
-    }else{
-      this.user.userType = UserType.NON_ACADAMIC;
-    }
-    this.user.username = this.parent.firstName+this.parent.lastName.charAt(0);
-    this.user.password='changeme';
-    this.user.firstName=this.parent.firstName;
-    this.user.lastName=this.parent.lastName;
-    this.user.fullName=this.parent.firstName+' '+this.parent.lastName;
-    this.parent.gender=this.selectedOptionGender.name;
-    this.parent.active=true;
-    console.log(this.user);
-    console.log('============================');
-    console.log(this.parent);
-    this.userService.create(this.user).subscribe((data) => {
-      this.parent.fkUser=this.user=data;
-      this.parentservice.create(this.parent).subscribe(()=>{
-        this.notifyService.showSuccess("Parent Created !!", "Success");
-        this.userSubmitted = true;
-      });
-    }, error => {
-      this.userSubmitted = false;
-      if (error.error instanceof ErrorEvent) {
-        // client-side error
-        // var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
-        this.notifyService.showError(error, "Client Side Error");
-        console.log("Error 1:-> "+JSON.stringify(error));
-      } else {
-        // server-side error
-        // var err = `Error Code 2: ${error.status}\nMessage: ${error.message}`;
-        // var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
-        // this.errorMessage = `Connection Failed :\n Contact Admin`;
-        // console.log("Error:-> "+JSON.stringify(error.error));
-        this.notifyService.showError(error, "Server side Error");
-      }
-    });
-
+   if(this.validate()) {
+     this.user.role = 'ROLE_GUARDIAN';
+     this.user.userType = UserType.NON_ACADAMIC;
+     this.user.username = this.parent.firstName + this.parent.lastName.charAt(0);
+     this.user.password = 'changeme';
+     this.user.firstName = this.parent.firstName;
+     this.user.lastName = this.parent.lastName;
+     this.user.fullName = this.parent.firstName + ' ' + this.parent.lastName;
+     this.parent.gender = this.selectedOptionGender.name;
+     this.parent.active = true;
+     this.userService.create(this.user).subscribe((data) => {
+       this.parent.fkUser = this.user = data;
+       this.parentservice.create(this.parent).subscribe(() => {
+         this.notifyService.showSuccess("Parent Created !!", "Success");
+         this.userSubmitted = true;
+        this.refresh();
+         this.goBack();
+       });
+     }, error => {
+       this.userSubmitted = false;
+       if (error.error instanceof ErrorEvent) {
+         this.notifyService.showError(error, "Client Side Error");
+         console.log("Error 1:-> " + JSON.stringify(error));
+       } else {
+         this.notifyService.showError(error, "Server side Error");
+       }
+     });
+   }
   }
-
+  validate(){
+    var valid=true;
+    if(!this.selectedParentType){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent Type");
+    }
+    if(!this.parent.firstName){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent First name");
+    }
+    if(!this.parent.lastName){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent Last Name");
+    }
+    if(!this.parent.regNo){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent NIC/Passport");
+    }
+    if(!this.parent.email){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent Email");
+    } if(!this.selectedOptionGender){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent Gender");
+    }
+    if(!this.parent.dateOfBirth){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent DOB");
+    }
+    if(!this.parent.address1){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent Address Line 1");
+    }
+    if(!this.parent.address2){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent Address Line 2");
+    }
+    if(!this.parent.city){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent City");
+    }
+    if(!this.parent.mobileNo1){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent Mobile No");
+    }
+    return valid;
+  }
+  getToday(): string {
+    return new Date().toISOString().split('T')[0]
+  }
   onStudentSubmite() {
-
     this.parent.gender = this.selectedOptionGender;
     this.parentservice.create(this.parent).subscribe(() => {
       this.notifyService.showSuccess("Parent Details Created !!", "Success");
@@ -102,31 +139,16 @@ export class ParentCreateComponent implements OnInit {
       this.refresh();
     });
   }
-
-  showToasterSuccess()
-  {
-    this.notifyService.showSuccess("Data shown successfully !!", "SMS sys")
-  }
-
-  showToasterError()
-  {
-    this.notifyService.showError("Something is wrong", "SMS sys")
-  }
-
-  showToasterInfo()
-  {
-    this.notifyService.showInfo("This is info", "SMS sys")
-  }
-
-  showToasterWarning(){
-    this.notifyService.showWarning("This is warning", "SMS sys")
+  numbersOnly() {
+    this.parent.mobileNo1 = this.parent.mobileNo1.replace(/[^0-9.-]/g, '');
   }
 
   refresh() {
     this.user = new UserResponseDTO();
     this.parent = new ParentDTO();
     this.userSubmitted = false;
-    this.selectedOption = {};
+    this.selectedParentType = undefined;
+    this.selectedOptionGender = undefined;
   }
 
   goBack() {

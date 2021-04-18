@@ -15,6 +15,9 @@ export class SubjectdetailService {
   findAll() {
     return this.apiService.get(this.configService.allSubjecdetailUrl);
   }
+  findAllByTeacherID(id: number) {
+    return this.apiService.get(this.configService.allSubjecdetailUrl + '/' + id);
+  }
 
   findById(id: number) {
     return this.apiService.get(this.configService.subjecdetailtByIdUrl + '/' + id);

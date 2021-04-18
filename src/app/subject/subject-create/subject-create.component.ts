@@ -24,7 +24,7 @@ export class SubjectCreateComponent implements OnInit {
   isDataAvailable: boolean  = false;
   teachers: Observable<TeacherDTO[]>;
   selectedOption: any = {};
-  subtype: any= {};
+  subtype: any;
   Mandotory: any;
   Optional: any;
 
@@ -44,19 +44,35 @@ export class SubjectCreateComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.subject.teacher_id = Number(this.selectedOption.id);
-    this.subject.subjectType=this.subtype;
-    this.subjectService.create(this.subject).subscribe(() => {
-      this.notifyService.showSuccess("Subject created.", "Success");
-      this.reset();
-    }, error => { this.notifyService.showError(error)});
-    // this.refresh();
-
+    console.log("dasd");
+    if(this.validation()) {
+      // this.subject.teacher_id = Number(this.selectedOption.id);
+      this.subject.subjectType = this.subtype;
+      this.subjectService.create(this.subject).subscribe(() => {
+        this.notifyService.showSuccess("Subject created.", "Success");
+        this.reset();
+      }, error => {
+        this.notifyService.showError(error)
+      });
+      // this.refresh();
+    }
   }
-
+  validation(){
+    console.log("dasddfdfdf");
+    var valid=true;
+    if(!this.subject.title){
+      valid=false;
+      this.notifyService.showWarning(null,'Please select subject name')
+    }
+    if(!this.subtype){
+      valid=false;
+      this.notifyService.showWarning(null,'Please select Subject type')
+    }
+    return valid;
+  }
   reset() {
     this.subject = new SubjectResponseDTO();
-    this.selectedOption = {};
+    this.subtype = undefined;
   }
 
   refresh(): void {

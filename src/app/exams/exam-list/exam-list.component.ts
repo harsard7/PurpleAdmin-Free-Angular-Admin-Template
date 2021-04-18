@@ -27,7 +27,7 @@ export class ExamListComponent implements OnInit {
   subjects: Observable<Subject[]>;
   selected: boolean = false;
   isDataAvailable: boolean = false;
-  selectedOption: any = {};
+  selectedOption: any;
 
   constructor(private userService: UserService, private subjectService: SubjectService, private teacherService: TeacherService,
     private examService: ExamService, private router: Router, private route: ActivatedRoute, private notifyService : NotificationService,private studentserveice : StudentService) { }
@@ -36,7 +36,7 @@ export class ExamListComponent implements OnInit {
     this.student_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      this.teacherService.findByUserId(2).subscribe(data => {
+      this.teacherService.findByUserId(this.currentUser.id).subscribe(data => {
         this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
           this.subjects = data;
           this.isDataAvailable = true;
@@ -49,16 +49,21 @@ export class ExamListComponent implements OnInit {
 
 
   create() {
-    this.router.navigate(['exam/create', 2]);
+    this.router.navigate(['exam/create', this.student_id]);
   }
 
   onSubmit() {
-    this.examService.findAllByStudent(this.student_id, this.selectedOption.id).subscribe(data => {
-      this.exams = data;
-      console.log(data);
-      this.selected = true;
-    });
+    if(this.selectedOption) {
+      this.examService.findAllByStudent(this.student_id, this.selectedOption.id).subscribe(data => {
+        this.exams = data;
+        console.log(data);
+        this.selected = true;
+      });
+    }else{
+      this.notifyService.showWarning(null, 'Please select Subject');
+    }
   }
+
 
   update(exam_id: number) {
     this.router.navigate(['exam/update/', exam_id]);

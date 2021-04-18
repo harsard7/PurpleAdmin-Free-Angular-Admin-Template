@@ -7,6 +7,7 @@ import {StudentService} from "../../service/student.service";
 import {TeacherService} from "../../service/teacher.service";
 import {isAdmin} from "../../shared/roles";
 import {NotificationService} from "../../service/notification.service";
+import {EmployeeService} from "../../service/employee.service";
 
 @Component({
   selector: 'app-user-list',
@@ -21,7 +22,7 @@ export class UserListComponent implements OnInit {
   // table
   config: any;
   collection = { count: 0, data: [] };
-  public maxSize: number = 7;
+  public maxSize: number = 5;
   public directionLinks: boolean = true;
   public autoHide: boolean = false;
   public responsive: boolean = true;
@@ -34,12 +35,14 @@ export class UserListComponent implements OnInit {
   };
 
   constructor(private userService: UserService, private router: Router,
-              private studentService: StudentService, private teacherService: TeacherService,private notifyService : NotificationService ) { }
+              private studentService: StudentService, private teacherService: TeacherService,private notifyService : NotificationService,private employeeservice:EmployeeService) { }
   ngOnInit() {
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
+    console.log(this.currentUser);
       this.userService.getAll().subscribe(data => {
         this.collection.data=this.users = data;
+        console.log(data);
         this.isDataAvailable = true;
         this.loadData();
       });
@@ -71,6 +74,8 @@ export class UserListComponent implements OnInit {
       } else if(data.authorities[0].authority + '' === 'ROLE_TEACHER'
         || data.authorities[0].authority + '' === 'ROLE_HEADTEACHER') {
         this.teacherService.findByUserId(user_id).subscribe(data => this.router.navigate(['teacher/details', data.id]));
+      }else if(data.authorities[0].authority + '' === 'ROLE_ADMIN') {
+        this.employeeservice.findByUserId(user_id).subscribe(data => this.router.navigate(['employee/details', data.id]));
       }
     });
   }
@@ -82,13 +87,13 @@ export class UserListComponent implements OnInit {
       } else if(data.authorities[0].authority + '' === 'ROLE_TEACHER'
         || data.authorities[0].authority + '' === 'ROLE_HEADTEACHER') {
         this.teacherService.findByUserId(user_id).subscribe(data => this.router.navigate(['teacher/update', data.id]));
+      } else if(data.authorities[0].authority + '' === 'ROLE_ADMIN') {
+        this.employeeservice.findByUserId(user_id).subscribe(data => this.router.navigate(['employee/update', data.id]));
       }
     });
   }
 
-  createStudent() {
-    this.router.navigate(['student/create']);
-  }
+
 
   createTeacher() {
     this.router.navigate(['teacher/create']);
@@ -117,7 +122,7 @@ export class UserListComponent implements OnInit {
               this.refresh();
               this.notifyService.showSuccess("Teacher deleted", "Success");
             });
-          },  error => {this.notifyService.showWarning("Failed, you must update ther subjects, and classes", "Failed"); });
+          },  error => {this.notifyService.showWarning("Failed, you must update the subjects, and classes", "Failed"); });
         });
       }
     });

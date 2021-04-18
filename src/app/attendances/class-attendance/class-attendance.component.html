@@ -1,18 +1,27 @@
-<div *ngIf="isDataAvailable">
 
-    <div class="container" *ngIf="userRole()">
-        <div class="container">
-            <div class="container">
-                <h3>Attendances</h3>
-                <button  class="btn btn-dark">Back</button>
-            </div>
-            <div class="container">
+
+  <div *ngIf="isDataAvailable">
+    <div class="container " *ngIf="userRole()">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="javascript:;">Attendance</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Approval</li>
+        </ol>
+      </nav>
+      <div class="card-body">
+        <div class="template-demo">
+          <button type="button" (click)='createAttendance()'  class="btn btn-gradient-primary btn-rounded btn-fw">Create Attendance</button>
+        </div>
+      </div>
+
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
                 <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-students">
                     <table  class="table table-bordered table-sm">
-                        <thead class="thead-dark">
+                        <thead >
                             <tr>
                                 <th>Date of miss</th>
-                                <th>Lecture</th>
                                 <th>Student name</th>
                                 <th>Verified</th>
                                 <th>Check</th>
@@ -21,14 +30,13 @@
                         <tbody>
                             <tr *ngFor="let attendance of attendances; index as i">
                                 <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.dateOfMiss}}</b></td>
-                                <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.lecture}}</b></td>
-                                <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.student.firstName}}</b></td>
-                                <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.isVerified}}</b></td>
+                                <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.student.firstName}} {{attendance.student.lastname}}</b></td>
+                                <td *ngIf="attendance.isVerified" class="green"><b>{{attendance.isVerified ? 'YES' :'NO'}}</b></td>
 
                                 <td *ngIf="!attendance.isVerified" class="red"><b>{{attendance.dateOfMiss}}</b></td>
-                                <td *ngIf="!attendance.isVerified" class="red"><b>{{attendance.lecture}}</b></td>
                                 <td *ngIf="!attendance.isVerified" class="red"><b>{{attendance.student.firstName}}</b></td>
-                                <td *ngIf="!attendance.isVerified" class="red"><b>{{attendance.isVerified}}</b></td>
+                                <td *ngIf="!attendance.isVerified" class="red"><b>{{attendance.isVerified ? 'YES' :'NO'}}</b></td>
+
                                 <td>
                                     <input [attr.disabled]="attendance.isVerified ? true : null" type="checkbox" class="miss-input" [(ngModel)]="miss[i]" name="miss">
                                 </td>
@@ -36,10 +44,12 @@
                             </tr>
                         </tbody>
                     </table>
-                    <button type="submit" class="btn btn-success">Submit</button>
+                  <br>
+                    <button type="submit" class="btn btn-gradient-success btn-rounded btn-fw">Submit</button>
                 </form>
-            </div>
+           </div>
         </div>
     </div>
+   </div>
 </div>
 

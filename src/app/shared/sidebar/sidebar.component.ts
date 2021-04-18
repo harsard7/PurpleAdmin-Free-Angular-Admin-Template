@@ -7,6 +7,7 @@ import {TeacherService} from "../../service/teacher.service";
 import {Student} from "../../model/student";
 import {StudentService} from "../../service/student.service";
 import {NotificationService} from "../../service/notification.service";
+import {isAdmin} from "../roles";
 
 @Component({
   selector: 'app-sidebar',
@@ -21,6 +22,7 @@ export class SidebarComponent implements OnInit {
   public adminCollapse= false;
   public teacherCollapse= false;
   public headTeacherCollapse= false;
+  public timetableCollapsed= false;
 
   isAdmin: boolean = false;
   isHeadTeacher: boolean = false;
@@ -35,7 +37,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     const body = document.querySelector('body');
-
+   this.user =this.userService.currentUser;
     // add class 'hover-open' to sidebar navitem while hover in sidebar-icon-only menu
     document.querySelectorAll('.sidebar .nav-item').forEach(function (el) {
       el.addEventListener('mouseover', function() {
@@ -50,20 +52,16 @@ export class SidebarComponent implements OnInit {
       });
     });
 
-    this.userService.getMyInfo().toPromise().then(data =>  {
-      this.user = data;
-      console.log(data);
-      if(data){
-        this.isDataAvailable = true;
-        var tcr=this.user.authorities[0].authority + '';
-        if(tcr === 'ROLE_HEADTEACHER' || tcr==='ROLE_TEACHER'){
-          this.teacherService.findByUserId(this.user.id).subscribe(data =>  {
-            this.teacher = data;
-          })
-        }
+    if(this.user){
+      this.isDataAvailable = true;
+      var tcr=this.user.authorities[0].authority + '';
+      console.log(tcr);
+      if(tcr === 'ROLE_HEADTEACHER' || tcr==='ROLE_TEACHER'){
+        this.teacherService.findByUserId(this.user.id).subscribe(data =>  {
+          this.teacher = data;
+        })
       }
-
-    });
+    }
   }
 
   userRole(): string {
@@ -75,7 +73,14 @@ export class SidebarComponent implements OnInit {
   hasSignedIn() {
     return !!this.userService.currentUser;
   }
-
+  itIsAdmin() {
+    if(isAdmin(this.userService.currentUser, this.router)) {
+      return true;
+    } else {
+      return false;
+      // this.router.navigate(['403']);
+    }
+  }
 // ADMIN
 
   getAllUser() {

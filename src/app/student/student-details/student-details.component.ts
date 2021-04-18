@@ -17,6 +17,7 @@ export class StudentDetailsComponent implements OnInit {
   id: number = 0;
   student = new StudentResponseDTO();
   isDataAvailable:boolean = false;
+  searchText: any;
 
   constructor(private userService: UserService, private route: ActivatedRoute,
     private studentService: StudentService, private router: Router) { }
@@ -27,6 +28,7 @@ export class StudentDetailsComponent implements OnInit {
       this.currentUser = data;
       this.studentService.findById(this.id).subscribe(data => {
         this.student = data;
+        console.log(this.student);
         this.isDataAvailable = true;
       });
     });
@@ -40,5 +42,10 @@ export class StudentDetailsComponent implements OnInit {
       this.router.navigate(['403']);
     }
   }
-
+  backToStudentList(){
+    this.router.navigate(['student/all']);
+  }
+  update(){
+    this.router.navigate(['student/update', this.id]);
+  }
 }

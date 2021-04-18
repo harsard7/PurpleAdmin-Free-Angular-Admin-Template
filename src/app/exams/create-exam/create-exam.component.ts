@@ -14,6 +14,8 @@ import { isStudent, isTeacher, isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
 import {Student} from "../../model/student";
 import {StudentResponseDTO} from "../../dto/response/studentResponseDTO";
+import {EnumValues} from "enum-values";
+import {ExamType} from "../../enums/ExamType";
 
 @Component({
   selector: 'app-create-exam',
@@ -24,18 +26,18 @@ export class CreateExamComponent implements OnInit {
 
   student_id: number;
   currentUser: any = {};
-  etype: any = {};
+  etype: any;
   isDataAvailable: boolean  = false;
   exam = new ExamResponseDTO();
   subjects: Observable<Subject[]>;
-  selectedOption: any = {};
+  selectedOption: any;
   classroom = new Classroom();
   student = new StudentResponseDTO();
   TEST: any;
   TOPIC_TEST: any;
   REPETITION: any;
   HOMEWORK: any;
-
+  examTypes: any;
   constructor(private userService: UserService, private router: Router, private examService: ExamService, private teacherService: TeacherService,
     private subjectService: SubjectService, private studentService: StudentService,private notifyService : NotificationService, private route: ActivatedRoute,) { }
 
@@ -43,12 +45,14 @@ export class CreateExamComponent implements OnInit {
     this.student_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      this.teacherService.findByUserId(2).subscribe(data => {
+      console.log (this.currentUser);
+      this.teacherService.findByUserId(this.currentUser.id).subscribe(data => {
         this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
           this.subjects = data;
           this.isDataAvailable = true;
           this.studentService.findById( this.student_id).subscribe(data=>{
            this. student=data;
+            this.examTypes = EnumValues.getNames(ExamType);
           });
         });
       });
@@ -56,6 +60,7 @@ export class CreateExamComponent implements OnInit {
   }
 
   onSubmit() {
+   if(this.validate()){
     this.exam.student_id = this.student_id;
     this.exam.subject_id = this.selectedOption.id;
     this.exam.examType = this.etype;
@@ -63,11 +68,34 @@ export class CreateExamComponent implements OnInit {
       this.refresh();
       this.notifyService.showSuccess("Exam created.", "Success");
     }, error => {this.notifyService.showError(error)});
+    }
+  }
+  validate(){
+
+    var valid=true;
+    if(!this.selectedOption){
+      valid=false;
+      this.notifyService.showWarning(null, "Please select Subject");
+    }
+    if(!this.etype){
+      valid=false;
+      this.notifyService.showWarning(null, "Please select Exam Type");
+    }
+    if(!this.exam.mark || this.exam.mark <0 || this.exam.mark >100){
+      valid=false;
+      this.notifyService.showWarning(null, "Please enter valid exam mark");
+    }
+    if(!this.exam.written_at){
+      valid=false;
+      this.notifyService.showWarning(null, "Please select Exam written Date");
+    }
+    return valid;
   }
 
   refresh() {
     this.exam = new ExamResponseDTO();
-    this.selectedOption = {};
+    this.selectedOption =undefined;
+    this.etype =undefined;
   }
 
   goBack() {
@@ -82,5 +110,8 @@ export class CreateExamComponent implements OnInit {
     } else {
       this.router.navigate(['403']);
     }
+  }
+  getToday(): string {
+    return new Date().toISOString().split('T')[0]
   }
 }

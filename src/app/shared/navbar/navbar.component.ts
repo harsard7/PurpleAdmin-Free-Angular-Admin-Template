@@ -81,6 +81,9 @@ export class NavbarComponent implements OnInit {
   login() {
     this.router.navigate(['user-pages/login']);
   }
+  profile() {
+    this.router.navigate(['profile/view']);
+  }
 
   hasSignedIn() {
     return !!this.userService.currentUser;
@@ -91,5 +94,10 @@ export class NavbarComponent implements OnInit {
       return this.user.username;
     }
     return '';
+  }
+  userUpdate() {
+    this.userService.getById(this.user.id).subscribe(data =>{
+      console.log(data);
+      this.router.navigate(['user/update', data.id])}, error => {  this.notifyService.showError(error)});
   }
 }

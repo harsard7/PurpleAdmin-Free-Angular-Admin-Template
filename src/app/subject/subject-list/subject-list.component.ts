@@ -19,6 +19,20 @@ export class SubjectListComponent implements OnInit {
   isDataAvailable: boolean = false;
   currentUser: any = {};
 
+  config: any;
+  collection = { count: 0, data: [] };
+  public maxSize: number = 7;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public responsive: boolean = true;
+  public labels: any = {
+    previousLabel: '<',
+    nextLabel: '>',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'page',
+    screenReaderCurrentLabel: `You're on page`
+  };
+
   constructor(private userService: UserService, private router: Router,
     private subjectService: SubjectService,private notifyService : NotificationService ) { }
 
@@ -26,13 +40,24 @@ export class SubjectListComponent implements OnInit {
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.subjectService.findAll().subscribe(data => {
-        this.subjects = data;
+        this.collection.data=this.subjects = data;
         console.log( this.subjects);
         this.isDataAvailable = true;
+        this.loadData();
       });
     });
   }
-
+  loadData() {
+    this.config = {
+      itemsPerPage: 5,
+      currentPage: 1,
+      totalItems: this.collection.count
+    };
+  }
+  onPageChange(event){
+    // console.log(event);
+    this.config.currentPage = event;
+  }
   hasSignedIn() {
     return !!this.userService.currentUser;
   }
@@ -62,6 +87,9 @@ export class SubjectListComponent implements OnInit {
 
   createSubject() {
     this.router.navigate(['subject/create']);
+  }
+  goSubjectMapping() {
+    this.router.navigate(['subjectdetail/create']);
   }
 
   refresh(): void {

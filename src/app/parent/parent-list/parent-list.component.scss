@@ -1,0 +1,47 @@
+$default-font-size: .875rem;
+$navbar-menu-color: #9c9fa6;
+$type1-light:     'ubuntu-light', sans-serif;
+$navbar-font-size: .875rem;
+$navbar-icon-font-size: 1.25rem;
+
+.stutbl{
+  margin-bottom: 10px;
+}
+.table-bordered thead td button{
+  font-size: 8px;
+}
+
+.search-field {
+  .input-group {
+    input {
+      font-size: $default-font-size;
+      padding: .5rem;
+
+    }
+    i {
+      font-size: 17px;
+      margin-right: 0;
+      color: $navbar-menu-color;
+    }
+    .input-group-text {
+      background: transparent;
+    }
+  }
+
+}
+
+td button{
+  margin-left: 10px;
+}
+
+.table thead th{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  background-color: #8a53c2;
+  margin-bottom: 5px;
+}
+thead{
+  background-color: #8a53c2;
+  color: white;
+}
+

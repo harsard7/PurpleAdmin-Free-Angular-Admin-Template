@@ -43,7 +43,7 @@ export class CreateAttendanceComponent implements OnInit {
     });
   }
   onSubmit() {
-    this.attendanceService.create(this.collect(this.miss, this.raw_attendances, this.lesson, this.dom)).subscribe(data => {
+    this.attendanceService.create(this.collect(this.miss, this.raw_attendances,  this.dom)).subscribe(data => {
       this.notifyService.showSuccess("Attendance created.", "Success");
 
     }, error => {
@@ -51,16 +51,26 @@ export class CreateAttendanceComponent implements OnInit {
     });
   }
   setBasic() {
-    this.attendanceService.makeAttendanceFormToClassroom(this.classroom_id).subscribe(data => {
-      this.attendances = data;
-      this.raw_attendances = data;
-      this.isBasicSet = true;
-    });
+    if(this.dom && this.dom && (Object.keys(this.dom).length > 0)) {
+      console.log(this.dom);
+      this.attendanceService.makeAttendanceFormToClassroom(this.classroom_id).subscribe(data => {
+        this.attendances = data;
+        this.raw_attendances = data;
+        this.isBasicSet = true;
+        this.notifyService.showSuccess('Form created', 'Ok');
+      });
+    }else{
+      console.log('sdfsf');
+      console.log(this.dom);
+      this.notifyService.showWarning(null, "Please Select the Date of Miss");
+    }
+  }
+  getToday(): string {
+    return new Date().toISOString().split('T')[0]
   }
 
 
-
-  collect(misses: boolean[], entities: AttendanceDTO[], lesson: number, dom: string) : AttendanceResponseDTO[] {
+  collect(misses: boolean[], entities: AttendanceDTO[],  dom: string) : AttendanceResponseDTO[] {
     var index = 0;
     var result: AttendanceResponseDTO[] = [];
     for(let entity of entities) {
@@ -68,7 +78,7 @@ export class CreateAttendanceComponent implements OnInit {
       if(misses[index]) result[index].miss = misses[index];
       else result[index].miss = false;
       result[index].dateOfMiss = dom;
-      result[index].lesson = lesson;
+      // result[index].lesson = lesson;
       result[index].student_id = entity.student.id;
       index++;
     }

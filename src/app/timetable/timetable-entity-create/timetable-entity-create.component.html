@@ -1,98 +1,137 @@
-<!--<div *ngIf="isDataAvailable">-->
-<div >
-
-    <div class="container" *ngIf="userRole()">
-        <div class="container">
-            <h2>Create</h2>
-        </div>
-        <button  mat-button mat-ripple (click)='goBack()' class="btn btn-warning">Back</button>
-        <div class="container">
-            <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-timetable">
-                <div class="form-group">
-                    <label for="classroom">Class</label>
-                   <select (change)="loadSubdetails(selectedOptionClassroom)" name="classroom" class="form-control form-control-sm" [(ngModel)]="selectedOptionClassroom">
-                        <option *ngFor="let classroom of classrooms" [ngValue]="classroom">{{classroom.year}}/{{classroom.letter}}</option>
-                   </select>
-                </div>
-              <div class="form-group">
-                <label for="sudetail">Subject Detail</label>
-                <select id="sudetail" name="sudetail" class="form-control form-control-sm" [(ngModel)]="selectedsubjectDetail">
-                  <option *ngFor="let subdetail of subjectsDetails" [ngValue]="subdetail">{{subdetail.fkSubject.title}}-{{subdetail.fkTeacher.firstName}} {{subdetail.fkTeacher.lastName}}</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="classroom">Day</label>
-                <select name="classroom" class="form-control form-control-sm" [(ngModel)]="selectedOptionDay">
-                  <option *ngFor="let day of days" [ngValue]="day">{{day}}</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="classroom">Time Slot</label>
-                <select name="classroom" class="form-control form-control-sm" [(ngModel)]="selectedOptionTime">
-                  <option *ngFor="let timeslot of timetableHours" [ngValue]="timeslot">{{timeslot.value}}</option>
-                </select>
-              </div>
-
-                <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
-        </div>
-    </div>
+<div class="page-header">
+  <h3 class="page-title">
+   Create Timetable
+  </h3>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:;">TimeTable</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Create</li>
+    </ol>
+  </nav>
 </div>
-<div class="container table-responsive pt-3">
-  <div class="input-group">
-    <div class="input-group-prepend bg-transparent">
-      <i style="color: #6a00d3;font-size: 20px" class="input-group-text border-0 mdi mdi-magnify"></i>
+
+<div class="container" *ngIf="userRole()">
+  <div class="col-md-8 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title"></h4>
+        <button (click)='goBack()'  type="button" class="btn btn-gradient-primary mr-2">Back</button>
+        <h3></h3>
+        <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-timetable">
+          <div class="form-group">
+            <label for="startdate">ClassRoom <span class="mand">*</span></label>
+            <select (change)="loadSubdetails(selectedOptionClassroom)" name="classroom" class="form-control form-control-sm" [(ngModel)]="selectedOptionClassroom">
+              <option  [ngValue]="undefined">SELECT</option>
+              <option *ngFor="let classroom of classrooms" [ngValue]="classroom">{{classroom.year}}/{{classroom.letter}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="sudetail">Subject Detail<span class="mand">*</span></label>
+            <select id="sudetail" name="sudetail" class="form-control form-control-sm" [(ngModel)]="selectedsubjectDetail">
+              <option  [ngValue]="undefined">SELECT</option>
+              <option *ngFor="let subdetail of subjectsDetails" [ngValue]="subdetail">{{subdetail.fkSubject.title}}-{{subdetail.fkTeacher.firstName}} {{subdetail.fkTeacher.lastName}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="classroom">Day<span class="mand">*</span></label>
+            <select name="classroom" class="form-control form-control-sm" [(ngModel)]="selectedOptionDay">
+              <option  [ngValue]="undefined">SELECT</option>
+              <option *ngFor="let day of days" [ngValue]="day">{{day}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="classroom">Time Slot<span class="mand">*</span></label>
+            <select name="classroom" class="form-control form-control-sm" [(ngModel)]="selectedOptionTime">
+              <option  [ngValue]="undefined">SELECT</option>
+              <option *ngFor="let timeslot of timetableHours" [ngValue]="timeslot">{{timeslot.value}}</option>
+            </select>
+          </div>
+          <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
+          <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+      </div>
     </div>
-    <input  type="text" class="form-control bg-transparent border-0" placeholder="Search Users"  name="search" [(ngModel)]="searchText">
   </div>
-  <table  class="table table-bordered">
-    <thead >
-    <tr class="table-primary">
-      <th>Grade</th>
-      <th>Subject</th>
-      <th>Teacher</th>
-      <th>Day</th>
-      <th>Time Slot</th>
 
-      <!--                            <th>Teacher</th>-->
-      <!--      <th>Functions</th>-->
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let timetable of timetables | filter:searchText">
-      <td>{{timetable.classroom.year}}/{{timetable.classroom.letter}}</td>
-      <td>{{timetable.subjectDetails.fkSubject.title}}</td>
-      <td>{{timetable.subjectDetails.fkTeacher.firstName}} {{timetable.subjectDetails.fkTeacher.lastName}}</td>
-      <td>{{timetable.dayOfWeek}} </td>
-      <td>{{timetable.time}} </td>
-      <!--                            <td>{{subject.fkTeacher.fkUser.username}}</td>-->
-      <!--      <td>-->
-      <!--        <button (click)="details(subject.id)" class="badge badge-success">Details</button>-->
-      <!--        <button *ngIf="currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="update(subject.id)" class="badge badge-warning">Update</button>-->
-      <!--        <button *ngIf="currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="delete(subject.id)" class="badge badge-danger">Delete</button>-->
-      <!--        <button *ngIf="currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="timetable(subject.id)" class="badge badge-info">TimeTable</button>-->
-      <!--      </td>-->
-    </tr>
-    </tbody>
-  </table>
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <ngb-accordion [closeOthers]="true" activeIds="collapse-1" class="accordion-bordered">
+          <ngb-panel style="color: blue" id="collapse-1" title="Time table Records View">
+            <ng-template ngbPanelContent>
+            <div class="input-group">
+              <div class="input-group-prepend bg-transparent">
+                <i class="input-group-text border-0 mdi mdi-magnify"></i>
+              </div>
+              <input  type="text" class="form-control bg-transparent border-0" placeholder="Search Details"  name="search" [(ngModel)]="searchText">
+            </div>
+            <div class="table-responsive pt-3">
+          <h4 class="card-title">User table</h4>
+          <table class="table table-bordered">
+            <thead style="background-color: #8a53c2">
+            <tr>
+              <th>Grade</th>
+              <th>Subject</th>
+              <th>Teacher</th>
+              <th>Day</th>
+              <th>Time Slot</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let timetable of collection.data | filter:searchText | paginate: config ">
+               <td>{{timetable.classroom.year}}/{{timetable.classroom.letter}}</td>
+              <td>{{timetable.subjectDetails.fkSubject.title}}</td>
+              <td>{{timetable.subjectDetails.fkTeacher.firstName}}  {{timetable.subjectDetails.fkTeacher.lastName}}</td>
+              <td>{{timetable.dayOfWeek}} </td>
+              <td>{{timetable.time}} - [{{enumValue(timetable.time)}}]</td>
+            </tr>
+            </tbody>
+          </table>
+          <!--                <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>-->
+          <pagination-controls
+            [maxSize]="maxSize"
+            [directionLinks]="directionLinks"
+            [autoHide]="autoHide"
+            [responsive]="responsive"
+            [previousLabel]="labels.previousLabel"
+            [nextLabel]="labels.nextLabel"
+            [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+            [screenReaderPageLabel]="labels.screenReaderPageLabel"
+            [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel"
+            (pageChange)="onPageChange($event)"></pagination-controls>
+        </div>
+            </ng-template>
+          </ngb-panel>
+          <ngb-panel  id="collapse-2" title="Time table View" style="color: blue">
+            <ng-template ngbPanelContent>
+              <div *ngFor="let class of classrooms; index as counter"  class="table-responsive pt-3">
+                <h3><b>{{counter + 1}}.</b> Class room {{class.year}} / {{ class.letter}}</h3>
+                <table class="table" border="1px" class="table table-bordered">
+                  <tr class="table-warning">
+                    <td></td>
+                    <!--      <td *ngFor="let time of timetableHours">-->
+                    <td *ngFor="let day of days">
+                      <!--        {{time.value}}-->
+                      {{day}}
+                    </td>
+                  </tr>
+                  <tr *ngFor="let time of timetableHours" class="table-success">
+                    <td>{{time.value}}</td>
+                    <td  *ngFor="let day of days">
+                      <span *ngIf="getSubjectByClassAndDayAndTime(class.id,day,time)">{{getSubjectByClassAndDayAndTime(class.id,day,time).subjectDetails.fkSubject.title}}
+                      / {{getSubjectByClassAndDayAndTime(class.id,day,time).subjectDetails.fkTeacher.fkUser.fullname}}</span>
+                      <span *ngIf="!getSubjectByClassAndDayAndTime(class.id,day,time)">N/A</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div *ngFor="let class of classrooms"  class="table-responsive pt-3">
-  <h3>{{class.year}} / {{ class.letter}}</h3>
-  <table class="table" border="1px" class="table table-bordered">
-    <tr class="table-warning">
-      <td></td>
-      <td *ngFor="let time of timetableHours">
-        {{time.value}}
-      </td>
-    </tr>
-    <tr *ngFor="let day of days" class="table-success">
-      <td>{{day}}</td>
-      <td *ngFor="let time of timetableHours">
-        <span *ngIf="getSubjectByClassAndDayAndTime(class.id,day,time)">{{getSubjectByClassAndDayAndTime(class.id,day,time).subjectDetails.fkSubject.title}}</span>
-        <span *ngIf="!getSubjectByClassAndDayAndTime(class.id,day,time)">N/A</span>
-      </td>
-    </tr>
-  </table>
-</div>
+
+

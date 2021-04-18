@@ -1,37 +1,48 @@
 <div *ngIf="isDataAvailable">
-
-    <div class="container" *ngIf="userRole()">
-      <div class="container">
-        <h2>Summary</h2>
-      </div>
-        <div class="container">
-            <table class="table table-striped table-sm table-bordered">
-              <thead  class="thead-dark">
-                <th>Subject</th>
-                <th>Marks</th>
-                <th>Avg.</th>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let summary of summaries">
-                    <td *ngIf="summary.subjectName">{{summary.subjectName}}</td>
-                    <td><ng-container *ngFor="let exam of summary.exams">
-                      <span *ngIf="(exam.examType == 'TEST')" style="color: black;">
-                        {{exam?.mark}},
-                      </span>
-                      <span *ngIf="(exam.examType == 'TOPIC_TEST')" style="color: red;">
-                        {{exam?.mark}},
-                      </span>
-                      <span *ngIf="(exam.examType == 'REPETITION')" style="color: blue;">
-                        {{exam?.mark}},
-                      </span>
-                      <span *ngIf="(exam.examType == 'HOMEWORK')" style="color: green;">
-                        {{exam?.mark}},
-                      </span>
-                    </ng-container></td>
-                    <td>{{ summary.average.toFixed(2)}}</td>
-                  </tr>
-              </tbody>
-            </table>
-        </div>
-    </div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:;">Student</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Summary</li>
+    </ol>
+  </nav>
 </div>
+
+<div class="col-lg-12 grid-margin stretch-card" *ngIf="userRole()">
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive pt-3">
+        <h4 class="card-title">Student Marks Summary</h4>
+        <table class="table table-bordered"  *ngIf="student">
+          <thead style="background-color: #8a53c2">
+          <th>Subject</th>
+          <th>Marks</th>
+          <th>Avg.</th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let summary of summaries">
+            <td *ngIf="summary.subjectName">{{summary.subjectName}}</td>
+            <td><ng-container *ngFor="let exam of summary.exams">
+                      <span *ngIf="(exam.examType == 'TERM_1')" style="color: black;">
+                        {{exam?.mark}},
+                      </span>
+              <span *ngIf="(exam.examType == 'TERM_2')" style="color: red;">
+                        {{exam?.mark}},
+                      </span>
+              <span *ngIf="(exam.examType == 'TERM_3')" style="color: blue;">
+                        {{exam?.mark}},
+                      </span>
+            </ng-container></td>
+            <td>{{ summary.average.toFixed(2)}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

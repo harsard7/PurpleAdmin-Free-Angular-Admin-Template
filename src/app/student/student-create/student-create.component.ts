@@ -57,43 +57,91 @@ export class StudentCreateComponent implements OnInit {
   }
 
   onUserSubmit() {
-    this.user.role = 'ROLE_STUDENT';
-    this.user.username = this.student.firstName+this.student.lastName;
-    this.user.password = 'changeme';
-    this.user.userType = UserType.ACADAMIC;
-    this.user.firstName =this.student.firstName;
-    this.user.lastName = this.student.lastName;
-    this.student.fkuser= this.user;
-    this.student.parent= this.selectedparent;
-    this.student.parentType= this.selectedParentType.name;
-    this.student.status=StudentStatus.ADMISSION_PENDING;
-    this.student.active=true;
-    this.student.classroom=this.selectedclassroom;
-    this.student.JoinClass=this.joinedclassroom;
-    this.userService.create(this.user).subscribe((data) => {
-      this.student.fkuser=data;
-      this.onStudentSubmit();
-      // this.notifyService.showSuccess("Student Created !!", "Success");
-      this.userSubmitted = true;
-    }, error => {
-      this.userSubmitted = false;
-      if (error.error instanceof ErrorEvent) {
-        this.notifyService.showError(error, "Client Side Error");
-        console.log("Error 1:-> "+JSON.stringify(error));
-      } else {
-        this.notifyService.showError(error, "Server side Error");
-      }
-     });
+    if(this.validate()) {
+      this.user.role = 'ROLE_STUDENT';
+      this.user.username = this.student.firstName + this.student.lastName.substring(0,2);
+      this.user.password = 'changeme';
+      this.user.userType = UserType.ACADAMIC;
+      this.user.firstName = this.student.firstName;
+      this.user.lastName = this.student.lastName;
+      this.student.fkuser = this.user;
+      this.student.parent = this.selectedparent;
+      this.student.parentType = this.selectedParentType.name;
+      this.student.status = StudentStatus.ADMISSION_PENDING;
+      this.student.active = true;
+      this.student.classroom = this.selectedclassroom;
+      this.student.JoinClass = this.joinedclassroom;
+      this.userService.create(this.user).subscribe((data) => {
+        this.student.fkuser = data;
+        this.onStudentSubmit();
+        // this.notifyService.showSuccess("Student Created !!", "Success");
+        this.userSubmitted = true;
+      }, error => {
+        this.userSubmitted = false;
+        if (error.error instanceof ErrorEvent) {
+          this.notifyService.showError(error, "Client Side Error");
+          console.log("Error 1:-> " + JSON.stringify(error));
+        } else {
+          this.notifyService.showError(error, "Server side Error");
+        }
+      });
+    }
   }
+  validate(){
+    var valid=true;
+    if(!this.selectedparent){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent ");
+    }
+    if(!this.student.firstName){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student First name");
+    }
+    if(!this.student.lastName){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student Last Name");
+    }else if(this.student.lastName.length<3){
+      valid=false;
+      this.notifyService.showWarning(null, "Student Lastname length should be minimum 3");
+    }
+    if(!this.student.guardianRelation){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student Guardian Relation");
+    }
+    if(!this.selectedOptionGender){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student Gender");
+    } if(!this.selectedParentType){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Parent type");
+    }
+    if(!this.student.dateOfBirth){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student DOB");
+    }
 
+    if(!this.student.mobileNo){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Student mobile no");
+    }
+    if(!this.selectedclassroom){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Join class room");
+    }
+    return valid;
+  }
+  getToday(): string {
+    return new Date().toISOString().split('T')[0]
+  }
   onStudentSubmit() {
     this.student.gender = this.selectedOptionGender;
     this.studentService.create(this.student).subscribe(() => {
       this.notifyService.showSuccess("Student Details Created !!", "Success");
       this.refresh();
+      this.goBack();
     }, error => {
       this.errorHandle(error);
-      this.refresh();
+      // this.refresh();
     });
   }
 
@@ -101,7 +149,10 @@ export class StudentCreateComponent implements OnInit {
     this.user = new UserResponseDTO();
     this.student = new StudentResponseDTO();
     this.userSubmitted = false;
-    this.selectedclassroom = null;
+    this.selectedclassroom = undefined;
+    this.selectedParentType = undefined;
+    this.selectedOptionGender = undefined;
+    this.selectedparent = undefined;
   }
 
   goBack() {

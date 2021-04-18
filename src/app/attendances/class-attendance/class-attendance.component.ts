@@ -64,7 +64,9 @@ export class ClassAttendanceComponent implements OnInit {
       this.router.navigate(['403']);
     }
   }
-
+  createAttendance(){
+    this.router.navigate(['create', this.classroom_id]);
+  }
   refresh(): void {
     window.location.reload();
   }

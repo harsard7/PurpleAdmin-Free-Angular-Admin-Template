@@ -24,6 +24,21 @@ export class ViewAttendanceComponent implements OnInit {
   currentUser: any = {};
   attendances: Observable<Attendance[]>;
 
+  // table
+  config: any;
+  collection = { count: 0, data: [] };
+  public maxSize: number = 5;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public responsive: boolean = true;
+  public labels: any = {
+    previousLabel: '<',
+    nextLabel: '>',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'page',
+    screenReaderCurrentLabel: `You're on page`
+  };
+
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute,
     private attendanceService: AttendanceService, private studentService: StudentService,private notifyService : NotificationService) { }
 
@@ -37,11 +52,24 @@ export class ViewAttendanceComponent implements OnInit {
         this.studentService.findById(this.student_id).subscribe(data => {
           this.student = data;
           this.isDataAvailable = true;
+          this.loadData();
         })
       });
     });
   }
-
+  loadData() {
+    this.config = {
+      itemsPerPage: 10,
+      currentPage: 1,
+      totalItems: this.collection.count
+    };
+    console.log(this.collection.count);
+    console.log(this.config.totalItems);
+  }
+  onPageChange(event){
+    // console.log(event);
+    this.config.currentPage = event;
+  }
 
   userRole() {
     if(isAdmin(this.currentUser, this.router) || isTeacher(this.currentUser, this.router) ||

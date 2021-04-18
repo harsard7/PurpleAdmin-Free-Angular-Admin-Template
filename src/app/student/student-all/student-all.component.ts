@@ -6,7 +6,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ClassroomService} from "../../service/classroom.service";
 import {StudentService} from "../../service/student.service";
 import {isAdmin, isTeacher} from "../../shared/roles";
-import {Teacher} from "../../model/teacher";
+
+
 
 @Component({
   selector: 'app-student-all',
@@ -26,7 +27,7 @@ export class StudentAllComponent implements OnInit {
   // table
   config: any;
   collection = { count: 0, data: [] };
-  public maxSize: number = 7;
+  public maxSize: number = 5;
   public directionLinks: boolean = true;
   public autoHide: boolean = false;
   public responsive: boolean = true;
@@ -46,15 +47,30 @@ export class StudentAllComponent implements OnInit {
     // this.classroom_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      this.studentService.findAll().subscribe(data =>  this.collection.data=this.students = data);
-    }).then(() =>{this.isDataAvailable = true; this.loadData();});
+      this.studentService.findAll().subscribe(data =>  {
+        console.log('111');
+        this.collection.data=this.students = data;
+        console.log('2');
+        console.log(this.students);
+        console.log('3');
+        this.isDataAvailable = true;
+        console.log('4');
+        this.loadData();
+        console.log('5');
+      });
+
+    });
   }
+
+
   loadData() {
+
     this.config = {
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       currentPage: 1,
       totalItems: this.collection.count
     };
+    console.log(this.config,null,4);
   }
 
   onPageChange(event){
@@ -70,6 +86,18 @@ export class StudentAllComponent implements OnInit {
     }
   }
 
+  roleAdmin(){
+    if(isAdmin(this.currentUser, this.router)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  createStudent() {
+    this.router.navigate(['student/create']);
+  }
   details(user_id: number) {
     this.userService.getById(user_id).subscribe(data => {
       this.studentService.findByUserId(user_id).subscribe(data => this.router.navigate(['student/details', data.id]));

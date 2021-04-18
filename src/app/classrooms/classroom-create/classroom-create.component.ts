@@ -32,37 +32,58 @@ export class ClassroomCreateComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log('onSubmit');
     this.userService.getMyInfo().toPromise().then(data =>  {
-      console.log('onSubmit 1');
       this.currentUser = data;
-      this.teacherService.findAll().subscribe(data => {
-        console.log('onSubmit 2');
-        this.teachers = data;
-        console.log(this.teachers);
-        this.isDataAvailable = true;
-      });
+      this.isDataAvailable = true;
+      this.loadTeachers();
     });
-    console.log('onSubmit 3');
+
+  }
+
+  loadTeachers(){
+    this.teacherService.findAllForClassroom().subscribe(data => {
+      this.teachers = data;
+    });
   }
 
   onSubmit() {
-    // this.classroom.headTeacher_id = Number(this.selectedteacher);
-console.log('onSubmit');
-    this.classroom.letter = this.section;
-    this.classroom.headTeacher = this.selectedteacher;
-    this.classroomService.create(this.classroom).subscribe(() => {
-      this.notifyService.showSuccess("Classroom created.", "Success");
-      this.reset();
-    }, error => {
-      this.notifyService.showError(error);
-    });
+    if(this.validate()) {
+      this.classroom.letter = this.section;
+      this.classroom.headTeacher = this.selectedteacher;
+      this.classroomService.create(this.classroom).subscribe(data => {
+        this.notifyService.showSuccess("Classroom created.", "Success");
+        this.reset();
+      }, error => {
+        this.notifyService.showError(error);
+      });
+    }
   }
 
   reset() {
     this.classroom = new ClassroomResponseDTO();
-    this.selectedteacher =new Teacher();
-    this.section = {};
+    this.selectedteacher =undefined;
+    this.section = undefined;
+    this.loadTeachers();
+  }
+  validate(){
+    var valid=true;
+    if(!this.classroom.year){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Grade");
+    }else{
+      if(this.classroom.year < 1 || this.classroom.year >13){
+        this.notifyService.showWarning(null, "Please Select Valid Grade");
+      }
+     }
+    if(!this.section){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Section");
+    }
+    if(!this.selectedteacher){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Class Teacher");
+    }
+    return valid;
   }
 
 

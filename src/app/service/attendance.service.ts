@@ -35,5 +35,8 @@ export class AttendanceService {
   makeAttendanceFormToClassroom(classroom_id: number) {
     return this.apiService.get(this.configService.getMakeAttendanceFormToClassroomUrl + '/' + classroom_id);
   }
+  getAllAttendancesByClassroomAndDate(sdate:string,edate:string,classroom_id: number) {
+    return this.apiService.get(this.configService.getAllAttendaceUrl + '/' + sdate + '/' +edate+'/'+classroom_id );
+  }
 
 }

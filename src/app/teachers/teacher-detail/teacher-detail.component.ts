@@ -6,6 +6,7 @@ import {StudentService} from "../../service/student.service";
 import {isAdmin, isIdMatches, isTeacher} from "../../shared/roles";
 import {TeacherService} from "../../service/teacher.service";
 import {Teacher} from "../../model/teacher";
+import {TeacherDTO} from "../../dto/TeacherDTO";
 
 @Component({
   selector: 'app-teacher-detail',
@@ -16,7 +17,7 @@ export class TeacherDetailComponent implements OnInit {
 
   currentUser: any = {};
   id: number = 0;
-  teacher = new Teacher();
+  teacher = new TeacherDTO();
   isDataAvailable:boolean = false;
 
   constructor(private userService: UserService, private route: ActivatedRoute,
@@ -34,7 +35,9 @@ export class TeacherDetailComponent implements OnInit {
       });
     });
   }
-
+  back(){
+    this.router.navigate(['teacher/all']);
+  }
   // userRole(): boolean {
   //   if(isAdmin(this.currentUser, this.router) || isTeacher(this.currentUser, this.router) ||
   //     isIdMatches(this.currentUser, this.router, this.teacher.id, this.studentService)) {

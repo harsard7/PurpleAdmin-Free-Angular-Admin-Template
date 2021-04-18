@@ -23,11 +23,16 @@ export class LoginGuard implements CanActivate, CanActivateChild, CanDeactivate<
   constructor(private router: Router, private userService: UserService) {
   }
 
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean{
+    // let url: string = this.state.url;
+    // console.log('Url:'+ url);
+    console.log("login guard: 1");
     if (this.userService.currentUser) {
       console.log("login guard: "+JSON.stringify(this.userService.currentUser));
       return true;
     } else {
+      console.log("login guard: 2");
+      console.log("login guard: "+JSON.stringify(this.userService.currentUser));
       this.router.navigate(['user-pages/login']);
       return false;
     }

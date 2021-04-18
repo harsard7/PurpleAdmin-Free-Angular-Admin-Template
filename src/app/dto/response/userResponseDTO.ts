@@ -7,7 +7,7 @@ export class UserResponseDTO {
   lastName: string;
   firstName: string;
     password: string;
-    fullName: string;
+  fullName: string;
     role: string;
      userType:UserType;
 }

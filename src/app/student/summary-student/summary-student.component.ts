@@ -24,8 +24,7 @@ export class SummaryStudentComponent implements OnInit {
     private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    // this.id = this.route.snapshot.params['id'];
-    this.id = 2;
+    this.id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.studentService.findById(this.id).subscribe(data => {

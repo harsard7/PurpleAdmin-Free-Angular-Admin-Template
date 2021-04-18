@@ -7,6 +7,8 @@ import {TeacherService} from "../../service/teacher.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {StudentService} from "../../service/student.service";
 import {NotificationService} from "../../service/notification.service";
+import {AuthService} from "../../service/auth.service";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-user-update',
@@ -24,7 +26,7 @@ export class UserUpdateComponent implements OnInit {
   reEnterPassword: string;
   userSubmitted=false;
 
-  constructor(private userService: UserService, private teacherService: TeacherService,
+  constructor(private userService: UserService, private teacherService: TeacherService,private authService: AuthService,private cookieService: CookieService,
               private router: Router, private route: ActivatedRoute, private studentService: StudentService,private notifyService : NotificationService) { }
 
   ngOnInit() {
@@ -34,6 +36,7 @@ export class UserUpdateComponent implements OnInit {
       this.userService.getById(this.id).subscribe(data => {
         this.user = data;
         this.isDataAvailable = true;
+        console.log(this.response);
       });
     });
   }
@@ -44,13 +47,15 @@ export class UserUpdateComponent implements OnInit {
     // if(this.isDataChanged && this.isUsernameUnique && this.isPasswordMatch) {
 
     if(this.validate() &&  this.isPasswordMatch()) {
-      if(!this.response.fullName) this.response.fullName = this.user.fullName;
+      if(!this.response.fullName) this.response.fullName = this.user.fullname;
       if(!this.response.username) this.response.username = this.user.username;
       if(!this.newPassword) this.response.password = this.newPassword;
+     this.response.password = this.newPassword;
+      console.log(this.response);
       this.userService.update(this.id, this.response).subscribe(() => {
         this.userSubmitted=true;
         this.notifyService.showSuccess("User updated", "Success");
-        this.refresh();
+          this.logout();
       },
         error => {
           this.notifyService.showError(error);
@@ -64,7 +69,11 @@ export class UserUpdateComponent implements OnInit {
     }
     return true;
   }
-
+  logout(){
+    this.authService.logout();
+    this.cookieService.deleteAll('/', 'http://localhost:4200');
+    this.router.navigate(['user-pages/login']);
+  }
   refresh() {
     this.userService.getById(this.id).subscribe(data => {
       this.user = data;
@@ -112,6 +121,8 @@ export class UserUpdateComponent implements OnInit {
   }
 
   userRole() {
+    console.log(this.currentUser.id);
+    console.log(this.id);
     if(isAdmin(this.currentUser, this.router) || this.currentUser.id === this.id) {
       return true;
     } else {

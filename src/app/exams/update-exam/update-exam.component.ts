@@ -7,6 +7,8 @@ import { ExamService } from 'src/app/service/exam.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isStudent, isTeacher, isAdmin } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {EnumValues} from "enum-values";
+import {ExamType} from "../../enums/ExamType";
 
 @Component({
   selector: 'app-update-exam',
@@ -14,17 +16,13 @@ import {NotificationService} from "../../service/notification.service";
   styleUrls: ['./update-exam.component.scss']
 })
 export class UpdateExamComponent implements OnInit {
-  TEST: any;
-  TOPIC_TEST: any;
-  REPETITION: any;
-  HOMEWORK: any;
   exam_id: number;
   currentUser: any = {};
-  etype: any = {};
+  etype: any;
   isDataAvailable: boolean  = false;
   response = new ExamResponseDTO();
   exam = new Exam();
-
+  examTypes: any;
   constructor(private userService: UserService, private router: Router,
     private examService: ExamService, private route: ActivatedRoute, private notifyService : NotificationService) { }
 
@@ -35,6 +33,8 @@ export class UpdateExamComponent implements OnInit {
       this.examService.findById(this.exam_id).subscribe(data => {
         this.exam = data;
         this.isDataAvailable = true;
+        this.examTypes = EnumValues.getNames(ExamType);
+        this.etype= this.exam.examType;
       });
     });
   }
@@ -49,18 +49,41 @@ export class UpdateExamComponent implements OnInit {
 
   onSubmit() {
     if(this.isDataChanged) {
+      if (this.validate()) {
       this.response.subject_id = this.exam.subject.id;
       this.response.student_id = this.exam.student.id;
-      if(!this.etype) this.response.examType = this.etype;
-      else this.response.examType = this.exam.examType;
-      if(!this.response.mark) this.response.mark = this.exam.mark;
-      if(!this.response.written_at) this.response.written_at = this.exam.written_at;
+        this.response.examType=  this.etype;
+      if (!this.etype) this.response.examType = this.etype;
+      // else this.response.examType = this.exam.examType;
+      if (!this.response.mark) this.response.mark = this.exam.mark;
+      if (!this.response.written_at) this.response.written_at = this.exam.written_at;
+      console.log(this.response);
       this.examService.update(this.exam_id, this.response).subscribe(() => {
         this.refresh();
-         this.notifyService.showSuccess('Exams updated.', 'Ok');
-      }, error => { this.notifyService.showError(error)});
+        this.notifyService.showSuccess('Exams updated.', 'Ok');
+      }, error => {
+        this.notifyService.showError(error)
+      });
+      }
     }
   }
+  validate(){
+    var valid=true;
+    if(!this.etype){
+      valid=false;
+      this.notifyService.showWarning(null, "Please select Exam Type");
+    }
+    if(!this.exam.mark || this.exam.mark <0 || this.exam.mark >100){
+      valid=false;
+      this.notifyService.showWarning(null, "Please enter valid exam mark");
+    }
+    if(!this.exam.written_at){
+      valid=false;
+      this.notifyService.showWarning(null, "Please select Exam written Date");
+    }
+    return valid;
+  }
+
 
   refresh() {
     this.examService.findById(this.exam_id).subscribe(data => {
@@ -80,5 +103,7 @@ export class UpdateExamComponent implements OnInit {
       this.router.navigate(['403']);
     }
   }
-
+  getToday(): string {
+    return new Date().toISOString().split('T')[0]
+  }
 }

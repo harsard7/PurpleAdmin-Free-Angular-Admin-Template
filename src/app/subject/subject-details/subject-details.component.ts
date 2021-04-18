@@ -7,6 +7,7 @@ import { TeacherService } from 'src/app/service/teacher.service';
 import { TeacherPreference } from 'src/app/model/teacherPreference';
 import {SubjectService} from "../../service/subject.service";
 import {Subject} from "../../model/subject";
+import {SubjectResponseDTO} from "../../dto/response/subjectResponseDTO";
 
 @Component({
   selector: 'app-subject-details',
@@ -17,7 +18,7 @@ export class SubjectDetailsComponent implements OnInit {
 
   currentUser: any = {};
   id: number = 0;
-  subject = new Subject();
+  subject = new SubjectResponseDTO();
   isDataAvailable:boolean = false;
   preference = new TeacherPreference();
 
@@ -30,10 +31,10 @@ export class SubjectDetailsComponent implements OnInit {
       this.currentUser = data;
       this.subjectService.findById(this.id).subscribe(data => {
         this.subject = data;
-        this.teacherService.getAllTeacherPreferences(this.subject.fkTeacher.id).subscribe(data => {
-          this.preference = data;
+        // this.teacherService.getAllTeacherPreferences(this.subject.fkTeacher.id).subscribe(data => {
+        //   this.preference = data;
           this.isDataAvailable = true;
-        });
+        // });
       });
     });
   }

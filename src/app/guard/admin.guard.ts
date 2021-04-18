@@ -13,12 +13,13 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import {UserService} from "../service/user.service";
+import {NotificationService} from "../service/notification.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
-  constructor(private router: Router, private userService: UserService) {
+  constructor(private router: Router, private userService: UserService,private  notification:NotificationService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -33,6 +34,7 @@ export class AdminGuard implements CanActivate, CanActivateChild, CanDeactivate<
 
     } else {
       console.log('NOT AN ADMIN ROLE');
+      this.notification.showWarning(null,'NOT AN ADMIN ROLE');
       this.router.navigate(['login'], {queryParams: {returnUrl: state.url}});
       return false;
     }

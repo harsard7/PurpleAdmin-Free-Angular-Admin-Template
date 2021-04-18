@@ -12,20 +12,34 @@ export function isAdmin(currentUser: any, router: Router): boolean {
     }
     return false;
 }
+export function isAdminUser(currentUser: any): boolean {
+  if(currentUser.authorities[0].authority + '' === admin) {
+    return true;
+  }
+  return false;
+}
 
 export function isTeacher(currentUser: any, router: Router): boolean {
+  console.log(currentUser);
     if(currentUser.authorities[0].authority + '' === teacher ||
     currentUser.authorities[0].authority + '' === headteacher) {
         return true;
-    } 
+    }
     return false;
-
+}
+export function isTeacherUser(currentUser: any): boolean {
+  console.log(currentUser);
+  if(currentUser.authorities[0].authority + '' === teacher ||
+    currentUser.authorities[0].authority + '' === headteacher) {
+    return true;
+  }
+  return false;
 }
 
 export function isStudent(currentUser: any, router: Router): boolean {
     if(currentUser.authorities[0].authority + '' === student) {
         return true;
-    } 
+    }
     return false;
 }
 

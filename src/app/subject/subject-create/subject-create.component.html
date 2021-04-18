@@ -1,28 +1,44 @@
 <div *ngIf="isDataAvailable">
+  <div class="page-header">
 
-    <div class="container" *ngIf="userRole()">
-      <button  mat-button mat-ripple (click)='goSubjectMapping()' class="btn btn-warning">Subject Mapping</button>
-        <h2>Create</h2>
-        <div class="container">
-            <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-subject">
-                <div class="form-group">
-                    <label for="title">Subject Name</label>
-                    <input type="text" class="form-control" id="title" required [(ngModel)]="subject.title" name="title">
-                </div>
-<!--                <div class="form-group">-->
-<!--                    <label for="year">Year</label>-->
-<!--                    <input type="number" class="form-control" id="year" required [(ngModel)]="subject.year" name="year">-->
-<!--                </div>-->
-                <div class="form-group">
-                    <label for="subtype">Subject Type</label>
-                  <select id="subtype" class="form-control" required [(ngModel)]="subtype" name="semster">
-                    <option [ngValue]="'Mandotory'">Mandotory</option>
-                    <option [ngValue]="'Optional'">Optional</option>
-                  </select>
-                </div>
-                <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
-        </div>
+    <button class="badge badge-warning" (click)='goSubjectMapping()' >Subject Mapping</button>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="javascript:;">Subject</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+  <div class="container" *ngIf="userRole()">
+  <div class="col-md-10 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="page-title">
+          Create Subjects
+        </h3>
+        <h4></h4>
+        <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-subject">
+          <div class="form-group">
+            <label for="title">Subject Name <span class="mand">*</span></label>
+            <input type="text" class="form-control" id="title" required [(ngModel)]="subject.title" name="title">
+          </div>
+
+          <div class="form-group">
+            <label for="subtype">Subject Type <span class="mand">*</span></label>
+            <select id="subtype" class="form-control" required [(ngModel)]="subtype" name="semster">
+              <option  [ngValue]="undefined">SELECT</option>
+              <option [ngValue]="'Mandotory'">Mandotory</option>
+              <option [ngValue]="'Optional'">Optional</option>
+            </select>
+          </div>
+          <button type="button" (click)="goBack()" class="btn btn-gradient-secondary btn-rounded btn-fw">Back</button>
+          <button type="submit" class="btn btn-gradient-primary btn-rounded btn-fw">Submit</button>
+        </form>
+      </div>
     </div>
+  </div>
+
+
+
 </div>

@@ -6,6 +6,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Student } from 'src/app/model/student';
 import { StudentService } from 'src/app/service/student.service';
 import { isStudent, isTeacher, isAdmin } from 'src/app/shared/roles';
+import {ClassroomResponseDTO} from "../../dto/response/classroomResponseDTO";
+import {StudentResponseDTO} from "../../dto/response/studentResponseDTO";
 
 @Component({
   selector: 'app-student-classroom-list',
@@ -16,22 +18,50 @@ export class StudentClassroomListComponent implements OnInit {
 
   classroom_id: number;
   searchText;
-  students: Observable<Student[]>;
+  students: Observable<StudentResponseDTO[]>;
   isDataAvailable:boolean = false;
+  classroom:ClassroomResponseDTO;
   currentUser: any = {};
-
+  // table
+  config: any;
+  collection = { count: 0, data: [] };
+  public maxSize: number = 5;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public responsive: boolean = true;
+  public labels: any = {
+    previousLabel: '<',
+    nextLabel: '>',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'page',
+    screenReaderCurrentLabel: `You're on page`
+  };
   constructor(private userService: UserService, private router: Router,
-    private classroomService: ClassroomService, private route: ActivatedRoute, 
+    private classroomService: ClassroomService, private route: ActivatedRoute,
     private studentService: StudentService) { }
 
   ngOnInit() {
     this.classroom_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      this.classroomService.getStudentsFromClassroom(this.classroom_id).subscribe(data => this.students = data);
+      this.classroomService.getStudentsFromClassroom(this.classroom_id).subscribe(data =>
+        this.collection.data=this.students = data);
     }).then(() => this.isDataAvailable = true);
+    this.classroomService.findById(this.classroom_id).subscribe(data=>{
+      this.classroom=data;
+    });
   }
-
+  loadData() {
+    this.config = {
+      itemsPerPage: 10,
+      currentPage: 1,
+      totalItems: this.collection.count
+    };
+  }
+  onPageChange(event){
+    // console.log(event);
+    this.config.currentPage = event;
+  }
   userRole() {
     if(isAdmin(this.currentUser, this.router) || isTeacher(this.currentUser, this.router)) {
       return true;

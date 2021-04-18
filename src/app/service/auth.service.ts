@@ -27,16 +27,18 @@ export class AuthService {
     return this.apiService.post(this.configService.getLoginUrl, BODY, LOGIN_HEADER)
       .pipe(map(() => {
         console.log('Login success');
+        // this.userService.initUser();
         // this.userService.getMyInfo().subscribe();
       }));
   }
 
   logout() {
     console.log('this.configService.getLogoutUrl '+this.configService.getLogoutUrl);
-    return this.apiService.post(this.configService.getLogoutUrl, {})
-      .pipe(map(() => {
+    return this.apiService.get(this.configService.getLogoutUrl).subscribe((data) => {
+        console.log('logout success');
+        console.log(data);
         this.userService.currentUser = null;
-      }));
+      });
 
   }
 }

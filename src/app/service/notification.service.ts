@@ -16,13 +16,12 @@ export class NotificationService {
 
   showError(error,title?) {
     this.playSound('Error 1.m4a');
-    this.errorHandle(error);
-    // this.toastr.error(message, title)
+    if(error== null || error.error==null){
+      this.toastr.error('', title);
+    }else{
+      this.errorHandle(error);
+    }
   }
-  // showError(message, title) {
-  //   this.toastr.error(message, title)
-  //   // this.toastr.error(message, title)
-  // }
 
   showInfo(message, title) {
     this.toastr.info(message, title)
@@ -32,24 +31,22 @@ export class NotificationService {
     this.toastr.warning(message, title)
   }
   errorHandle(error){
-    // console.log(JSON.stringify(error));
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      var err = ` Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
-      this.toastr.error(err, "Failed : User Side Error");
-      // this.showError(err, "Client Side Error");
-      // console.log("Error 1:-> "+JSON.stringify(error));
-    } else {
-      // server-side error
-      // var err = `Error Code 2: ${error.status}\nMessage: ${error.message}`;
+      if (error.error instanceof ErrorEvent) {
+        // client-side error
+        var err = ` Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
+        this.toastr.error(err, "Failed : User Side Error");
+        // this.showError(err, "Client Side Error");
+        // console.log("Error 1:-> "+JSON.stringify(error));
+      } else {
+        // server-side error
+        // var err = `Error Code 2: ${error.status}\nMessage: ${error.message}`;
+        if(error.message!=null){
+           var  err = `Error Code : ${error.status}\nMessage: ${error.error.message}`;
+          this.toastr.error(err, "Failed : Server side Error");
 
-       var  err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
-       this.toastr.error(err, "Failed : Server side Error");
-
-      // this.errorMessage = `Connection Failed :\n Contact Admin`;
-      // console.log("Error:-> "+JSON.stringify(error.error));
-
-      // this.showError(err, "Server side Error");
+        }else {
+          this.toastr.error('Unknown error', "Failed : Server side Error");
+        }
     }
   }
 

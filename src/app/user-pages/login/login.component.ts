@@ -18,10 +18,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   title = "Login";
   form: FormGroup;
   notification: Message;
-
-  submitted = false;
-
   returnUrl: string;
+  registerForm: FormGroup;
+  submitted = false;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(private authService: AuthService, private userService: UserService,
@@ -33,56 +32,57 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((params: Message) => {
         this.notification = params;
+        console.log(this.notification);
       });
 
     this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
 
-    this.form = this.formBuilder.group({
-      username: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(16)])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(64)])]
-    });
+    this.registerForm = this.formBuilder.group({
+      // title: ['', Validators.required],
+      // firstName: ['', Validators.required],
+      username: ['', [Validators.required,Validators.minLength(5)]],
+      // email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
+      // confirmPassword: ['', Validators.required],
+      // acceptTerms: [false, Validators.requiredTrue]
+      });
+
+    // this.form = this.formBuilder.group({
+    //   username: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(16)])],
+    //   password: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(64)])]
+    // });
   }
   //
   ngOnDestroy() {
-
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
+  // convenience getter for easy access to form fields
+  get f() { return this.registerForm.controls; }
 
   onSubmit() {
-    // this.notification.msgBody ='Enter the Username';
-
-    // this.submitted = true;
-    this.authService.login(this.form.value).subscribe(data => {
-          this.userService.getMyInfo().subscribe();
-        console.log( this.notification);
-          this.router.navigate(['dashboard']);
-        },
-        error => {
-          this.notifyService.showError(error);
-          this.submitted = false;
-        });
-    // this.notification = {msgType: 'error', msgBody: 'Incorrect username or password.'};
-  }
-
-  errorHandle(error){
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      this.notification = {msgType: 'error', msgBody: 'Incorrect username or password.'};
-      var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
-      this.notifyService.showError(error, "Client Side Error");
-      // console.log("Error 1:-> "+JSON.stringify(error));
-    } else {
-      // server-side error
-      // var err = `Error Code 2: ${error.status}\nMessage: ${error.message}`;
-      var err = `Error Code 2: ${error.status}\nMessage: ${error.error.message}`;
-      if(error.error.message===undefined){
-        err='Server Not working :Please contact Admin'
-      }
-      // this.errorMessage = `Connection Failed :\n Contact Admin`;
-      // console.log("Error:-> "+JSON.stringify(error.error));
-      this.notifyService.showError(error, "Server side Error");
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
     }
+    this.authService.login(this.registerForm.value).subscribe(data => {
+        this.userService.getMyInfo().subscribe(data=>{
+          if(this.userService.currentUser){
+            this.router.navigate(['dashboard'])
+          }
+        });
+      },
+      error => {
+         // console.log(JSON.stringify(error,null,4));
+        this.notifyService.showError(null,'Invalid Username or Password');
+        this.submitted = false;
+      });
   }
 
+  onReset() {
+    this.notifyService.showWarning(null,'reseted');
+    this.submitted = false;
+    this.registerForm.reset();
+  }
 }

@@ -146,4 +146,8 @@ export class ClassroomListComponent implements OnInit {
   refresh(): void {
     window.location.reload();
   }
+
+  timetable(classid: number) {
+    this.router.navigate(['timetable/view/',classid]);
+  }
 }

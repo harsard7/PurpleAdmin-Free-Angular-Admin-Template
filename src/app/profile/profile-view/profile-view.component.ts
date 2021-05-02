@@ -47,6 +47,7 @@ export class ProfileViewComponent implements OnInit {
   ngOnInit() {
       this.userservice.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
+        console.log(this.currentUser);
       this.role=this.currentUser.authorities[0].authority;
         this.days = EnumValues.getNames(DayOfWeek);
         this.timetableHours = EnumValues.getNamesAndValues(TimeEnum);

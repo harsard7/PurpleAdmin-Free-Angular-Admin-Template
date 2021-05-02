@@ -48,6 +48,7 @@ import {DatePipe} from "@angular/common";
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,7 +90,7 @@ import {DatePipe} from "@angular/common";
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     Ng2SearchPipeModule,
-    NgxPaginationModule
+    NgxPaginationModule,
   ],
   providers: [ThemeService, CookieService, AuthService,LoginGuard,AdminGuard,DatePipe, {
     provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true

@@ -10,6 +10,7 @@ export  class SchoolDTO {
   address: string;
   session: string;
   active: boolean;
+  censusNo: string;
   currentprincipal:EmployeeDTO
 
 }

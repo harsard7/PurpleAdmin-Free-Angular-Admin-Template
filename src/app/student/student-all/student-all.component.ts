@@ -17,13 +17,12 @@ import {isAdmin, isTeacher} from "../../shared/roles";
 export class StudentAllComponent implements OnInit {
 
   classroom_id: number;
-
   isDataAvailable:boolean = false;
   currentUser: any = {};
 
-
   searchText;
   students: Observable<Student[]>;
+  studentspage: Student[];
   // table
   config: any;
   collection = { count: 0, data: [] };
@@ -38,6 +37,16 @@ export class StudentAllComponent implements OnInit {
     screenReaderPageLabel: 'page',
     screenReaderCurrentLabel: `You're on page`
   };
+  //serverpagination
+  tutorials: any;
+  currentTutorial = null;
+  currentIndex = -1;
+  firstname = '';
+
+  page = 1;
+  count = 0;
+  pageSize = 3;
+  pageSizes = [3, 6, 9];
 
   constructor(private userService: UserService, private router: Router,
               private classroomService: ClassroomService, private route: ActivatedRoute,
@@ -47,24 +56,18 @@ export class StudentAllComponent implements OnInit {
     // this.classroom_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      this.studentService.findAll().subscribe(data =>  {
-        console.log('111');
-        this.collection.data=this.students = data;
-        console.log('2');
-        console.log(this.students);
-        console.log('3');
-        this.isDataAvailable = true;
-        console.log('4');
-        this.loadData();
-        console.log('5');
-      });
+      this.retrieveStudents();
+      // this.studentService.findAll().subscribe(data =>  {
+      //   this.collection.data=this.students = data;
+      //   this.isDataAvailable = true;
+      //   this.loadData();
+      // });
 
     });
   }
 
 
   loadData() {
-
     this.config = {
       itemsPerPage: 5,
       currentPage: 1,
@@ -74,7 +77,6 @@ export class StudentAllComponent implements OnInit {
   }
 
   onPageChange(event){
-    // console.log(event);
     this.config.currentPage = event;
   }
 
@@ -135,4 +137,55 @@ export class StudentAllComponent implements OnInit {
   remark(student_id: number) {
     this.router.navigate(['remark', student_id]);
   }
+
+  getRequestParams(searchfirstname, page, pageSize) {
+    // tslint:disable-next-line:prefer-const
+    let params = {};
+
+    if (searchfirstname) {
+      params[`firstname`] = searchfirstname;
+    }
+
+    if (page) {
+      params[`page`] = page - 1;
+    }
+
+    if (pageSize) {
+      params[`size`] = pageSize;
+    }
+
+    return params;
+  }
+  retrieveStudents() {
+    const params = this.getRequestParams(this.firstname, this.page, this.pageSize);
+
+    this.studentService.getAll(params).subscribe(
+        response => {
+          const { students, totalItems } = response;
+          this.studentspage = students;
+          this.count = totalItems;
+          this.isDataAvailable = true;
+        },
+        error => {
+          console.log(error);
+        });
+  }
+
+  handlePageChange(event) {
+    this.page = event;
+    this.retrieveStudents();
+  }
+
+  handlePageSizeChange(event) {
+    this.pageSize = event.target.value;
+    this.page = 1;
+    this.retrieveStudents();
+  }
+
+  setActiveTutorial(tutorial, index) {
+    this.currentTutorial = tutorial;
+    this.currentIndex = index;
+  }
+
+
 }

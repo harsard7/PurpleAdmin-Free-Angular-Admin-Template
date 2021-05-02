@@ -1,18 +1,14 @@
-table {
-    width: 40%;
-    margin-top: 1em;
-}
+ttd {
+  text-align: center;
 
-td {
-    text-align: center;
-
-    &:first-child {
-        font-weight: bold;
-    }
+  &:first-child {
+    font-weight: bold;
+  }
 }
 .stutbl{
   margin-top: 10px;
 }
+
 thead{
   background-color: #8a53c2;
   color: white;

@@ -352,7 +352,7 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let subjectdetail of subjectDetails index as i">
-                      <th scope="row">{{ i + 1 }}</th>
+                      <td scope="row">{{ i + 1 }}</td>
                       <td>{{subjectdetail.fkSubject.title}}</td>
                       <td>{{ subjectdetail.fkClassroom.year}} / {{ subjectdetail.fkClassroom.letter}}</td>
                     </tr>
@@ -362,7 +362,7 @@
               </div>
             </ng-template>
           </ngb-tab>
-          <ngb-tab title="TimeTable" *ngIf="headteacherrender || studentrender">
+          <ngb-tab title="Class TimeTable" *ngIf="headteacherrender || studentrender">
           <ng-template ngbTabContent>
             <div *ngFor="let class of classrooms; index as counter"  class="table-responsive pt-3">
               <h3><b>{{counter + 1}}.</b> Class room {{class.year}} / {{ class.letter}}</h3>
@@ -391,10 +391,10 @@
             <ng-template ngbTabContent>
                 <table class="table" border="1px" class="table table-bordered">
                   <tr class="table-warning">
-                    <td></td>
-                    <td *ngFor="let day of days">
+                    <th></th>
+                    <th *ngFor="let day of days">
                       {{day}}
-                    </td>
+                    </th>
                   </tr>
                   <tr *ngFor="let time of timetableHours" class="table-success">
                     <td>{{time.value}}</td>

@@ -36,10 +36,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(req).pipe(tap(evt => {
         if (evt instanceof HttpResponse) {
+          if (evt.body.type == 'application/json') {
+          }
           if(evt.body && evt.body.success)
             // this.notification.showSuccess(evt.body.success.message, evt.body.success.title);
             this.notification.showSuccess("Loged In ", 'Success');
-          console.log('Loged In');
           // this.toasterService.error(err.error.message, err.error.title, { positionClass: 'toast-bottom-center' });
         }
       }),
@@ -58,15 +59,22 @@ export class AuthInterceptor implements HttpInterceptor {
                       this.router.navigate(['user-pages/login']);
                     }
             }
+            if (err instanceof HttpErrorResponse && err.status===200) {// blob type  (image )
+              // console.log(JSON.stringify(err,null,4));
+              const newRequest = req.clone();
+              return next.handle(newRequest);
+            }
             // this.router.navigate(['user-pages/login']);
             // console.log(JSON.stringify(err,null,4));
            if (err.error ==null) { // REDIRECT TO SENDER
               const newRequest = req.clone();
               return next.handle(newRequest);
             }else{
+             console.log(JSON.stringify(err,null,4));
              this.notification.showError(err, 'Error Occured');
              // this.router.navigate(['user-pages/login']);
            }
+
             // this.notification.showError(err, 'Error Occured');
 
           } catch(e) {

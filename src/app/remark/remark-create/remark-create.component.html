@@ -5,10 +5,10 @@
         <div class="container">
             <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-remark">
                 <div class="form-group">
-                    <label for="text">Text area</label>
+                    <label for="text">Text </label>
                     <textarea class="form-control" id="text" required [(ngModel)]="remark.text" name="text" rows="3"></textarea>
                   </div>
-                <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
+                <button type="button" (click)="goBack()" class="btn btn-dark">All Remarks</button>
                 <button type="submit" class="btn btn-success">Submit</button>
             </form>
         </div>

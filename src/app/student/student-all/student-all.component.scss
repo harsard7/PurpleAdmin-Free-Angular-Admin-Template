@@ -22,3 +22,13 @@ thead{
   background-color: #8a53c2;
   color: white;
 }
+
+.list {
+  text-align: left;
+  max-width: 750px;
+  margin: auto;
+}
+
+.ngx-pagination {
+  padding-inline-start: 0 !important;
+}

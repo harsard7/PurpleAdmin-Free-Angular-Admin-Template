@@ -44,6 +44,8 @@ export class SchoolComponent implements OnInit {
     });
     this.employeeservice.findAllPrincipals().subscribe(data => {
       this.principals=data;
+      this.school.censusNo="17670";
+      this.school.address="MEDDEKETIYA ALAHITIYA";
       this.isDataAvailable = true;
     });
   }
@@ -74,6 +76,10 @@ export class SchoolComponent implements OnInit {
     if(!this.school.sessionStartdate){
       valid=false;
         this.notifyService.showWarning(null,'Please select School start')
+    }
+    if(!this.school.censusNo){
+      valid=false;
+      this.notifyService.showWarning(null,'Please enter the census no')
     }
     if(!this.selectedprinciple){
       valid=false;

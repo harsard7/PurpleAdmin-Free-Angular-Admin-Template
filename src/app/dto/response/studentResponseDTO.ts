@@ -3,6 +3,7 @@ import {UserResponseDTO} from "./userResponseDTO";
 import {ParentDTO} from "../parentDTO";
 import {StudentStatus} from "../../enums/studentStatus";
 import {Classroom} from "../../model/classroom";
+import {FileInfo} from "../FileInfo";
 
 export class StudentResponseDTO {
            id: number;
@@ -24,4 +25,6 @@ export class StudentResponseDTO {
   classroom: Classroom;
   JoinClass: Classroom;
   lastClass: Classroom;
+  image:FileInfo;
+  application:FileInfo;
 }

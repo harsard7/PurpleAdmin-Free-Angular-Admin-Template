@@ -11,7 +11,7 @@ import {RemarkListComponent} from "./remark-list/remark-list.component";
 import {RemarkUpdateComponent} from "./remark-update/remark-update.component";
 
 const routes: Routes = [
-  { path: 'create', component: RemarkCreateComponent },
+  { path: 'create/:id', component: RemarkCreateComponent },
   { path: 'remark/:id', component: RemarkListComponent },
   { path: 'update/:id', component: RemarkUpdateComponent },
 

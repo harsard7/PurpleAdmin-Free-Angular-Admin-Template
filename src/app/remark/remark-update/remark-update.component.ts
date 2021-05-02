@@ -57,7 +57,7 @@ export class RemarkUpdateComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['remarks', this.remark.student.id]);
+    this.router.navigate(['remark/remark', this.remark.student.id]);
   }
 
   userRole() {

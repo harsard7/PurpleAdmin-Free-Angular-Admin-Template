@@ -22,10 +22,10 @@ import {isAdmin} from "../../shared/roles";
 export class TimetableEntityViewComponent implements OnInit {
 
   currentUser: any = {};
-  id: number;
+  classid: number;
   isDataAvailable: boolean = false;
   // timetable: Observable<TimeTableEntity[]>;
-  classrooms: Observable<ClassroomResponseDTO[]>;
+  classrooms: ClassroomResponseDTO[]=[];
   timetablesnml: TimeTableEntityResponseDTO[];
   days: string[];
   timetableHours: any;
@@ -35,11 +35,11 @@ export class TimetableEntityViewComponent implements OnInit {
     private timeTableService: TimetableService,private classroomService: ClassroomService) { }
 
   ngOnInit() {
-    // this.id = this.route.snapshot.params['id'];
+    this.classid = this.route.snapshot.params['id'];
     // console.log(this.id);
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
-      var student = {};
+      var student = {}
       var teacher = {};
       this.days = EnumValues.getNames(DayOfWeek);
       this.timetableHours = EnumValues.getNamesAndValues(TimeEnum);
@@ -53,7 +53,14 @@ export class TimetableEntityViewComponent implements OnInit {
            });
         });
       }  else {
-        this.isDataAvailable = true;
+     this.classroomService.findById(this.classid).subscribe(data => {
+       this.classrooms.push(data);
+       this.timeTableService.getTimeTableByClass(data.id).subscribe(data => {// GET TIME TABLE BY CLASS
+         this.timetablesnml = data;
+         this.isDataAvailable = true;
+       });
+     });
+
       }
     });
   }
@@ -85,4 +92,7 @@ export class TimetableEntityViewComponent implements OnInit {
     // return this.timeTableService.findByClassAndDayAndTime(classid,day,time);
   }
 
+  classroom() {
+    this.router.navigate(['classroom/all']);
+  }
 }

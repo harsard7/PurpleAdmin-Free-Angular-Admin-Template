@@ -41,6 +41,7 @@ const routes: Routes = [
   { path: 'parent', loadChildren: () => import('./parent/parent.module').then(m => m.ParentModule) },
   { path: 'subjectdetail', loadChildren: () => import('./subjectdetail/subjectdetail.module').then(m => m.SubjectdetailModule) },
   { path: 'entrollment', loadChildren: () => import('./entrollment/entrollment.module').then(m => m.EntrollmentModule) },
+  { path: 'email', loadChildren: () => import('./email/email.module').then(m => m.EmailModule) },
 ];
 
 @NgModule({

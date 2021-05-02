@@ -12,6 +12,10 @@ import {ProfessionType} from "../../enums/professionType";
 import {UserType} from "../../enums/userType";
 import {Gender} from "../../enums/Gender";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UploadFileServiceService} from "../../service/upload-file-service.service";
+import {Observable} from "rxjs";
+import {HttpEventType, HttpResponse} from "@angular/common/http";
+import {FileInfo} from "../../dto/FileInfo";
 
 
 @Component({
@@ -34,8 +38,20 @@ export class EmplyeeCreateComponent implements OnInit {
   selectedOption: any = {};
   myGroup: FormGroup = new FormGroup({});
 
+  // img
+  selectedFiles: FileList;
+  currentFile: File;
+  progress = 0;
+  message = '';
+
+  fileInfos: Observable<any>;
+  savedFile: FileInfo;
+
+  url: any;
+  msg = "";
+
   constructor(private userService: UserService, private router: Router,  private employeeservice: EmployeeService,
-              private notifyService : NotificationService,private fb: FormBuilder) {
+              private notifyService : NotificationService,private fb: FormBuilder,private  fileuploadservice:UploadFileServiceService) {
     this.myGroup = fb.group({
       contact: ['', [Validators.required, Validators.pattern("^[0-9]*$")]],
       dob: ['', [Validators.required]]
@@ -48,6 +64,7 @@ export class EmplyeeCreateComponent implements OnInit {
       this.employeetypes = EnumValues.getNamesAndValues(ProfessionType);
       this.genders = EnumValues.getNamesAndValues(Gender);
       // this.classroomService.findAll().subscribe(data => {
+      this.fileInfos=this.fileuploadservice.findAll();
         this.isDataAvailable = true;
       // });
     });
@@ -59,41 +76,46 @@ export class EmplyeeCreateComponent implements OnInit {
   }
     onEmployeeSubmit() {
       if(this.validate()) {
-        this.user.role = 'ROLE_ASSISTANT';
-        if (this.selectedEmplType.name === 'PRINCIPAL') {
-          this.user.userType = UserType.ACADAMIC;
-          this.user.role = 'ROLE_ADMIN';
-        } else {
-          this.user.userType = UserType.NON_ACADAMIC;
-          this.user.role = 'ROLE_STAFF';
-        }
-        this.user.username = this.employee.firstName + this.employee.lastName;
-        this.user.password = 'changeme';
+        this.upload();
 
-        this.user.firstName = this.employee.firstName;
-        this.user.lastName = this.employee.lastName;
-        this.user.fullName = this.employee.firstName + ' ' + this.employee.lastName;
-
-        this.employee.profession = this.selectedEmplType.name;
-        this.employee.gender = this.selectedOptionGender.name;
-        this.employee.active = true;
-        this.userService.create(this.user).subscribe((data) => {
-          this.employee.fkUser = this.user = data;
-
-          this.employeeservice.create(this.employee).subscribe(() => {
-            this.notifyService.showSuccess("Employee Created !!", "Success");
-            this.userSubmitted = true;
-            this.employee = new EmployeeDTO();
-          });
-        }, error => {
-          this.userSubmitted = false;
-          if (error.error instanceof ErrorEvent) {
-            this.notifyService.showError(error, "Client Side Error");
-          } else {
-            this.notifyService.showError(error, "Server side Error");
-          }
-        });
       }
+  }
+  saveEmployee(){
+    this.user.role = 'ROLE_ASSISTANT';
+    if (this.selectedEmplType.name === 'PRINCIPAL') {
+      this.user.userType = UserType.ACADAMIC;
+      this.user.role = 'ROLE_ADMIN';
+    } else {
+      this.user.userType = UserType.NON_ACADAMIC;
+      this.user.role = 'ROLE_STAFF';
+    }
+    this.user.username = this.employee.firstName + this.employee.lastName;
+    this.user.password = 'changeme';
+
+    this.user.firstName = this.employee.firstName;
+    this.user.lastName = this.employee.lastName;
+    this.user.fullName = this.employee.firstName + ' ' + this.employee.lastName;
+
+    this.employee.image=this.savedFile;
+    this.employee.profession = this.selectedEmplType.name;
+    this.employee.gender = this.selectedOptionGender.name;
+    this.employee.active = true;
+    this.userService.create(this.user).subscribe((data) => {
+      this.employee.fkUser = this.user = data;
+
+      this.employeeservice.create(this.employee).subscribe(() => {
+        this.notifyService.showSuccess("Employee Created !!", "Success");
+        this.userSubmitted = true;
+        this.employee = new EmployeeDTO();
+      });
+    }, error => {
+      this.userSubmitted = false;
+      if (error.error instanceof ErrorEvent) {
+        this.notifyService.showError(error, "Client Side Error");
+      } else {
+        this.notifyService.showError(error, "Server side Error");
+      }
+    });
   }
 
   validate(){
@@ -141,10 +163,10 @@ export class EmplyeeCreateComponent implements OnInit {
       valid=false;
       this.notifyService.showWarning(null, "Please Select Employee Mobile No");
     }
-    // if(!this.employee.profession){
-    //   valid=false;
-    //   this.notifyService.showWarning(null, "Please Select Employee profession");
-    // }
+    if(!this.selectedFiles || this.selectedFiles.length==0){
+      valid=false;
+      this.notifyService.showWarning(null, "Please Select Profile Image");
+    }
     return valid;
   }
   getToday(): string {
@@ -161,7 +183,7 @@ export class EmplyeeCreateComponent implements OnInit {
   goBack() {
     this.router.navigate(['employee/all']);
   }
-  itIsnumber(value){
+  itIsnumber(value:any){
     console.log(value);
     // check to see if the control value is no a number
     if (isNaN(value)) return false;
@@ -175,6 +197,63 @@ export class EmplyeeCreateComponent implements OnInit {
       this.router.navigate(['403']);
     }
   }
+  selectFile(event: any) {
+      if(!event.target.files[0] || event.target.files[0].length == 0) {
+        this.msg = 'You must select an image';
+        this.notifyService.showWarning(null,this.msg);
+        return;
+      }
+
+      var mimeType = event.target.files[0].type;
+
+      if (mimeType.match(/image\/*/) == null) {
+        this.msg = "Only images are supported";
+        this.notifyService.showWarning(null,this.msg);
+        return;
+      }
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (_event) => {
+        this.msg = "";
+        this.url = reader.result;
+        this.selectedFiles = event.target.files;
+
+      }
+    }
+
+
+  upload() {
+    this.progress = 0;
+    this.currentFile = this.selectedFiles.item(0);
+    this.fileuploadservice.upload(this.currentFile).subscribe(
+      event => {
+        console.log(event);
+        this.savedFile=event;
+        this.saveEmployee();
+        // this.notifyService.showSuccess(null,event['message']);
+        this.selectedFiles = undefined;
+        if (event.type === HttpEventType.UploadProgress) {
+          this.progress = Math.round(100 * event.loaded / event.total);
+          console.log(this.progress);
+        } else if (event instanceof HttpResponse) {
+          this.message = event.body.message;
+          console.log(this.message);
+          this.notifyService.showSuccess(null,this.message);
+          this.fileInfos=this.fileuploadservice.findAll();
+          console.log(this.progress);
+        }
+      },
+      err => {
+        this.progress = 0;
+        this.message = 'Could not upload the file!';
+        this.notifyService.showError(null,this.message);
+        this.currentFile = undefined;
+        console.log('gggghf');
+      });
+    console.log('gttttttt');
+    this.selectedFiles = undefined;
+  }
+
 
 }
 

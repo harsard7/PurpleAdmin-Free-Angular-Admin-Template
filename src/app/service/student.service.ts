@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {ApiService} from "./api.service";
 import {ConfigService} from "./config.service";
 import {StudentResponseDTO} from "../dto/response/studentResponseDTO";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,10 @@ export class StudentService {
   }
   findAll(){
     return this.apiService.get(this.configService.getStudentAllUrl);
+  }
+  getAll(params): Observable<any> {
+    // return this.http.get(baseUrl, { params });
+    return this.apiService.getAll(this.configService.getStudentUrlPage,params);
   }
 
 }

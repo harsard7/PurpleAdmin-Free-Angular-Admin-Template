@@ -23,6 +23,7 @@ export class RemarkCreateComponent implements OnInit {
     private remarkService: RemarkService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.student_id = this.route.snapshot.params['id'];
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       this.isDataAvailable = true;
@@ -33,10 +34,13 @@ export class RemarkCreateComponent implements OnInit {
   onSubmit() {
     this.remark.student_id = this.student_id;
     this.remarkService.create(this.remark).subscribe(() => {
-      this.reset();
        this.notifyService.showSuccess('Remark created.', 'Ok');
-    }, error => { this.notifyService.showError(error)});
-    this.refresh();
+      this.reset();
+    }, error => {
+      console.log(error);
+      this.notifyService.showError(error)});
+    // this.refresh();
+    this.reset();
   }
 
   reset() {
@@ -48,7 +52,7 @@ export class RemarkCreateComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['home']);
+    this.router.navigate(['remark/remark',this.student_id])
   }
 
   userRole() {

@@ -43,13 +43,14 @@
                             <td>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="update(classroom.id)" class="badge badge-warning">Update</button>
 <!--                                <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="delete(classroom.id)" class="badge badge-danger">Delete</button>-->
-                                <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="setSubject(classroom.id)" class="badge badge-info">Set Subject</button>
+<!--                                <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="setSubject(classroom.id)" class="badge badge-info">Set Subject</button>-->
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' === 'ROLE_ADMIN'" (click)="finished(classroom.id)" class="badge badge-success">Graduated</button>
-                                <button  (click)="subjectDetails(classroom.id)" class="badge badge-gradient-secondary">Subject Mapping</button>
+                                <button  (click)="subjectDetails(classroom.id)" class="badge badge-gradient-dark">Subject Mapping</button>
+                                <button  (click)="timetable(classroom.id)" class="badge badge-gradient-danger">Time Table</button>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' != 'ROLE_ADMIN'" (click)="exam(classroom.id)" class="badge badge-gradient-warning">Exam</button>
                                 <button *ngIf="this.currentUser.authorities[0].authority + '' != 'ROLE_ADMIN'" (click)="report(classroom.id)" class="badge badge-gradient-danger">Report</button>
-                                <button *ngIf="this.currentUser.authorities[0].authority + '' != 'ROLE_ADMIN'" (click)="attendance(classroom.id)" class="badge badge-gradient-info">Attendance</button>
-                                <button *ngIf="this.currentUser.authorities[0].authority + '' != 'ROLE_ADMIN'" (click)="students(classroom.id)" class="badge badge-gradient-success">Students</button>
+                                <button  *ngIf="this.currentUser.authorities[0].authority + '' != 'ROLE_ADMIN'" (click)="attendance(classroom.id)" class="badge badge-gradient-info">Attendance</button>
+                                <button (click)="students(classroom.id)" class="badge badge-gradient-success">Students</button>
                             </td>
                         </tr>
                     </tbody>

@@ -170,11 +170,33 @@
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Contact 2</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="con2" required [(ngModel)]="employee.mobileNo2" name="con2" placeholder="Contact 2">
+                  <input (keydown)="itIsnumber(employee.mobileNo2)" type="text" class="form-control" id="con2" required [(ngModel)]="employee.mobileNo2" name="con2" placeholder="Contact 2">
                 </div>
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Profile Image </label>
+                <div class="col-sm-6">
+                  <input type="file"  accept="image/png, image/jpeg" (change)="selectFile($event)" />
+<!--                                    <button class="form-control" class="badge badge-success" [disabled]="!selectedFiles" (click)="upload()">Image Upload</button>-->
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                  <div>
+                    <table>
+                      <tr>
+                        <td><img [src]="url" *ngIf="url" style="width: 50px;height: 50px"></td>
+                      </tr>
+                    </table>
+                    </div>
+                  </div>
+              </div>
+            </div>
 
           <button type="submit" (click)="goBack()" class="btn btn-dark">Back</button>
           <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
@@ -183,3 +205,20 @@
     </div>
   </div>
 </div>
+
+
+
+<!--<div class="alert alert-light" role="alert">{{ message }}</div>-->
+
+<!--<div class="card">-->
+<!--  <div class="card-header">List of Files</div>-->
+<!--  <ul-->
+<!--    class="list-group list-group-flush"-->
+<!--    *ngFor="let file of fileInfos | async"-->
+<!--  >-->
+<!--    <li class="list-group-item">-->
+<!--      <a href="{{ file.url }}">{{ file.name }}</a>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</div>-->
+

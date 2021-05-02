@@ -14,7 +14,7 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 const routes: Routes = [
   { path: 'create', component: TimetableEntityCreateComponent },
   { path: 'update/:id', component: TimetableEntityUpdateComponent },
-  { path: 'view', component: TimetableEntityViewComponent },
+  { path: 'view/:id', component: TimetableEntityViewComponent },
   { path: 'subject/:id', component: TimetableListComponent },
 ]
 

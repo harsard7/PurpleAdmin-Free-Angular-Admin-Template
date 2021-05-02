@@ -11,6 +11,7 @@ import {Ng2SearchPipeModule} from "ng2-search-filter";
 import {SummaryStudentComponent} from "./summary-student/summary-student.component";
 import { StudentAllComponent } from './student-all/student-all.component';
 import {NgxPaginationModule} from "ngx-pagination";
+import {PdfViewerModule} from "ng2-pdf-viewer";
 
 
 
@@ -27,14 +28,15 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [StudentCreateComponent,StudentDetailsComponent,StudentUpdateComponent,StudentClassroomListComponent,SummaryStudentComponent, StudentAllComponent,],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    ReactiveFormsModule,
-    NgbModule,
-    FormsModule,
-    Ng2SearchPipeModule,
-    NgxPaginationModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        ReactiveFormsModule,
+        NgbModule,
+        FormsModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+        PdfViewerModule,
+    ],
 })
 export class StudentModule { }

@@ -32,6 +32,7 @@ export class RemarkListComponent implements OnInit {
       this.currentUser = data;
       this.remarkService.findAll(this.student_id).subscribe(data => {
         this.remarks = data;
+
         this.studentService.findByUserId(this.student_id).subscribe(data => {
           this.student = data;
 
@@ -66,5 +67,9 @@ export class RemarkListComponent implements OnInit {
 
   refresh(): void {
     window.location.reload();
+  }
+
+  create() {
+    this.router.navigate(['remark/create',this.student_id])
   }
 }

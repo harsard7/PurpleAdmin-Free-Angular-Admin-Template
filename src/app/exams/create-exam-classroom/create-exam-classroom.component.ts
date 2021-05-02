@@ -14,7 +14,6 @@ import {NotificationService} from "../../service/notification.service";
 import {ClassroomService} from "../../service/classroom.service";
 import {Classroom} from "../../model/classroom";
 import {EnumValues} from "enum-values";
-import {DayOfWeek} from "../../enums/day-of-week";
 import {ExamType} from "../../enums/ExamType";
 
 @Component({
@@ -47,8 +46,8 @@ export class CreateExamClassroomComponent implements OnInit {
     private examService: ExamService, private teacherService: TeacherService, private route: ActivatedRoute,private notifyService : NotificationService,private classroomService: ClassroomService) { }
 
   ngOnInit() {
-    console.log("1");
     this.classroom_id = this.route.snapshot.params['id'];
+    console.log(this.classroom_id);
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.currentUser = data;
       console.log("2");

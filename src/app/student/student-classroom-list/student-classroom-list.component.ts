@@ -46,14 +46,16 @@ export class StudentClassroomListComponent implements OnInit {
       this.currentUser = data;
       this.classroomService.getStudentsFromClassroom(this.classroom_id).subscribe(data =>
         this.collection.data=this.students = data);
-    }).then(() => this.isDataAvailable = true);
-    this.classroomService.findById(this.classroom_id).subscribe(data=>{
-      this.classroom=data;
+          this.classroomService.findById(this.classroom_id).subscribe(data=>{
+           this.classroom=data;
+        this.isDataAvailable = true
+      });
     });
+
   }
   loadData() {
     this.config = {
-      itemsPerPage: 10,
+      itemsPerPage: 5,
       currentPage: 1,
       totalItems: this.collection.count
     };

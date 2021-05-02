@@ -1,3 +1,8 @@
+<div *ngIf="saving" class="d-flex justify-content-center loader">
+  <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
 <div class="page-header" *ngIf="isDataAvailable">
   <h3 class="page-title">
    Student Form
@@ -111,6 +116,50 @@
               <label class="col-sm-4 col-form-label">Student Phone</label>
               <div class="col-sm-8">
                 <input type="text" class="form-control"  [(ngModel)]="student.mobileNo" name="parent1Phone" placeholder="Phone">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Profile Image </label>
+              <div class="col-sm-6">
+                <input type="file"  accept="image/png, image/jpeg" (change)="selectFile($event)" />
+                <!--                                    <button class="form-control" class="badge badge-success" [disabled]="!selectedFiles" (click)="upload()">Image Upload</button>-->
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <div>
+                <table>
+                  <tr>
+                    <td><img [src]="url" *ngIf="url" style="width: 50px;height: 50px"></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label">Application Document </label>
+              <div class="col-sm-6">
+                <input type="file"  accept="application/pdf" (change)="selectFilePdf($event)" />
+<!--                                                    <button class="form-control" class="badge badge-success" [disabled]="!selectedFilesPdf" (click)="uploadPdf()">Document Upload</button>-->
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group row">
+              <div>
+                <table>
+                  <tr>
+                    <td><img [src]="urlpdf" *ngIf="urlpdf" style="width: 50px;height: 50px"></td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>

@@ -10,8 +10,8 @@
                 <p>{{remark.text}}</p>
                <div class="footer">
                     <strong class="time">{{remark.writtenAt}}</strong>
-                    <button *ngIf="currentUser.authorities[0].authority + '' != 'ROLE_STUDENT'" (click)="update(remark.id)" class="btn btn-warning">Update</button>
-                    <button *ngIf="currentUser.authorities[0].authority + '' != 'ROLE_STUDENT'" (click)="delete(remark.id)" class="btn btn-danger">Delete</button>
+                    <button *ngIf="currentUser.authorities[0].authority + '' != 'ROLE_STUDENT'" (click)="update(remark.id)" class="btn btn-gradient-success btn-sm">Update</button>
+                    <button *ngIf="currentUser.authorities[0].authority + '' != 'ROLE_STUDENT'" (click)="delete(remark.id)" class="btn btn-gradient-light btn-sm">Delete</button>
                 </div>
             </div>
         </div>

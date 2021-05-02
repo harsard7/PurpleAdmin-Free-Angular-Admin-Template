@@ -74,6 +74,7 @@ export class ConfigService {
   private updateStudentUrl = this.studentUrl + '/update';
   private deleteStudentUrl = this.studentUrl;
   private summaryStudentUrl = this.studentUrl + '/summary';
+  private studentAllUrlpage = this.studentUrl + '/page';
 
   get getStudentAllUrl(): string {
     return this.studentAllUrl;
@@ -101,6 +102,9 @@ export class ConfigService {
 
   get getSummaryStudentUrl(): string {
     return this.summaryStudentUrl;
+  }
+  get getStudentUrlPage(): string {
+    return this.studentAllUrlpage;
   }
 
   private attendanceUrl = this.baseUrl + '/attendances';
@@ -677,4 +681,31 @@ export class ConfigService {
   get updateEntrollmentUrl(): string {
     return this._updateEntrollmentUrl;
   }
+
+  private emailUrl = this.baseUrl + '/email';
+  private _emailsendUrl = this.emailUrl + '/send';
+
+
+  get emailsendUrl(): string {
+    return this._emailsendUrl;
+  }
+
+  private fileUrl = this.baseUrl + '/files';
+  private filePdfUrl = this.baseUrl + '/files/pdf';
+  private fileUploadUrl= this.fileUrl + '/upload';
+  private fileAllUrl= this.fileUrl + '/all';
+
+   get getFileUploadUrl(){
+      return this.fileUploadUrl;
+    }
+  get getAllFileUrl(){
+    return this.fileAllUrl;
+  }
+  get getFileBynameUrl(){
+    return this.fileUrl;
+  }
+  get getPdfFileBynameUrl(){
+    return this.filePdfUrl;
+  }
+
 }

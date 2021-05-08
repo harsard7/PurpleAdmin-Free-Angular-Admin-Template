@@ -59,7 +59,7 @@ export class TeacherCreateComponent implements OnInit {
     console.log("erwr");
    if( this.validate()) {
      this.user.role = 'ROLE_TEACHER';
-     this.user.username = this.teacher.firstName + this.teacher.lastName.charAt(0);
+     this.user.username = this.teacher.firstName+this.teacher.lastName;
      this.user.password = 'changeme';
      this.user.firstName = this.teacher.firstName;
      this.user.lastName = this.teacher.lastName;

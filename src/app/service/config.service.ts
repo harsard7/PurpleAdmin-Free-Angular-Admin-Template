@@ -75,9 +75,13 @@ export class ConfigService {
   private deleteStudentUrl = this.studentUrl;
   private summaryStudentUrl = this.studentUrl + '/summary';
   private studentAllUrlpage = this.studentUrl + '/page';
+  private studentAllByParentUrl = this.studentUrl + '/parent';
 
   get getStudentAllUrl(): string {
     return this.studentAllUrl;
+  }
+  get getStudentAllByParentUrl(): string {
+    return this.studentAllByParentUrl;
   }
 
   get getStudentByUserIdUrl(): string {
@@ -307,16 +311,24 @@ export class ConfigService {
   }
 
   private reportUrl = this.baseUrl + '/reports';
-  private getSemesterResultByStudentUrl = this.reportUrl;
+  private getResultByStudentUrl = this.reportUrl;
+  private getAvgSubjectUrl = this.reportUrl+'/avg';
   private findReportByIdUrl = this.reportUrl;
   private createrReportUrl = this.reportUrl + '/create';
+  private creatertermReportUrl = this.reportUrl + '/createterm';
   private updateReportUrl = this.reportUrl + '/update';
   private deletereportUrl = this.reportUrl;
   private makeReportFormToClassroomUrl = this.reportUrl + '/form';
   private createReportsToClassroomUrl = this.reportUrl + '/form/create';
 
-  get getGetSemesterResultByStudentUrl(): string {
-    return this.getSemesterResultByStudentUrl;
+  get getGetResultByStudentUrl(): string {
+    return this.getResultByStudentUrl;
+  }
+  get getGetavgforSubject(): any {
+    return this.getAvgSubjectUrl;
+  }
+  get getFindTermReportByIdUrl(): any {
+    return this.creatertermReportUrl;
   }
 
   get getFindReportByIdUrl(): string {

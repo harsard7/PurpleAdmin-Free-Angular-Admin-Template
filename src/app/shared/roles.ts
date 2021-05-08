@@ -20,7 +20,6 @@ export function isAdminUser(currentUser: any): boolean {
 }
 
 export function isTeacher(currentUser: any, router: Router): boolean {
-  console.log(currentUser);
     if(currentUser.authorities[0].authority + '' === teacher ||
     currentUser.authorities[0].authority + '' === headteacher) {
         return true;

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SemesterViewComponent } from './semester-view.component';
+import { ReportViewComponent } from './semester-view.component';
 
 describe('SemesterViewComponent', () => {
-  let component: SemesterViewComponent;
-  let fixture: ComponentFixture<SemesterViewComponent>;
+  let component: ReportViewComponent;
+  let fixture: ComponentFixture<ReportViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SemesterViewComponent ]
+      declarations: [ ReportViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SemesterViewComponent);
+    fixture = TestBed.createComponent(ReportViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -60,7 +60,11 @@ export class ExamListComponent implements OnInit {
         this.selected = true;
       });
     }else{
-      this.notifyService.showWarning(null, 'Please select Subject');
+      this.examService.findAllByStudent(this.student_id, 0).subscribe(data => {
+        this.exams = data;
+        console.log(data);
+        this.selected = true;
+      });
     }
   }
 

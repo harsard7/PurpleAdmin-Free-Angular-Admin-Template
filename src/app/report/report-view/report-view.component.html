@@ -1,0 +1,87 @@
+<div *ngIf="isDataAvailable">
+  <h5 class="page-title">
+    <h2>Reports</h2>
+  </h5>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="javascript:;">Report</a></li>
+      <li class="breadcrumb-item active" aria-current="page">View</li>
+    </ol>
+  </nav>
+</div>
+
+<div class="col-lg-12 grid-margin stretch-card" *ngIf="userRole()">
+  <div class="card">
+    <div class="card-body">
+      <h2>Create Report</h2>
+      <div class="input-group">
+        <div class="container">
+          <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-report">
+            <table class="table table-bordered">
+              <tr>
+                <td>
+                  <div class="form-group">
+                    <label for="etype">Exam Type</label>
+                    <select id="etype" class="form-control form-control-sm" required [(ngModel)]="etype" name="etype">
+                      <option  [ngValue]="undefined">SELECT</option>
+                      <option style="color: #0b0e11" *ngFor="let exam of examTypes" [ngValue]="exam">{{exam}}</option>
+                    </select>
+                  </div>
+                </td>
+              </tr>
+            </table>
+            <button type="submit"  class="btn btn-gradient-primary mr-2">Submit</button>
+            <button type="button" *ngIf="this.currentUser.authorities[0].authority + '' != 'ROLE_STUDENT'" (click)="goBack()"  class="btn btn-gradient-warning mr-2">Back</button>
+          </form>
+        </div>
+        <div class="container" *ngIf="selected">
+          <table class="table table-bordered" id="form-response">
+            <thead >
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Avg</th>
+            <th>Max</th>
+            <th>Min</th>
+            <th>Rank</th>
+<!--            <th *ngIf="currentUser.authorities[0].authority + '' != 'ROLE_STUDENT'">Function</th>-->
+            </thead>
+            <tbody>
+            <tr *ngFor="let report of reportfetail">
+              <td>{{report.subject.title}}</td>
+              <td>{{report.mark}}</td>
+              <td>{{report.avgmark}}</td>
+              <td>{{report.maxmark}}</td>
+              <td>{{report.minmark}}</td>
+              <td>{{report.rank}}</td>
+<!--              <td *ngIf="currentUser.authorities[0].authority + '' != 'ROLE_STUDENT'">-->
+<!--                <button (click)="update(report.id)"class="btn btn-gradient-warning">Update</button>-->
+<!--                <button (click)="delete(report.id)" class="btn btn-gradient-danger">Delete</button>-->
+<!--              </td>-->
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <th>Total</th>
+              <th>{{reportsummary.totalMarks}}</th>
+              <th>{{reportsummary.classtotalavg}}</th>
+              <th>{{reportsummary.totalMaximum}}</th>
+              <th>{{reportsummary.totalMinimum}}</th>
+              <th>{{reportsummary.classrank}}</th>
+            </tr>
+            <tr>
+              <th>Total Subjects </th>
+              <th>{{reportsummary.totalSubjects}}</th>
+              <th>Average</th>
+              <th>{{reportsummary.totalavg}}</th>
+              <th></th>
+              <th></th>
+            </tr>
+
+
+            </tfoot>
+          </table>
+        </div>
+        </div>
+      </div>
+   </div>
+</div>

@@ -60,14 +60,17 @@ export class CreateExamComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log("1");
    if(this.validate()){
     this.exam.student_id = this.student_id;
     this.exam.subject_id = this.selectedOption.id;
     this.exam.examType = this.etype;
+     console.log(this.exam);
     this.examService.create(this.exam).subscribe(() => {
-      this.refresh();
+      console.log("done");
       this.notifyService.showSuccess("Exam created.", "Success");
-    }, error => {this.notifyService.showError(error)});
+      this.refresh();
+    }, error => { console.log("not done");;this.notifyService.showError(error)});
     }
   }
   validate(){

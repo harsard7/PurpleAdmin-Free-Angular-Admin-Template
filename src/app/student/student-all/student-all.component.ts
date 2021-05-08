@@ -131,7 +131,7 @@ export class StudentAllComponent implements OnInit {
   }
 
   report(student_id: number) {
-    this.router.navigate(['report/create', student_id]);
+    this.router.navigate(['report/student/', student_id]);
   }
 
   remark(student_id: number) {

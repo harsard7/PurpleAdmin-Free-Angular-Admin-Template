@@ -11,6 +11,8 @@ import { StudentService } from 'src/app/service/student.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { isTeacher } from 'src/app/shared/roles';
 import {NotificationService} from "../../service/notification.service";
+import {EnumValues} from "enum-values";
+import {ExamType} from "../../enums/ExamType";
 
 @Component({
   selector: 'app-create-report',
@@ -26,6 +28,8 @@ export class CreateReportComponent implements OnInit {
   subjects: Observable<Subject[]>;
   selectedOption: any = {};
   semester: any = {};
+  private examTypes: string[];
+  etype: any;
 
   constructor(private userService: UserService, private router: Router, private route: ActivatedRoute,
     private teacherService: TeacherService, private reportService: ReportService,
@@ -38,6 +42,7 @@ export class CreateReportComponent implements OnInit {
       this.teacherService.findByUserId(this.currentUser.id).subscribe(data => {
         this.subjectService.getSubjectsByTeacherId(data.id).subscribe(data => {
           this.subjects = data;
+          this.examTypes = EnumValues.getNames(ExamType);
           this.isDataAvailable = true;
         });
       });
@@ -48,13 +53,16 @@ export class CreateReportComponent implements OnInit {
 
   onSubmit() {
     this.report.student_id = this.student_id;
-    if(this.selectedOption) {
+    if(this.etype) {
       this.report.semester = this.semester;
       this.report.subject_id = this.selectedOption.id;
-      this.reportService.create(this.report).subscribe(() => {
-        this.refresh();
+      console.log(this.etype);
+      this.reportService.createTermReport(this.etype).subscribe(() => {
          this.notifyService.showSuccess('Report created.', 'Ok');
+        this.refresh();
       }, error => {  this.notifyService.showSuccess('Failed', 'Ok');});
+    }else{
+      this.notifyService.showWarning(null,'Please select the Term Type')
     }
   }
 

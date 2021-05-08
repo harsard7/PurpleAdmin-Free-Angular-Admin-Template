@@ -25,7 +25,7 @@
         </div>
       </form>
     </div>
-    <ul class="navbar-nav navbar-nav-right">
+    <ul class="navbar-nav navbar-nav-right" *ngIf="isDataAvailable">
       <li class="nav-item nav-profile dropdown" ngbDropdown  *ngIf="hasSignedIn()">
         <a class="nav-link dropdown-toggle" id="profileDropdown" ngbDropdownToggle>
           <div class="nav-profile-img">
@@ -37,11 +37,11 @@
           </div>
         </a>
         <div class="dropdown-menu navbar-dropdown" ngbDropdownMenu aria-labelledby="profileDropdown">
-          <a class="dropdown-item" href="javascript:;">
-            <i class="mdi mdi-cached mr-2 text-success"></i>
-            Activity Log
-          </a>
-          <div class="dropdown-divider"></div>
+<!--          <a class="dropdown-item" href="javascript:;">-->
+<!--            <i class="mdi mdi-cached mr-2 text-success"></i>-->
+<!--            Activity Log-->
+<!--          </a>-->
+<!--          <div class="dropdown-divider"></div>-->
           <a class="dropdown-item" *ngIf="hasSignedIn()" (click)="profile()">
             <i class="mdi mdi-account-box-outline mr-2 text-primary"></i>
            Profile

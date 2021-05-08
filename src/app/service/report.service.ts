@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {ApiService} from "./api.service";
 import {ConfigService} from "./config.service";
 import {ReportResponseDTO} from "../dto/response/reportResponseDTO";
+import {ExamType} from "../enums/ExamType";
+import {Exam} from "../model/exam";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +13,11 @@ export class ReportService {
 
   }
 
-  getSemesterResultByStudent(student_id: number, year: number, semester: number) {
-    return this.apiService.post(this.configService.getGetSemesterResultByStudentUrl + '/' + student_id + '/' + year, semester);
+  getResultByStudent(student_id: number, exam: Exam) {
+    return this.apiService.post(this.configService.getGetResultByStudentUrl + '/' + student_id , exam);
+  }
+  getAvgBySubject( exam: Exam) {
+    return this.apiService.post(this.configService.getGetavgforSubject  , exam);
   }
 
   findById(id: number) {
@@ -21,6 +26,9 @@ export class ReportService {
 
   create(report: ReportResponseDTO) {
     return this.apiService.post(this.configService.getCreateReportUrl, report);
+  }
+  createTermReport(term: any) {
+    return this.apiService.post(this.configService.getFindTermReportByIdUrl, term);
   }
 
   update(id: number, report: ReportResponseDTO) {

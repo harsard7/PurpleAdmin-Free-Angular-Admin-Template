@@ -16,18 +16,18 @@
       <div class="input-group">
         <div class="container">
                 <h3>Exams - {{student.firstName}} {{student.lastName}} ({{student.classroom.year}} / {{student.classroom.letter}})</h3>
-                <button (click)="create()" id="create" class="btn btn-gradient-warning">Create Exam</button>
+                <button (click)="create()" id="create" class="btn btn-gradient-success btn-sm" >Create Exam Marks</button>
             </div>
             <div class="container">
                 <form (ngSubmit)="onSubmit()" #form="ngForm" class="form-exam">
                     <div class="form-group">
                         <label for="subject">Subject</label>
                         <select name="subject" class="form-control form-control-sm" [(ngModel)]="selectedOption">
-                          <option  [ngValue]="undefined">SELECT</option>
+                          <option  [ngValue]="undefined">[ALL]</option>
                             <option *ngFor="let subject of subjects" [ngValue]="subject">{{subject.title}}</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-success">Search</button>
+                    <button type="submit" class="btn btn-gradient-primary btn-sm" >Search</button>
                 </form>
             </div>
             <div class="container" *ngIf="selected">
@@ -37,6 +37,7 @@
                     <thead style="background-color: #8a53c2">
                         <tr>
                             <th>Written At</th>
+                            <th>Subject</th>
                             <th>Exam Type</th>
                             <th>Mark</th>
                             <th>Functions</th>
@@ -45,6 +46,7 @@
                     <tbody>
                         <tr *ngFor="let exam of exams | filter:searchText">
                             <td>{{exam.written_at}}</td>
+                            <td>{{exam.subject.title}}</td>
                             <td>{{exam.examType}}</td>
                             <td>{{exam.mark}}</td>
                             <td>

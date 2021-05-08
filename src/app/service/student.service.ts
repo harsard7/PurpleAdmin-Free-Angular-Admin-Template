@@ -38,6 +38,9 @@ export class StudentService {
   findAll(){
     return this.apiService.get(this.configService.getStudentAllUrl);
   }
+  findAllByParent(parentid:number){
+    return this.apiService.get(this.configService.getStudentAllByParentUrl+'/'+parentid);
+  }
   getAll(params): Observable<any> {
     // return this.http.get(baseUrl, { params });
     return this.apiService.getAll(this.configService.getStudentUrlPage,params);

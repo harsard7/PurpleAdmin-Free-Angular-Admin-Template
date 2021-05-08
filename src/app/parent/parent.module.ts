@@ -8,6 +8,7 @@ import {ParentListComponent} from "./parent-list/parent-list.component";
 import { ParentDetailComponent } from './parent-detail/parent-detail.component';
 import {ParentUpdateComponent} from "./parent-update/parent-update.component";
 import {NgxPaginationModule} from "ngx-pagination";
+import {DataTablesModule} from "angular-datatables";
 
 
 const routes: Routes = [
@@ -26,6 +27,8 @@ const routes: Routes = [
     FormsModule,
     Ng2SearchPipeModule,
     NgxPaginationModule,
+    DataTablesModule
+
   ]
 })
 export class ParentModule { }

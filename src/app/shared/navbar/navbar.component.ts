@@ -9,6 +9,8 @@ import {CurrentUser} from "../../model/CurrentUser";
 import {SchoolDTO} from "../../dto/schoolDTO";
 import {SchoolService} from "../../service/school.service";
 import {NotificationService} from "../../service/notification.service";
+import {UserResponseDTO} from "../../dto/response/userResponseDTO";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-navbar',
@@ -21,12 +23,13 @@ export class NavbarComponent implements OnInit {
   public sidebarToggled = false;
   public isDataAvailable = false;
   school = new SchoolDTO();
-  user: any;
+  user: User;
 
   constructor(private sessionservice:SchoolService, config: NgbDropdownConfig, private authService: AuthService, private router: Router, private userService: UserService,private notifyService : NotificationService, private cookieService: CookieService) {
     config.placement = 'bottom-right';
     this.userService.getMyInfo().toPromise().then(data =>  {
       this.user = data;
+      console.log(this.user);
       this.isDataAvailable = true;
       this.sessionservice.findactive().subscribe(data=>{
         this.school=data;
@@ -90,8 +93,9 @@ export class NavbarComponent implements OnInit {
   }
 
   userName(): string {
+    const role = this.user.authorities[0].name.split('_');
     if(this.user){
-      return this.user.username;
+      return this.user.fullname+'-('+role[1]+')';
     }
     return '';
   }

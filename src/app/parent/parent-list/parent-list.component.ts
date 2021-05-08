@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {EmployeeDTO} from "../../dto/EmployeeDTO";
 import {UserService} from "../../service/user.service";
@@ -10,6 +10,7 @@ import {EmployeeService} from "../../service/employee.service";
 import {isAdmin} from "../../shared/roles";
 import {ParentDTO} from "../../dto/parentDTO";
 import {ParentService} from "../../service/parent.service";
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-parent-list',
@@ -35,6 +36,20 @@ export class ParentListComponent implements OnInit {
     screenReaderPageLabel: 'page',
     screenReaderCurrentLabel: `You're on page`
   };
+  public dataa = [
+    {name: 'Ajay', email: 'therichpost@gmail.com', website:'therichpost.com'},
+    {name: 'Jas', email: 'therichpost@gmail.com', website:'therichpost.com'},
+    {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
+    {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
+    {name: 'Jas', email: 'therichpost@gmail.com', website:'therichpost.com'},
+    {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
+    {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
+    {name: 'Jas', email: 'therichpost@gmail.com', website:'therichpost.com'},
+    {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
+    {name: 'therichpost', email: 'therichpost@gmail.com', website:'therichpost.com'},
+  ];
+
+  dtOptions:any;
 
   constructor(private userService: UserService, private router: Router,
               private  parentService:ParentService,private studentService: StudentService, private teacherService: TeacherService, private notifyService: NotificationService, private employeeservice: EmployeeService) {
@@ -47,8 +62,47 @@ export class ParentListComponent implements OnInit {
         this.collection.data = this.parents = data;
         this.isDataAvailable = true;
         this.loadData();
+        this.dtOptions = {
+          pagingType: 'full_numbers',
+          pageLength: 5,
+          lengthMenu : [5, 10, 25],
+          processing: true,
+             dom: 'Bfrtip',
+              buttons: [
+                {
+                  extend: "excelHtml5",
+                  'title':'',
+                  filename: function fred() { return "Parent List - " + Date.now(); },
+                  exportOptions: { orthogonal: "exportxls" }
+                },
+                {
+                  extend: "csvHtml5",
+                  'title':'',
+                  filename: function fred() { return "Parent List - " + Date.now(); },
+                  exportOptions: { orthogonal: "exportcsv" }
+                },
+                {
+                  extend: "pdfHtml5",
+                  'title':'',
+                  filename: function fred() { return "Parent List - " + Date.now(); },
+                  exportOptions: { orthogonal: "exportpdf" }
+                },
+                {
+                  'title':'',
+                  extend: "copyHtml5",
+                },
+                {
+                  'title':'',
+                  extend: "print",
+                }
+                // 'colvis',
+          ]
+        };
       });
     });
+  }
+  loadDtaatble(){
+
   }
 
   loadData() {
